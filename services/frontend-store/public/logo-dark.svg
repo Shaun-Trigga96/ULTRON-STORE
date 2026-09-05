@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 220" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Gradients matching the ULTRON STORE official branding (Vibrant Dark Mode Glow) -->
+    <linearGradient id="ultron-loop-left-dark" x1="0%" y1="80%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="35%" stop-color="#38BDF8" />
+      <stop offset="70%" stop-color="#00D8F6" />
+      <stop offset="100%" stop-color="#38E1FF" />
+    </linearGradient>
+
+    <linearGradient id="ultron-loop-top-dark" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#00F0FF" />
+      <stop offset="35%" stop-color="#60A5FA" />
+      <stop offset="65%" stop-color="#818CF8" />
+      <stop offset="100%" stop-color="#A78BFA" />
+    </linearGradient>
+
+    <linearGradient id="ultron-basket-dark" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="50%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#A855F7" />
+    </linearGradient>
+
+    <linearGradient id="ultron-arrow-grad-dark" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#00F0FF" />
+      <stop offset="60%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+
+    <filter id="soft-glow-dark" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#00D8F6" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- ICON CONTAINER -->
+  <g transform="translate(10, 5)" filter="url(#soft-glow-dark)">
+    <!-- 1. Left Loop of Infinity -->
+    <path
+      d="M 128,105
+         C 128,75 106,52 76,52
+         C 46,52 24,76 24,106
+         C 24,136 47,158 77,158
+         C 104,158 122,138 138,114"
+      stroke="url(#ultron-loop-left-dark)"
+      stroke-width="18"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- 2. Crossing Ribbon Over To Right Cart Loop -->
+    <path
+      d="M 68,155
+         C 95,152 118,128 136,104
+         C 152,80 170,54 200,54
+         C 214,54 226,63 232,76"
+      stroke="url(#ultron-loop-top-dark)"
+      stroke-width="17"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- 3. Shopping Cart Basket & Right Lip / Handle -->
+    <path
+      d="M 230,74
+         L 223,105
+         C 218,128 198,144 174,144
+         L 138,144
+         C 126,144 116,134 118,122
+         C 119,112 128,104 138,104
+         L 142,104"
+      stroke="url(#ultron-basket-dark)"
+      stroke-width="16"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- Cart Upper Rim Extension -->
+    <path
+      d="M 222,76
+         L 236,76"
+      stroke="url(#ultron-basket-dark)"
+      stroke-width="14"
+      stroke-linecap="round"
+    />
+
+    <!-- 4. Fast Forward Arrow inside Shopping Cart -->
+    <g transform="translate(0, 0)">
+      <path
+        d="M 134,105 L 175,105"
+        stroke="url(#ultron-arrow-grad-dark)"
+        stroke-width="13"
+        stroke-linecap="round"
+      />
+      <path
+        d="M 166,88 L 194,105 L 166,122 Z"
+        fill="url(#ultron-arrow-grad-dark)"
+        stroke-linejoin="round"
+      />
+    </g>
+
+    <!-- 5. Cart Wheels -->
+    <circle cx="146" cy="168" r="8.5" fill="#8B5CF6" />
+    <circle cx="188" cy="168" r="8.5" fill="#A855F7" />
+  </g>
+
+  <!-- TYPOGRAPHY CONTAINER (High Contrast Crisp White & Cool Silver for Dark Mode) -->
+  <g transform="translate(265, 0)">
+    <!-- ULTRON -->
+    <text
+      x="0"
+      y="108"
+      font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif"
+      font-size="78"
+      font-weight="900"
+      letter-spacing="2.5"
+      fill="#FFFFFF"
+    >
+      ULTRON
+    </text>
+
+    <!-- STORE -->
+    <text
+      x="2"
+      y="168"
+      font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif"
+      font-size="52"
+      font-weight="700"
+      letter-spacing="7"
+      fill="#94A3B8"
+    >
+      STORE
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="ultron-icon-loop-left" x1="0%" y1="80%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="40%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#00D8F6" />
+    </linearGradient>
+
+    <linearGradient id="ultron-icon-loop-top" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#00E5FF" />
+      <stop offset="40%" stop-color="#38BDF8" />
+      <stop offset="70%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+
+    <linearGradient id="ultron-icon-basket" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="50%" stop-color="#6D28D9" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+
+    <linearGradient id="ultron-icon-arrow" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#00E5FF" />
+      <stop offset="60%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(10, 5)">
+    <!-- 1. Left Loop of Infinity -->
+    <path
+      d="M 128,105
+         C 128,75 106,52 76,52
+         C 46,52 24,76 24,106
+         C 24,136 47,158 77,158
+         C 104,158 122,138 138,114"
+      stroke="url(#ultron-icon-loop-left)"
+      stroke-width="19"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- 2. Crossing Ribbon Over To Right Cart Loop -->
+    <path
+      d="M 68,155
+         C 95,152 118,128 136,104
+         C 152,80 170,54 200,54
+         C 214,54 226,63 232,76"
+      stroke="url(#ultron-icon-loop-top)"
+      stroke-width="18"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- 3. Shopping Cart Basket & Right Lip / Handle -->
+    <path
+      d="M 230,74
+         L 223,105
+         C 218,128 198,144 174,144
+         L 138,144
+         C 126,144 116,134 118,122
+         C 119,112 128,104 138,104
+         L 142,104"
+      stroke="url(#ultron-icon-basket)"
+      stroke-width="17"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- Cart Upper Rim Extension -->
+    <path
+      d="M 222,76
+         L 236,76"
+      stroke="url(#ultron-icon-basket)"
+      stroke-width="14"
+      stroke-linecap="round"
+    />
+
+    <!-- 4. Arrow Inside Cart -->
+    <g>
+      <path
+        d="M 134,105 L 175,105"
+        stroke="url(#ultron-icon-arrow)"
+        stroke-width="14"
+        stroke-linecap="round"
+      />
+      <path
+        d="M 166,88 L 194,105 L 166,122 Z"
+        fill="url(#ultron-icon-arrow)"
+        stroke-linejoin="round"
+      />
+    </g>
+
+    <!-- 5. Cart Wheels -->
+    <circle cx="146" cy="168" r="9" fill="#6D28D9" />
+    <circle cx="188" cy="168" r="9" fill="#7C3AED" />
+  </g>
+</svg>

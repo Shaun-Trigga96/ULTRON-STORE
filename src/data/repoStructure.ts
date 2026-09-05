@@ -83,6 +83,10 @@ export const ASCII_DIRECTORY_TREE = `ultron-store/
 │   ├── prometheus/                    # ServiceMonitors & scrape intervals
 │   ├── grafana/                       # Dashboards (IMEI lock contention, QPS, P99)
 │   └── alerts/                        # AlertManager high-priority rules
+├── docs/assets/                       # Enterprise vector brand assets & official logo
+│   ├── ultron-store-logo.svg          # Official ULTRON STORE horizontal vector logo
+│   ├── ultron-store-logo-dark.svg     # Dark-mode optimized vector branding
+│   └── ultron-store-icon.svg          # Square app icon & favicon
 ├── docker-compose.local.yml           # Multi-container local development & migration stack
 ├── Makefile                           # DevOps target runner (dev-up, tf-plan, test, etc.)
 ├── init_repo.sh                       # Executable repository bootstrapper script
@@ -365,6 +369,27 @@ export const EXPLORABLE_TREE_DATA: FileNode = {
         { id: 'obs-prom', name: 'prometheus/service-monitors.yaml', type: 'file', path: '/observability/prometheus/service-monitors.yaml', description: 'Prometheus endpoint scrapers for Spring/Node actuators' },
         { id: 'obs-graf', name: 'grafana/dashboards/ultron-overview.json', type: 'file', path: '/observability/grafana/dashboards/ultron-overview.json', description: 'Grafana dashboard: IMEI lock contention, QPS, P99' },
         { id: 'obs-alt', name: 'alerts/critical-alerts.yaml', type: 'file', path: '/observability/alerts/critical-alerts.yaml', description: 'AlertManager rules for 5xx spikes & DB saturation' }
+      ]
+    },
+    {
+      id: 'docs',
+      name: 'docs',
+      type: 'directory',
+      path: '/docs',
+      description: 'Design, brand assets, and architecture specifications',
+      children: [
+        {
+          id: 'docs-assets',
+          name: 'assets',
+          type: 'directory',
+          path: '/docs/assets',
+          description: 'Official corporate vectors & logos',
+          children: [
+            { id: 'logo-full', name: 'ultron-store-logo.svg', type: 'file', path: '/docs/assets/ultron-store-logo.svg', badge: 'Vector Brand', description: 'Official ULTRON STORE horizontal vector logo' },
+            { id: 'logo-dark', name: 'ultron-store-logo-dark.svg', type: 'file', path: '/docs/assets/ultron-store-logo-dark.svg', badge: 'Dark Theme', description: 'Dark-mode optimized vector branding' },
+            { id: 'logo-icon', name: 'ultron-store-icon.svg', type: 'file', path: '/docs/assets/ultron-store-icon.svg', badge: 'Favicon & App Icon', description: 'Square app icon and favicon vector' }
+          ]
+        }
       ]
     },
     { id: 'f-compose', name: 'docker-compose.local.yml', type: 'file', path: '/docker-compose.local.yml', description: 'Multi-container local emulation & migration source stack' },

@@ -1,12 +1,22 @@
-# ULTRON Store — Enterprise Cloud Platform & E-Commerce Infrastructure
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/ultron-store-logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="docs/assets/ultron-store-logo.svg">
+    <img src="docs/assets/ultron-store-logo.svg" alt="ULTRON STORE Logo" width="480" />
+  </picture>
+</p>
 
-[![Terraform](https://img.shields.io/badge/Terraform-1.6%2B-623CE4?logo=terraform&logoColor=white)](https://www.terraform.io/)
-[![Google Cloud](https://img.shields.io/badge/GCP-Production--Grade-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/)
-[![Kubernetes](https://img.shields.io/badge/GKE-v1.28%2B-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
-[![GitOps](https://img.shields.io/badge/ArgoCD-GitOps%20v2.9-EF6B48?logo=argo&logoColor=white)](https://argoproj.github.io/cd/)
-[![Security](https://img.shields.io/badge/Trivy-Container%20Scan-1904DA?logo=aquasecurity&logoColor=white)](https://trivy.dev/)
-[![Database](https://img.shields.io/badge/Cloud%20SQL-PostgreSQL%2015-336791?logo=postgresql&logoColor=white)](https://cloud.google.com/sql)
-[![Deployment Guide](https://img.shields.io/badge/DevOps%20Runbook-DEPLOYMENT__GUIDE.md-emerald?style=flat&logo=bookstack&logoColor=white)](DEPLOYMENT_GUIDE.md)
+<h3 align="center">Enterprise Cloud Platform, Microservices Architecture &amp; E-Commerce Infrastructure</h3>
+
+<p align="center">
+  <a href="https://www.terraform.io/"><img src="https://img.shields.io/badge/Terraform-1.6%2B-623CE4?logo=terraform&logoColor=white" alt="Terraform"></a>
+  <a href="https://cloud.google.com/"><img src="https://img.shields.io/badge/GCP-Production--Grade-4285F4?logo=googlecloud&logoColor=white" alt="Google Cloud"></a>
+  <a href="https://kubernetes.io/"><img src="https://img.shields.io/badge/GKE-v1.28%2B-326CE5?logo=kubernetes&logoColor=white" alt="Kubernetes"></a>
+  <a href="https://argoproj.github.io/cd/"><img src="https://img.shields.io/badge/ArgoCD-GitOps%20v2.9-EF6B48?logo=argo&logoColor=white" alt="GitOps"></a>
+  <a href="https://trivy.dev/"><img src="https://img.shields.io/badge/Trivy-Container%20Scan-1904DA?logo=aquasecurity&logoColor=white" alt="Security"></a>
+  <a href="https://cloud.google.com/sql"><img src="https://img.shields.io/badge/Cloud%20SQL-PostgreSQL%2015-336791?logo=postgresql&logoColor=white" alt="Database"></a>
+  <a href="DEPLOYMENT_GUIDE.md"><img src="https://img.shields.io/badge/DevOps%20Runbook-DEPLOYMENT__GUIDE.md-emerald?style=flat&logo=bookstack&logoColor=white" alt="Deployment Guide"></a>
+</p>
 
 > 📘 **Looking for the step-by-step deployment runbook?**  
 > Check out the [**Complete End-to-End DevOps Deployment Guide (DEPLOYMENT_GUIDE.md)**](DEPLOYMENT_GUIDE.md) for a reproducible, hands-on walkthrough covering required accounts (GCP Free Tier, GitHub), local sandbox testing, Terraform provisioning, Kubernetes deployments, and GitOps automation with ArgoCD (Dev → Prod).

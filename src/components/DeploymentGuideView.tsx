@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { UltronLogo } from './UltronLogo';
 import {
   Cloud,
   Terminal,
@@ -684,22 +685,27 @@ gcloud projects delete $DEV_PROJECT`}
     <div className="space-y-6">
       {/* Header Banner */}
       <div className="bg-gradient-to-r from-[#0d1117] via-[#161b22] to-[#0d1117] border border-slate-800 rounded-2xl p-6 shadow-xl">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
-                DEVOPS RUNBOOK & CLOUD GUIDE
-              </span>
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                REPRODUCIBLE (DEV → PROD)
-              </span>
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            <div className="p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shrink-0 shadow-inner">
+              <UltronLogo variant="icon" size="lg" className="h-12 w-auto" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              Master Cloud Deployment Guide
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
-              Step-by-step hands-on runbook from zero to Google Cloud Platform (GKE + Cloud SQL + Terraform + ArgoCD). Perfect for aspiring DevOps engineers mastering cloud-native infrastructure.
-            </p>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                  DEVOPS RUNBOOK & CLOUD GUIDE
+                </span>
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  REPRODUCIBLE (DEV → PROD)
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                Master Cloud Deployment Guide
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
+                Step-by-step hands-on runbook from zero to Google Cloud Platform (GKE + Cloud SQL + Terraform + ArgoCD). Perfect for aspiring DevOps engineers mastering cloud-native infrastructure.
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center gap-2">

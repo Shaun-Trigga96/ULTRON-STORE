@@ -10,6 +10,7 @@ import { DirectoryTreeView } from './components/DirectoryTreeView';
 import { InitScriptView } from './components/InitScriptView';
 import { ReadmeView } from './components/ReadmeView';
 import { InfraGitOpsView } from './components/InfraGitOpsView';
+import { UltronLogo } from './components/UltronLogo';
 import {
   Server,
   FolderTree,
@@ -37,18 +38,18 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo & Platform Name */}
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-cyan-500 rounded flex items-center justify-center text-slate-900 font-bold shadow-sm shadow-cyan-500/20">
-                U
-              </div>
-              <div>
-                <h1 className="text-base sm:text-lg font-semibold tracking-tight text-white flex items-center gap-2">
-                  ULTRON <span className="text-cyan-500 italic">Store</span>
-                </h1>
-                <div className="text-[11px] font-mono text-slate-400 flex items-center gap-1.5">
-                  <span className="text-slate-300">GCP / Kubernetes / GitOps</span>
-                </div>
-              </div>
+            <div
+              className="flex items-center gap-3 cursor-pointer py-1"
+              onClick={() => setActiveTab('storefront')}
+              title="Return to ULTRON Storefront"
+            >
+              <UltronLogo
+                variant="full"
+                size="md"
+                theme="dark"
+                showSubtitle={true}
+                subtitleText="GCP / Kubernetes / GitOps"
+              />
             </div>
 
             {/* Phase Progression Indicators */}

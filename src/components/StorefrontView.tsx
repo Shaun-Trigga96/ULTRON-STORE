@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StoreProduct, CATALOG_PRODUCTS } from '../data/storeProducts';
 import { CartItem } from '../types';
+import { UltronLogo } from './UltronLogo';
 import {
   ShoppingBag,
   Search,
@@ -188,14 +189,15 @@ export const StorefrontView: React.FC = () => {
     <div className="space-y-10 pb-12">
       {/* Top Banner: Apple-Style Storefront Header & Redlock Status */}
       <div className="bg-[#161617]/90 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
-        <div className="flex items-center gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-white shrink-0 shadow-inner">
-            <Smartphone className="w-5 h-5 text-blue-400" />
+        <div className="flex items-center gap-4">
+          <div className="flex items-center">
+            <UltronLogo variant="icon" size="md" className="h-10 w-auto" />
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-base font-semibold text-white tracking-tight">
-                ULTRON Certified Pre-Owned Store
+              <h2 className="text-base font-semibold text-white tracking-tight flex items-center gap-2">
+                <span>ULTRON</span>
+                <span className="text-slate-400 font-normal">Certified Pre-Owned Store</span>
               </h2>
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -1041,6 +1043,9 @@ export const StorefrontView: React.FC = () => {
 
             {checkoutStep === 3 && (
               <div className="text-center py-6 space-y-4 font-mono">
+                <div className="flex justify-center pb-2">
+                  <UltronLogo variant="full" size="sm" theme="dark" />
+                </div>
                 <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
                   <Check className="w-7 h-7" />
                 </div>
