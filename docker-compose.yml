@@ -93,8 +93,14 @@ services:
       - "4004:4004"
     environment:
       - PORT=4004
+      - DB_HOST=postgres
+      - DB_NAME=ultrondb
+      - DB_USER=appuser
+      - DB_PASSWORD=devsecret
       - STRIPE_SECRET_KEY=sk_test_mock_dummy
       - WEBHOOK_SECRET=whsec_mock_dummy
+    depends_on:
+      - postgres
     networks:
       - ultron-network
 

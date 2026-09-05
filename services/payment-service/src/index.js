@@ -1,28 +1,6 @@
 const http = require('http');
-
+const { pool, query } = require('./db');
 const PORT = process.env.PORT || 4004;
-
-// Idempotency cache: idempotencyKey -> transaction response
-const idempotencyStore = new Map();
-// Transaction ledger: transactionId -> record
-const transactions = new Map();
-
-function parseRequestBody(req) {
-  return new Promise((resolve, reject) => {
-    let body = '';
-    req.on('data', chunk => {
-      body += chunk.toString();
-    });
-    req.on('end', () => {
-      try {
-        resolve(body ? JSON.parse(body) : {});
-      } catch (err) {
-        reject(err);
-      }
-    });
-    req.on('error', reject);
-  });
-}
 
 function sendJson(res, statusCode, data) {
   res.writeHead(statusCode, {
@@ -33,6 +11,15 @@ function sendJson(res, statusCode, data) {
   });
   res.end(JSON.stringify(data, null, 2));
 }
+
+const parseBody = (req) => new Promise((resolve, reject) => {
+  let body = '';
+  req.on('data', chunk => body += chunk.toString());
+  req.on('end', () => {
+    try { resolve(body ? JSON.parse(body) : {}); } 
+    catch (e) { reject(e); }
+  });
+});
 
 const server = http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') {
@@ -51,113 +38,153 @@ const server = http.createServer(async (req, res) => {
   try {
     // 1. Health
     if (pathname === '/health' && req.method === 'GET') {
+      const dbHealth = await query('SELECT 1 as healthy').catch(() => ({ rows: [] }));
       return sendJson(res, 200, {
         status: 'UP',
         service: 'payment-service',
-        port: PORT,
-        totalTransactions: transactions.size,
-        idempotencyRecords: idempotencyStore.size,
-        supportedGateways: ['Ozow Instant EFT', 'Credit/Debit (3D Secure 2.0)', 'BTC Lightning'],
-        timestamp: new Date().toISOString()
+        database: dbHealth.rows.length > 0 ? 'CONNECTED' : 'DISCONNECTED',
+        outboxWorker: 'RUNNING',
+        port: PORT
       });
     }
 
-    // 2. Authorize Payment with Idempotency Key
-    if (pathname === '/api/v1/payments/authorize' && req.method === 'POST') {
-      const idempotencyKey = req.headers['idempotency-key'] || req.headers['x-idempotency-key'];
-      const body = await parseRequestBody(req);
-      const { orderId, amountZar, currency = 'ZAR', paymentMethod = 'instant-eft', customerEmail } = body;
-
-      if (!orderId || !amountZar) {
-        return sendJson(res, 400, {
-          success: false,
-          error: 'Missing required payment fields: orderId and amountZar'
-        });
+    // 2. Process Payment (with Idempotency & Transactional Outbox Pattern)
+    if (pathname === '/api/v1/payments/process' && req.method === 'POST') {
+      const idempotencyKey = req.headers['idempotency-key'];
+      if (!idempotencyKey) {
+        return sendJson(res, 400, { success: false, error: 'Idempotency-Key header is required' });
       }
 
-      // Check Idempotency Store to prevent duplicate billing
-      if (idempotencyKey && idempotencyStore.has(idempotencyKey)) {
-        const cached = idempotencyStore.get(idempotencyKey);
+      const body = await parseBody(req);
+      const { orderId, amountCents, providerName = 'ULTRON_PAY' } = body;
+
+      if (!orderId || !amountCents) {
+        return sendJson(res, 400, { success: false, error: 'orderId and amountCents are required' });
+      }
+
+      const client = await pool.connect();
+      try {
+        await client.query('BEGIN');
+
+        // Check for idempotency
+        const { rows: existingTx } = await client.query(
+          'SELECT id, status, provider_transaction_id FROM ultron_payments.payment_transactions WHERE idempotency_key = $1 FOR UPDATE',
+          [idempotencyKey]
+        );
+
+        if (existingTx.length > 0) {
+          await client.query('ROLLBACK');
+          return sendJson(res, 200, {
+            success: true,
+            idempotent: true,
+            transactionId: existingTx[0].id,
+            status: existingTx[0].status,
+            message: 'Returned existing transaction via idempotency key.'
+          });
+        }
+
+        // Simulate Gateway Processing Delay
+        const providerTxId = `txn_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+        const status = 'AUTHORIZED';
+
+        // 1. Insert Payment Transaction
+        const { rows: newTx } = await client.query(
+          `INSERT INTO ultron_payments.payment_transactions 
+          (order_id, idempotency_key, provider_name, provider_transaction_id, amount_cents, status) 
+          VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+          [orderId, idempotencyKey, providerName, providerTxId, amountCents, status]
+        );
+        const transactionId = newTx[0].id;
+
+        // 2. Insert Outbox Event (IN THE SAME TRANSACTION)
+        const payload = JSON.stringify({
+          transactionId,
+          orderId,
+          amountCents,
+          status,
+          providerTxId,
+          timestamp: new Date().toISOString()
+        });
+
+        await client.query(
+          `INSERT INTO ultron_payments.payment_outbox_events 
+          (aggregate_type, aggregate_id, event_type, payload) 
+          VALUES ($1, $2, $3, $4)`,
+          ['Payment', transactionId, 'PaymentAuthorized', payload]
+        );
+
+        await client.query('COMMIT');
+
         return sendJson(res, 200, {
-          ...cached,
-          idempotentReplay: true
-        });
-      }
-
-      const transactionId = `TXN-${Math.floor(10000000 + Math.random() * 90000000)}`;
-      const authorizationCode = `AUTH-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
-
-      const txRecord = {
-        transactionId,
-        orderId,
-        amountZar,
-        currency,
-        paymentMethod,
-        customerEmail: customerEmail || 'customer@ultron.store',
-        status: 'SETTLED',
-        authorizationCode,
-        gatewayProvider: paymentMethod === 'instant-eft' ? 'Ozow South Africa' : paymentMethod === 'crypto' ? 'Lightning Network' : 'Visa/Mastercard 3DS',
-        feeZar: Math.round(amountZar * 0.015), // 1.5% gateway fee
-        timestamp: new Date().toISOString()
-      };
-
-      transactions.set(transactionId, txRecord);
-
-      if (idempotencyKey) {
-        idempotencyStore.set(idempotencyKey, {
           success: true,
-          message: 'Payment authorized and settled',
-          transaction: txRecord
+          idempotent: false,
+          transactionId,
+          status,
+          message: 'Payment authorized and outbox event persisted atomically.'
         });
+
+      } catch (err) {
+        await client.query('ROLLBACK');
+        console.error('Payment Processing Error:', err);
+        return sendJson(res, 500, { success: false, error: 'Internal Server Error' });
+      } finally {
+        client.release();
       }
-
-      return sendJson(res, 200, {
-        success: true,
-        message: 'Payment authorized and settled',
-        transaction: txRecord
-      });
-    }
-
-    // 3. Transactions Ledger
-    if (pathname === '/api/v1/payments/transactions' && req.method === 'GET') {
-      const list = Array.from(transactions.values()).sort(
-        (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-      );
-      return sendJson(res, 200, {
-        success: true,
-        count: list.length,
-        transactions: list
-      });
-    }
-
-    // 4. Single Transaction Query
-    const txMatch = pathname.match(/^\/api\/v1\/payments\/([0-9a-zA-Z_-]+)$/);
-    if (txMatch && req.method === 'GET') {
-      const txId = txMatch[1];
-      const tx = transactions.get(txId);
-      if (!tx) {
-        return sendJson(res, 404, { success: false, error: `Transaction ${txId} not found` });
-      }
-      return sendJson(res, 200, { success: true, transaction: tx });
-    }
-
-    // 5. Webhook Simulator
-    if (pathname === '/api/v1/payments/webhook' && req.method === 'POST') {
-      const body = await parseRequestBody(req);
-      return sendJson(res, 200, {
-        received: true,
-        event: body.event || 'payment.success',
-        processedAt: new Date().toISOString()
-      });
     }
 
     return sendJson(res, 404, { success: false, error: 'Route not found' });
   } catch (err) {
-    console.error('Payment Service Error:', err);
-    return sendJson(res, 500, { success: false, error: 'Internal Server Error', message: err.message });
+    console.error(err);
+    return sendJson(res, 500, { success: false, error: 'Internal Server Error' });
   }
 });
 
+// ============================================================================
+// OUTBOX POLLING WORKER (Guarantees at-least-once delivery)
+// ============================================================================
+async function processOutbox() {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    
+    // Lock rows for update to prevent concurrent worker collisions
+    const { rows: events } = await client.query(`
+      SELECT id, event_type, payload 
+      FROM ultron_payments.payment_outbox_events 
+      WHERE published = FALSE 
+      ORDER BY created_at ASC 
+      FOR UPDATE SKIP LOCKED 
+      LIMIT 10
+    `);
+
+    if (events.length > 0) {
+      console.log(`[Outbox Relay] Found ${events.length} unpublished events. Processing...`);
+      
+      for (const event of events) {
+        // Here you would publish to Kafka, RabbitMQ, or an external Webhook.
+        // We simulate successful publishing:
+        console.log(`[Outbox Relay] Publishing Event [${event.event_type}]:`, JSON.stringify(event.payload));
+        
+        // Mark as published
+        await client.query(
+          'UPDATE ultron_payments.payment_outbox_events SET published = TRUE WHERE id = $1',
+          [event.id]
+        );
+      }
+      console.log(`[Outbox Relay] Successfully published ${events.length} events.`);
+    }
+
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('[Outbox Relay] Error processing events:', err);
+  } finally {
+    client.release();
+  }
+}
+
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`[ULTRON Payment Service] Listening on http://0.0.0.0:${PORT}`);
+  // Start the background Outbox relay worker
+  setInterval(processOutbox, 5000);
 });
