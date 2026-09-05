@@ -1,3 +1,4 @@
+// @ts-ignore React is available at runtime; its type declarations are not installed.
 import React, { useState, useEffect } from 'react';
 import { StoreProduct, CATALOG_PRODUCTS } from '../data/storeProducts';
 import { CartItem } from '../types';
