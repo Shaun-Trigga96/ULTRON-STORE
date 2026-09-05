@@ -1,0 +1,7 @@
+project_id        = "ultron-store-prod"
+region            = "us-central1"
+environment       = "prod"
+node_machine_type = "e2-standard-4"
+min_nodes         = 3
+max_nodes         = 12
+db_tier           = "db-custom-4-16384"

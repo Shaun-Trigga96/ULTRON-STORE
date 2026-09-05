@@ -1,0 +1,6 @@
+{
+  "name": "ULTRON Store - DevOps Architecture & Repo Setup",
+  "description": "Enterprise repository structure, infrastructure blueprints, init script, and documentation for ULTRON Store e-commerce platform on GCP and GKE.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

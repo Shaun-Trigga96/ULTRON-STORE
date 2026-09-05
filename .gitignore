@@ -1,0 +1,59 @@
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Node.js & Frontend dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+build/
+.next/
+out/
+
+# Environment and Secret credentials (CRITICAL - NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.jks
+credentials.json
+gcp-key.json
+service-account*.json
+
+# Terraform specific ignores
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+!*.tfvars.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Kubernetes & Helm
+*.tgz
+*.lock
+.kube/
+kubeconfig*
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
