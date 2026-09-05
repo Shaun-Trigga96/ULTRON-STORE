@@ -188,23 +188,23 @@ export const StorefrontView: React.FC = () => {
   return (
     <div className="space-y-10 pb-12">
       {/* Top Banner: Apple-Style Storefront Header & Redlock Status */}
-      <div className="bg-[#161617]/90 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
+      <div className="bg-white/80 dark:bg-[#161617]/90 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl transition-colors duration-300">
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <UltronLogo variant="icon" size="md" className="h-10 w-auto" />
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-base font-semibold text-white tracking-tight flex items-center gap-2">
+              <h2 className="text-base font-semibold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
                 <span>ULTRON</span>
-                <span className="text-slate-400 font-normal">Certified Pre-Owned Store</span>
+                <span className="text-slate-500 dark:text-slate-400 font-normal">Certified Pre-Owned Store</span>
               </h2>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
                 ORIGINAL OEM HARDWARE GUARANTEED
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Every device passes 40-point hardware tests. 10-minute Redis Redlock guarantees exclusive stock holding during checkout.
             </p>
           </div>
@@ -213,9 +213,9 @@ export const StorefrontView: React.FC = () => {
         <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={() => setIsServerModalOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 transition-colors"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-700 dark:text-slate-300 transition-colors"
           >
-            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-emerald-400' : 'text-blue-400'}`} />
+            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}`} />
             <span>Server: {serverStatus}</span>
           </button>
 
@@ -235,47 +235,47 @@ export const StorefrontView: React.FC = () => {
       </div>
 
       {/* Apple Keynote Style Hero Feature Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#1d1d1f] via-[#151516] to-[#000000] border border-white/10 p-8 sm:p-12 shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-slate-100 via-white to-slate-50 dark:from-[#1d1d1f] dark:via-[#151516] dark:to-[#000000] border border-slate-200 dark:border-white/10 p-8 sm:p-12 shadow-2xl transition-colors duration-300">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Hero Typography & Highlights */}
           <div className="lg:col-span-7 space-y-5 z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Certified Flagship Showcase</span>
             </div>
 
             <div>
-              <div className="text-xs uppercase font-mono tracking-widest text-slate-400 font-bold mb-1">
+              <div className="text-xs uppercase font-mono tracking-widest text-slate-500 dark:text-slate-400 font-bold mb-1">
                 Apple iPhone 15 Pro Max
               </div>
-              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
                 Titanium. So strong. So light. So Pro.
               </h1>
             </div>
 
-            <p className="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed font-normal">
               Acquire certified Grade A+ Mint condition with genuine Apple Super Retina XDR OLED, Action Button, and 98% OEM battery capacity. Backed by our 12-Month zero-deductible replacement warranty.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 font-sans pt-1">
-              <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-700 dark:text-slate-300 font-sans pt-1">
+              <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 40-Point Diagnostic Passed
               </span>
-              <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-                <Truck className="w-4 h-4 text-blue-400" />
+              <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
+                <Truck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 Free Overnight Courier Guy
               </span>
-              <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-                <RotateCcw className="w-4 h-4 text-amber-400" />
+              <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
+                <RotateCcw className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 7-Day Money-Back Guarantee
               </span>
             </div>
 
             <div className="pt-3 flex flex-wrap items-center gap-4">
               <div>
-                <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight">R22,499</span>
-                <span className="text-xs text-slate-400 ml-2">or R1,875/mo x 12</span>
+                <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">R22,499</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 ml-2">or R1,875/mo x 12</span>
               </div>
 
               <div className="flex items-center gap-3">
@@ -295,9 +295,9 @@ export const StorefrontView: React.FC = () => {
                     setSelectedProduct(heroProduct);
                     setActiveModalImage(heroProduct.imageUrl);
                   }}
-                  className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-white text-xs font-medium transition-all flex items-center gap-2"
+                  className="px-5 py-2.5 rounded-full bg-slate-200 dark:bg-white/10 hover:bg-slate-300 dark:hover:bg-white/15 border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white text-xs font-medium transition-all flex items-center gap-2"
                 >
-                  <Eye className="w-3.5 h-3.5 text-blue-300" />
+                  <Eye className="w-3.5 h-3.5 text-blue-600 dark:text-blue-300" />
                   <span>Inspect Tech Specs</span>
                 </button>
               </div>
@@ -308,18 +308,18 @@ export const StorefrontView: React.FC = () => {
           <div className="lg:col-span-5 flex justify-center relative">
             <div className="relative w-full max-w-sm">
               {/* Subtle spotlight glow */}
-              <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full transform scale-90 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-blue-400/10 dark:bg-blue-500/20 blur-3xl rounded-full transform scale-90 pointer-events-none"></div>
               <img
                 src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85"
                 alt="Apple iPhone 15 Pro Max Natural Titanium"
                 referrerPolicy="no-referrer"
-                className="relative z-10 w-full max-h-80 sm:max-h-96 object-contain filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-transform duration-700 hover:scale-105"
+                className="relative z-10 w-full max-h-80 sm:max-h-96 object-contain filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-transform duration-700 hover:scale-105"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1000&q=85';
                 }}
               />
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md border border-white/10 px-3.5 py-1.5 rounded-full text-[11px] font-mono text-slate-300 whitespace-nowrap shadow-xl z-20 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white/90 dark:bg-black/70 backdrop-blur-md border border-slate-200 dark:border-white/10 px-3.5 py-1.5 rounded-full text-[11px] font-mono text-slate-800 dark:text-slate-300 whitespace-nowrap shadow-xl z-20 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
                 <span>Natural Titanium • 256GB • Grade A+</span>
               </div>
             </div>
@@ -328,7 +328,7 @@ export const StorefrontView: React.FC = () => {
       </div>
 
       {/* Catalog Search & Filtering Bar (Apple iStore Clean Strip) */}
-      <div className="bg-[#161617] border border-white/10 rounded-2xl p-4 sm:p-5 space-y-4 shadow-lg">
+      <div className="bg-white dark:bg-[#161617] border border-slate-200 dark:border-white/10 rounded-2xl p-4 sm:p-5 space-y-4 shadow-lg transition-colors duration-300">
         <div className="flex flex-col md:flex-row items-center gap-3">
           {/* Search Input */}
           <div className="relative w-full md:flex-1">
@@ -338,12 +338,12 @@ export const StorefrontView: React.FC = () => {
               placeholder="Search by device model, brand (Apple, Samsung, Google), or IMEI..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-4 py-2.5 bg-black/40 border border-white/10 rounded-xl text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full pl-11 pr-4 py-2.5 bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white text-xs"
               >
                 Clear
               </button>
@@ -352,11 +352,11 @@ export const StorefrontView: React.FC = () => {
 
           {/* Condition Grade Filter */}
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <span className="text-xs text-slate-400 shrink-0 font-medium">Condition:</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 shrink-0 font-medium">Condition:</span>
             <select
               value={selectedGrade}
               onChange={(e) => setSelectedGrade(e.target.value)}
-              className="bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500 w-full md:w-auto"
+              className="bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 w-full md:w-auto"
             >
               <option value="ALL">All Certified Grades</option>
               <option value="MINT">Mint (100% Flawless)</option>
@@ -367,11 +367,11 @@ export const StorefrontView: React.FC = () => {
 
           {/* Sort By */}
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <span className="text-xs text-slate-400 shrink-0 font-medium">Sort:</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 shrink-0 font-medium">Sort:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500 w-full md:w-auto"
+              className="bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 w-full md:w-auto"
             >
               <option value="featured">Featured First</option>
               <option value="price-asc">Price: Low to High</option>
@@ -382,21 +382,21 @@ export const StorefrontView: React.FC = () => {
         </div>
 
         {/* Brand Tabs (Apple Navigation Pills) */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 border-t border-white/5 pt-3 text-xs">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 border-t border-slate-200 dark:border-white/5 pt-3 text-xs">
           {['ALL', 'Apple', 'Samsung', 'Google', 'OnePlus'].map((brand) => (
             <button
               key={brand}
               onClick={() => setSelectedBrand(brand)}
-              className={`px-4 py-1.5 rounded-full font-medium transition-all whitespace-nowrap text-xs ${
+              className={`px-4 py-1.5 rounded-full font-medium transition-all whitespace-nowrap text-xs border ${
                 selectedBrand.toUpperCase() === brand.toUpperCase()
-                  ? 'bg-white text-black font-semibold shadow-sm'
-                  : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 border border-white/5'
+                  ? 'bg-slate-900 dark:bg-white text-white dark:text-black font-semibold shadow-sm border-transparent'
+                  : 'bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/10 border-slate-200 dark:border-white/5'
               }`}
             >
               {brand === 'ALL' ? 'All Flagships' : brand}
             </button>
           ))}
-          <span className="ml-auto text-xs text-slate-400 font-mono">
+          <span className="ml-auto text-xs text-slate-500 dark:text-slate-400 font-mono">
             {filteredProducts.length} verified devices available
           </span>
         </div>
@@ -412,10 +412,10 @@ export const StorefrontView: React.FC = () => {
           return (
             <div
               key={product.id}
-              className="bg-[#161617] border border-[#2d2d2f] hover:border-[#424245] rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
+              className="bg-white dark:bg-[#161617] border border-slate-200 dark:border-[#2d2d2f] hover:border-slate-300 dark:hover:border-[#424245] rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
             >
               {/* Product Visual Container */}
-              <div className="relative h-64 bg-gradient-to-b from-[#1d1d1f] to-[#121214] p-6 flex items-center justify-center border-b border-white/5 overflow-hidden">
+              <div className="relative h-64 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-[#1d1d1f] dark:to-[#121214] p-6 flex items-center justify-center border-b border-slate-100 dark:border-white/5 overflow-hidden">
                 {/* Status Badge */}
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5">
                   <span
@@ -496,45 +496,45 @@ export const StorefrontView: React.FC = () => {
                         style={{ backgroundColor: product.imageColorHex }}
                       />
                     )}
-                    <span className="text-[11px] text-slate-400 font-medium ml-1">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium ml-1">
                       {product.color}
                     </span>
                   </div>
 
-                  <div className="text-[11px] font-mono uppercase tracking-wider text-blue-400 font-bold">
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold">
                     {product.brand} • {product.storageGb}GB
                   </div>
 
-                  <h3 className="text-xl font-bold text-white tracking-tight group-hover:text-blue-300 transition-colors mt-0.5">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors mt-0.5">
                     {product.model}
                   </h3>
 
-                  <p className="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed font-normal">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 line-clamp-2 leading-relaxed font-normal">
                     {product.tagline}
                   </p>
 
-                  <div className="mt-3.5 py-1.5 px-3 bg-black/30 rounded-xl border border-white/5 font-mono text-[11px] text-slate-400 flex items-center justify-between">
+                  <div className="mt-3.5 py-1.5 px-3 bg-slate-50 dark:bg-black/30 rounded-xl border border-slate-200 dark:border-white/5 font-mono text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
                     <span>IMEI:</span>
-                    <span className="text-slate-200 font-bold tracking-wider">{product.imei}</span>
+                    <span className="text-slate-900 dark:text-slate-200 font-bold tracking-wider">{product.imei}</span>
                   </div>
                 </div>
 
                 {/* Price and Financing Actions */}
-                <div className="pt-3 border-t border-white/10">
+                <div className="pt-3 border-t border-slate-200 dark:border-white/10">
                   <div className="flex items-baseline justify-between mb-1">
                     <div>
-                      <span className="text-2xl font-bold text-white tracking-tight">
+                      <span className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
                         {formatZar(product.priceZar)}
                       </span>
-                      <span className="text-[10px] text-slate-400 font-mono ml-1.5">incl. VAT</span>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono ml-1.5">incl. VAT</span>
                     </div>
-                    <span className="text-[11px] text-emerald-400 font-medium bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 px-2.5 py-0.5 rounded-full">
                       12M Warranty
                     </span>
                   </div>
 
-                  <div className="text-xs text-slate-400 mb-4 font-sans">
-                    or from <span className="text-white font-semibold">{formatZar(product.monthlyFinancingZar || Math.round(product.priceZar / 12))}/mo</span> with 0% interest
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-4 font-sans">
+                    or from <span className="text-slate-900 dark:text-white font-semibold">{formatZar(product.monthlyFinancingZar || Math.round(product.priceZar / 12))}/mo</span> with 0% interest
                   </div>
 
                   <div className="grid grid-cols-2 gap-2.5">
@@ -543,9 +543,9 @@ export const StorefrontView: React.FC = () => {
                         setSelectedProduct(product);
                         setActiveModalImage(product.imageUrl);
                       }}
-                      className="px-3 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="px-3 py-2.5 rounded-full bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                     >
-                      <Eye className="w-3.5 h-3.5 text-blue-400" />
+                      <Eye className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                       <span>Quick Look</span>
                     </button>
 
@@ -555,7 +555,7 @@ export const StorefrontView: React.FC = () => {
                       className={`px-3 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all flex items-center justify-center gap-1.5 ${
                         isAvailable
                           ? 'bg-[#0071e3] hover:bg-[#0077ed] text-white shadow-md shadow-blue-500/20 cursor-pointer active:scale-95'
-                          : 'bg-white/10 text-slate-500 border border-white/5 cursor-not-allowed'
+                          : 'bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-white/5 cursor-not-allowed'
                       }`}
                     >
                       <Lock className="w-3.5 h-3.5" />
@@ -571,17 +571,17 @@ export const StorefrontView: React.FC = () => {
 
       {/* Cart Drawer / Apple Shopping Bag */}
       {isCartOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-[#161617] border-l border-white/10 h-full flex flex-col justify-between shadow-2xl">
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/50 dark:bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-md bg-white dark:bg-[#161617] border-l border-slate-200 dark:border-white/10 h-full flex flex-col justify-between shadow-2xl transition-colors duration-300">
             {/* Cart Header */}
-            <div className="p-6 border-b border-white/10 flex items-center justify-between">
+            <div className="p-6 border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <ShoppingBag className="w-5 h-5 text-blue-400" />
-                <h2 className="text-base font-bold text-white tracking-tight">Review Your Bag ({cart.length})</h2>
+                <ShoppingBag className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">Review Your Bag ({cart.length})</h2>
               </div>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1.5 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -589,12 +589,12 @@ export const StorefrontView: React.FC = () => {
 
             {/* Redlock Countdown Timer Banner */}
             {cart.length > 0 && (
-              <div className="bg-amber-500/10 border-b border-amber-500/20 px-6 py-3 flex items-center justify-between text-xs font-mono text-amber-300">
+              <div className="bg-amber-100 dark:bg-amber-500/10 border-b border-amber-200 dark:border-amber-500/20 px-6 py-3 flex items-center justify-between text-xs font-mono text-amber-700 dark:text-amber-300">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-amber-400 animate-spin" />
+                  <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 animate-spin" />
                   <span>Redis Redlock Stock Hold:</span>
                 </div>
-                <span className="font-bold text-white bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/40">
+                <span className="font-bold text-slate-900 dark:text-white bg-amber-200 dark:bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-300 dark:border-amber-500/40">
                   {formatTime(lockTimeRemaining)}
                 </span>
               </div>
@@ -604,11 +604,11 @@ export const StorefrontView: React.FC = () => {
             <div className="p-6 flex-1 overflow-y-auto space-y-4">
               {cart.length === 0 ? (
                 <div className="text-center py-20">
-                  <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4 text-slate-500">
+                  <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center mx-auto mb-4 text-slate-400 dark:text-slate-500">
                     <ShoppingBag className="w-8 h-8" />
                   </div>
-                  <p className="text-base text-white font-medium">Your Bag is empty</p>
-                  <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">
+                  <p className="text-base text-slate-900 dark:text-white font-medium">Your Bag is empty</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xs mx-auto">
                     Select a certified pre-owned device from the catalog to test real-time stock holds.
                   </p>
                 </div>
@@ -616,24 +616,24 @@ export const StorefrontView: React.FC = () => {
                 cart.map((item) => (
                   <div
                     key={item.phone.id}
-                    className="p-4 bg-black/40 border border-white/10 rounded-2xl flex items-center justify-between gap-4"
+                    className="p-4 bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl flex items-center justify-between gap-4"
                   >
                     <div className="flex items-center gap-3.5">
                       <img
                         src={item.phone.imageUrl}
                         alt={item.phone.model}
                         referrerPolicy="no-referrer"
-                        className="w-14 h-14 object-contain rounded-xl bg-[#1d1d1f] p-1 border border-white/5 shrink-0"
+                        className="w-14 h-14 object-contain rounded-xl bg-white dark:bg-[#1d1d1f] p-1 border border-slate-200 dark:border-white/5 shrink-0"
                         onError={(e) => {
                           (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80';
                         }}
                       />
                       <div>
-                        <div className="text-sm font-bold text-white">{item.phone.model}</div>
-                        <div className="text-xs text-slate-400 font-mono mt-0.5">
+                        <div className="text-sm font-bold text-slate-900 dark:text-white">{item.phone.model}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">
                           {item.phone.storageGb}GB • {item.phone.color}
                         </div>
-                        <div className="text-[10px] text-blue-400 font-mono mt-1">
+                        <div className="text-[10px] text-blue-600 dark:text-blue-400 font-mono mt-1">
                           IMEI: {item.phone.imei}
                         </div>
                       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActiveTab } from './types';
 import { StorefrontView } from './components/StorefrontView';
 import { Phase2MicroservicesView } from './components/Phase2MicroservicesView';
@@ -25,16 +25,36 @@ import {
   GitBranch,
   GitPullRequest,
   Zap,
-  ShoppingBag
+  ShoppingBag,
+  Moon,
+  Sun
 } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('storefront');
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-slate-300 flex flex-col font-sans selection:bg-cyan-900/60 selection:text-cyan-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0c10] text-slate-900 dark:text-slate-300 flex flex-col font-sans selection:bg-cyan-900/60 selection:text-cyan-200 transition-colors duration-300">
       {/* Top Enterprise Navigation Header */}
-      <header className="bg-[#0d1117] border-b border-slate-800 text-white sticky top-0 z-40 shadow-sm">
+      <header className="bg-white dark:bg-[#0d1117] border-b border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white sticky top-0 z-40 shadow-sm transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo & Platform Name */}
@@ -46,7 +66,7 @@ export default function App() {
               <UltronLogo
                 variant="full"
                 size="md"
-                theme="dark"
+                theme={isDarkMode ? "dark" : "light"}
                 showSubtitle={true}
                 subtitleText="GCP / Kubernetes / GitOps"
               />
@@ -71,23 +91,31 @@ export default function App() {
             {/* Cloud Cluster & Telemetry Pill */}
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">
+                <div className="w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse"></div>
+                <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">
                   GCP CLUSTER ACTIVE
                 </span>
               </div>
               
-              <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#010409] border border-slate-800 text-[11px] font-mono text-slate-400">
-                <Cloud className="w-3 h-3 text-cyan-400" />
+              <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white dark:bg-[#010409] border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                <Cloud className="w-3 h-3 text-cyan-600 dark:text-cyan-400" />
                 <span>us-central1</span>
               </div>
+
+              <button
+                onClick={toggleTheme}
+                className="p-1.5 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors ml-1"
+                title="Toggle Light/Dark Mode"
+              >
+                {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
             </div>
           </div>
         </div>
 
         {/* Deliverables Sub-Navigation Bar */}
-        <div className="border-t border-slate-800 bg-[#0d1117]/80 backdrop-blur-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-2 overflow-x-auto py-2">
+        <div className="border-t border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#0d1117]/80 backdrop-blur-md transition-colors duration-300">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-2 overflow-x-auto py-2 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700">
             <button
               onClick={() => setActiveTab('storefront')}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${

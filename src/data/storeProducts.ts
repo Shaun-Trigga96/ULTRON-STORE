@@ -306,5 +306,136 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
       'MagSafe 3, three Thunderbolt 4 ports, HDMI, SDXC slot'
     ],
     inTheBox: ['MacBook Pro 14"', '70W USB-C Power Adapter', 'USB-C to MagSafe 3 Cable (Space Black)']
+  },
+  {
+    id: 'ph_07',
+    imei: '829103948572102',
+    serialNumber: 'SN-APL-13P-4829',
+    brand: 'Apple',
+    model: 'iPhone 13 Pro',
+    storageGb: 256,
+    color: 'Sierra Blue',
+    conditionGrade: 'GOOD',
+    batteryHealthPct: 88,
+    cosmeticRating: 8,
+    priceZar: 11499,
+    monthlyFinancingZar: 958,
+    warehouseLocation: 'CPT-WH-02 / BIN-A-11',
+    status: 'AVAILABLE',
+    tagline: 'The iconic Sierra Blue. ProMotion display and incredible battery life at an unbeatable value.',
+    category: 'smartphones',
+    imageColorHex: '#bfdbfe',
+    imageUrl: 'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=1000&q=85',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=1000&q=85'
+    ],
+    colorSwatches: [
+      { name: 'Sierra Blue', hex: '#bfdbfe' },
+      { name: 'Graphite', hex: '#374151' }
+    ],
+    batteryCycleCount: 310,
+    originalPartVerified: true,
+    warrantyMonths: 6,
+    specs: {
+      screen: '6.1" Super Retina XDR OLED (120Hz)',
+      chipset: 'Apple A15 Bionic (5nm)',
+      ram: '6GB LPDDR4X',
+      camera: '12MP Main + 12MP 3x Telephoto + 12MP Ultra-Wide',
+      network: '5G, Wi-Fi 6',
+      os: 'iOS 17'
+    },
+    features: [
+      'Macro photography mode',
+      'Cinematic mode in 1080p at 30 fps',
+      'Surgical-grade stainless steel edges'
+    ],
+    inTheBox: ['Certified Pre-Owned iPhone 13 Pro', 'Lightning to USB-C Cable']
+  },
+  {
+    id: 'acc_01',
+    imei: 'N/A',
+    serialNumber: 'SN-APL-AW9-4411',
+    brand: 'Apple',
+    model: 'Watch Series 9',
+    storageGb: 64,
+    color: 'Midnight',
+    conditionGrade: 'MINT',
+    batteryHealthPct: 100,
+    cosmeticRating: 10,
+    priceZar: 7999,
+    monthlyFinancingZar: 666,
+    warehouseLocation: 'JHB-WH-01 / ACC-B-02',
+    status: 'AVAILABLE',
+    tagline: 'Smarter. Brighter. Mightier. Open-box unit, never worn.',
+    category: 'accessories',
+    imageColorHex: '#1e293b',
+    imageUrl: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=1000&q=85',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=1000&q=85'
+    ],
+    colorSwatches: [
+      { name: 'Midnight', hex: '#1e293b' },
+      { name: 'Starlight', hex: '#f8fafc' }
+    ],
+    batteryCycleCount: 0,
+    originalPartVerified: true,
+    warrantyMonths: 12,
+    specs: {
+      screen: '1.9" Retina LTPO OLED (2000 nits)',
+      chipset: 'Apple S9 SiP',
+      ram: '1GB',
+      camera: 'N/A',
+      network: 'GPS + Cellular, Wi-Fi 4',
+      os: 'watchOS 10'
+    },
+    features: [
+      'Double tap gesture control',
+      'Blood oxygen sensor and ECG app',
+      'Precision Finding for iPhone'
+    ],
+    inTheBox: ['Apple Watch Series 9', 'Midnight Sport Band', 'Magnetic Fast Charger to USB-C Cable']
+  },
+  {
+    id: 'acc_02',
+    imei: 'N/A',
+    serialNumber: 'SN-APL-APP2-9901',
+    brand: 'Apple',
+    model: 'AirPods Pro (2nd Gen)',
+    storageGb: 0,
+    color: 'White',
+    conditionGrade: 'MINT',
+    batteryHealthPct: 100,
+    cosmeticRating: 10,
+    priceZar: 4499,
+    monthlyFinancingZar: 375,
+    warehouseLocation: 'JHB-WH-01 / ACC-A-01',
+    status: 'AVAILABLE',
+    tagline: 'Rebuilt from the sound up. Sealed open-box unit.',
+    category: 'accessories',
+    imageColorHex: '#ffffff',
+    imageUrl: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=1000&q=85',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=1000&q=85'
+    ],
+    colorSwatches: [
+      { name: 'White', hex: '#ffffff' }
+    ],
+    batteryCycleCount: 0,
+    originalPartVerified: true,
+    warrantyMonths: 12,
+    specs: {
+      screen: 'N/A',
+      chipset: 'Apple H2 Headphone Chip',
+      ram: 'N/A',
+      camera: 'N/A',
+      network: 'Bluetooth 5.3',
+      os: 'Firmware 6B34'
+    },
+    features: [
+      'Up to 2x more Active Noise Cancellation',
+      'Adaptive Audio & Personalized Spatial Audio',
+      'MagSafe Charging Case with speaker and lanyard loop'
+    ],
+    inTheBox: ['AirPods Pro (2nd Gen)', 'MagSafe Charging Case (USB-C)', 'Silicone ear tips (4 sizes)', 'USB-C Charge Cable']
   }
 ];
