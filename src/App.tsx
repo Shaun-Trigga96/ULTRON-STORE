@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ActiveTab } from './types';
 import { StorefrontView } from './components/StorefrontView';
-import { Phase2MicroservicesView } from './components/Phase2MicroservicesView';
-import { Phase3TerraformView } from './components/Phase3TerraformView';
-import { Phase4GitOpsView } from './components/Phase4GitOpsView';
-import { DeploymentGuideView } from './components/DeploymentGuideView';
-import { ArchitectureView } from './components/ArchitectureView';
-import { DirectoryTreeView } from './components/DirectoryTreeView';
-import { InitScriptView } from './components/InitScriptView';
-import { ReadmeView } from './components/ReadmeView';
-import { InfraGitOpsView } from './components/InfraGitOpsView';
+import { Phase2MicroservicesView } from './docs/components/Phase2MicroservicesView';
+import { Phase3TerraformView } from './docs/components/Phase3TerraformView';
+import { Phase4GitOpsView } from './docs/components/Phase4GitOpsView';
+import { DeploymentGuideView } from './docs/components/DeploymentGuideView';
+import { ArchitectureView } from './docs/components/ArchitectureView';
+import { DirectoryTreeView } from './docs/components/DirectoryTreeView';
+import { InitScriptView } from './docs/components/InitScriptView';
+import { ReadmeView } from './docs/components/ReadmeView';
+import { InfraGitOpsView } from './docs/components/InfraGitOpsView';
 import { UltronLogo } from './components/UltronLogo';
 import {
   Server,

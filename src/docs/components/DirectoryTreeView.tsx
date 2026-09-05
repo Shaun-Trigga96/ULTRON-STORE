@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ASCII_DIRECTORY_TREE, EXPLORABLE_TREE_DATA } from '../data/repoStructure';
-import { FileNode } from '../types';
+import { FileNode } from '../../types';
 import { Folder, FolderOpen, FileText, Copy, Check, Search, ChevronRight, ChevronDown, Terminal, FileCode } from 'lucide-react';
 
 export const DirectoryTreeView: React.FC = () => {

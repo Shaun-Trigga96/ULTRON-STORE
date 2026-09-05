@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UltronLogo } from './UltronLogo';
+import { UltronLogo } from '../../components/UltronLogo';
 import {
   Cloud,
   Terminal,

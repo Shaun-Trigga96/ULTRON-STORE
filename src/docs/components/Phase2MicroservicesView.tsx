@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { InventoryPhone, SimulationEventLog } from '../types';
+import { InventoryPhone, SimulationEventLog } from '../../types';
 import { BackendMicroservicesLiveView } from './BackendMicroservicesLiveView';
 import {
   Server,
