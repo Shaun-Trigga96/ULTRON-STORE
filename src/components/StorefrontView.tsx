@@ -199,8 +199,8 @@ export const StorefrontView: React.FC = () => {
                 <span>ULTRON</span>
                 <span className="text-slate-500 dark:text-slate-400 font-normal">Certified Pre-Owned Store</span>
               </h2>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-800 dark:bg-slate-200 animate-pulse"></span>
                 ORIGINAL OEM HARDWARE GUARANTEED
               </span>
             </div>
@@ -215,7 +215,7 @@ export const StorefrontView: React.FC = () => {
             onClick={() => setIsServerModalOpen(true)}
             className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-700 dark:text-slate-300 transition-colors"
           >
-            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}`} />
+            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-slate-700 dark:text-slate-300' : 'text-blue-600 dark:text-blue-400'}`} />
             <span>Server: {serverStatus}</span>
           </button>
 
@@ -239,7 +239,7 @@ export const StorefrontView: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Hero Typography & Highlights */}
           <div className="lg:col-span-7 space-y-5 z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400 text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Certified Flagship Showcase</span>
             </div>
@@ -259,15 +259,15 @@ export const StorefrontView: React.FC = () => {
 
             <div className="flex flex-wrap items-center gap-4 text-xs text-slate-700 dark:text-slate-300 font-sans pt-1">
               <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
-                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <ShieldCheck className="w-4 h-4 text-slate-700 dark:text-slate-300" />
                 40-Point Diagnostic Passed
               </span>
               <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
-                <Truck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <Truck className="w-4 h-4 text-slate-700 dark:text-slate-300" />
                 Free Overnight Courier Guy
               </span>
               <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
-                <RotateCcw className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                <RotateCcw className="w-4 h-4 text-slate-700 dark:text-slate-300" />
                 7-Day Money-Back Guarantee
               </span>
             </div>
@@ -297,7 +297,7 @@ export const StorefrontView: React.FC = () => {
                   }}
                   className="px-5 py-2.5 rounded-full bg-slate-200 dark:bg-white/10 hover:bg-slate-300 dark:hover:bg-white/15 border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white text-xs font-medium transition-all flex items-center gap-2"
                 >
-                  <Eye className="w-3.5 h-3.5 text-blue-600 dark:text-blue-300" />
+                  <Eye className="w-3.5 h-3.5 text-slate-700 dark:text-slate-300" />
                   <span>Inspect Tech Specs</span>
                 </button>
               </div>
@@ -308,7 +308,7 @@ export const StorefrontView: React.FC = () => {
           <div className="lg:col-span-5 flex justify-center relative">
             <div className="relative w-full max-w-sm">
               {/* Subtle spotlight glow */}
-              <div className="absolute inset-0 bg-blue-400/5 dark:bg-blue-500/10 blur-3xl rounded-full transform scale-90 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-slate-200/50 dark:bg-white/5 blur-3xl rounded-full transform scale-90 pointer-events-none"></div>
               <img
                 src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85"
                 alt="Apple iPhone 15 Pro Max Natural Titanium"
@@ -319,7 +319,7 @@ export const StorefrontView: React.FC = () => {
                 }}
               />
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white/90 dark:bg-black/70 backdrop-blur-md border border-slate-200 dark:border-white/10 px-3.5 py-1.5 rounded-full text-[11px] font-mono text-slate-800 dark:text-slate-300 whitespace-nowrap shadow-xl z-20 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
+                <span className="w-2 h-2 rounded-full bg-slate-800 dark:bg-slate-200"></span>
                 <span>Natural Titanium • 256GB • Grade A+</span>
               </div>
             </div>
@@ -421,10 +421,10 @@ export const StorefrontView: React.FC = () => {
                   <span
                     className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-wide uppercase ${
                       isAvailable
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                        ? 'bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-300 border border-slate-200 dark:border-white/10'
                         : isHeldInCart
-                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                        : 'bg-slate-800 text-slate-400 border border-slate-700'
+                        ? 'bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-300 border border-slate-200 dark:border-white/10'
+                        : 'bg-slate-50 dark:bg-[#1c1c1e] text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-white/5'
                     }`}
                   >
                     {isAvailable ? '● IN STOCK' : isHeldInCart ? '🔒 RESERVED' : '✕ SOLD OUT'}
@@ -434,13 +434,7 @@ export const StorefrontView: React.FC = () => {
                 {/* Grade Badge */}
                 <div className="absolute top-4 right-4 z-20">
                   <span
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wide ${
-                      product.conditionGrade === 'MINT'
-                        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                        : product.conditionGrade === 'GOOD'
-                        ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
-                        : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                    }`}
+                    className="px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wide bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10"
                   >
                     GRADE {product.conditionGrade}
                   </span>
@@ -501,11 +495,11 @@ export const StorefrontView: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="text-[11px] font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold">
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
                     {product.brand} • {product.storageGb}GB
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors mt-0.5">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors mt-0.5">
                     {product.model}
                   </h3>
 
@@ -528,7 +522,7 @@ export const StorefrontView: React.FC = () => {
                       </span>
                       <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono ml-1.5">incl. VAT</span>
                     </div>
-                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+                    <span className="text-[11px] text-slate-600 dark:text-slate-300 font-medium bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2.5 py-0.5 rounded-full">
                       12M Warranty
                     </span>
                   </div>
@@ -589,12 +583,12 @@ export const StorefrontView: React.FC = () => {
 
             {/* Redlock Countdown Timer Banner */}
             {cart.length > 0 && (
-              <div className="bg-amber-100 dark:bg-amber-500/10 border-b border-amber-200 dark:border-amber-500/20 px-6 py-3 flex items-center justify-between text-xs font-mono text-amber-700 dark:text-amber-300">
+              <div className="bg-slate-50 dark:bg-[#121212] border-b border-slate-200 dark:border-white/10 px-6 py-3 flex items-center justify-between text-xs font-mono text-slate-600 dark:text-slate-400">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 animate-spin" />
-                  <span>Redis Redlock Stock Hold:</span>
+                  <Clock className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                  <span>Stock Reserved:</span>
                 </div>
-                <span className="font-bold text-slate-900 dark:text-white bg-amber-200 dark:bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-300 dark:border-amber-500/40">
+                <span className="font-bold text-slate-900 dark:text-white bg-slate-200 dark:bg-white/10 px-2.5 py-0.5 rounded-full border border-slate-300 dark:border-white/10">
                   {formatTime(lockTimeRemaining)}
                 </span>
               </div>
@@ -633,7 +627,7 @@ export const StorefrontView: React.FC = () => {
                         <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">
                           {item.phone.storageGb}GB • {item.phone.color}
                         </div>
-                        <div className="text-[10px] text-blue-600 dark:text-blue-400 font-mono mt-1">
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono mt-1">
                           IMEI: {item.phone.imei}
                         </div>
                       </div>
