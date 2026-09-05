@@ -186,9 +186,9 @@ export const StorefrontView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-10 pb-12">
+    <div className="space-y-12 pb-16">
       {/* Top Banner: Apple-Style Storefront Header & Redlock Status */}
-      <div className="bg-white/80 dark:bg-[#161617]/90 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl transition-colors duration-300">
+      <div className="bg-transparent border-b border-slate-200 dark:border-white/10 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-colors duration-300">
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <UltronLogo variant="icon" size="md" className="h-10 w-auto" />
@@ -235,8 +235,8 @@ export const StorefrontView: React.FC = () => {
       </div>
 
       {/* Apple Keynote Style Hero Feature Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-slate-100 via-white to-slate-50 dark:from-[#1d1d1f] dark:via-[#151516] dark:to-[#000000] border border-slate-200 dark:border-white/10 p-8 sm:p-12 shadow-2xl transition-colors duration-300">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#fafafa] to-white dark:from-[#1c1c1e] dark:to-black border border-slate-200 dark:border-white/5 p-10 sm:p-16 lg:p-20 shadow-2xl transition-colors duration-300">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Hero Typography & Highlights */}
           <div className="lg:col-span-7 space-y-5 z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400 text-xs font-semibold">
@@ -308,7 +308,7 @@ export const StorefrontView: React.FC = () => {
           <div className="lg:col-span-5 flex justify-center relative">
             <div className="relative w-full max-w-sm">
               {/* Subtle spotlight glow */}
-              <div className="absolute inset-0 bg-blue-400/10 dark:bg-blue-500/20 blur-3xl rounded-full transform scale-90 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-blue-400/5 dark:bg-blue-500/10 blur-3xl rounded-full transform scale-90 pointer-events-none"></div>
               <img
                 src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85"
                 alt="Apple iPhone 15 Pro Max Natural Titanium"
@@ -328,8 +328,8 @@ export const StorefrontView: React.FC = () => {
       </div>
 
       {/* Catalog Search & Filtering Bar (Apple iStore Clean Strip) */}
-      <div className="bg-white dark:bg-[#161617] border border-slate-200 dark:border-white/10 rounded-2xl p-4 sm:p-5 space-y-4 shadow-lg transition-colors duration-300">
-        <div className="flex flex-col md:flex-row items-center gap-3">
+      <div className="bg-transparent border-b border-slate-200 dark:border-white/10 pb-8 space-y-5 transition-colors duration-300">
+        <div className="flex flex-col md:flex-row items-center gap-4">
           {/* Search Input */}
           <div className="relative w-full md:flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -412,10 +412,10 @@ export const StorefrontView: React.FC = () => {
           return (
             <div
               key={product.id}
-              className="bg-white dark:bg-[#161617] border border-slate-200 dark:border-[#2d2d2f] hover:border-slate-300 dark:hover:border-[#424245] rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
+              className="bg-white dark:bg-[#121212] border border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-[#424245] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
             >
               {/* Product Visual Container */}
-              <div className="relative h-64 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-[#1d1d1f] dark:to-[#121214] p-6 flex items-center justify-center border-b border-slate-100 dark:border-white/5 overflow-hidden">
+              <div className="relative h-64 bg-gradient-to-b from-[#fafafa] to-[#f5f5f5] dark:from-[#18181a] dark:to-[#101010] p-8 flex items-center justify-center border-b border-slate-100 dark:border-white/5 overflow-hidden">
                 {/* Status Badge */}
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5">
                   <span
