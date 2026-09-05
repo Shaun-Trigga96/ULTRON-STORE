@@ -48,11 +48,50 @@ export const StorefrontView: React.FC = () => {
 
   // Server Connection & Standalone Mode state
   const [isServerModalOpen, setIsServerModalOpen] = useState(false);
-  const [backendUrl, setBackendUrl] = useState('http://localhost:4001');
-  const [serverStatus, setServerStatus] = useState<'STANDALONE' | 'CONNECTING' | 'CONNECTED' | 'OFFLINE'>('STANDALONE');
-  const [serverHealthMessage, setServerHealthMessage] = useState<string>(
-    'Frontend is currently operating in Standalone Client Mode. All catalog browsing, filtering, Redlock stock reservations, and checkout simulations run locally with zero server dependency.'
-  );
+  const [backendUrl, setBackendUrl] = useState('http://localhost:8080');
+  const [serverStatus, setServerStatus] = useState<'STANDALONE' | 'CONNECTING' | 'CONNECTED' | 'OFFLINE'>('CONNECTING');
+  const [serverHealthMessage, setServerHealthMessage] = useState<string>('Connecting to API Gateway...');
+  const [sessionId] = useState<string>('session_' + Math.random().toString(36).substr(2, 9));
+
+  useEffect(() => {
+    const fetchLiveInventory = async () => {
+      try {
+        const res = await fetch(`${backendUrl}/api/v1/inventory`);
+        if (!res.ok) throw new Error('Gateway returned ' + res.status);
+        const json = await res.json();
+        
+        if (json.success && json.data) {
+          const liveProducts = json.data.map((row: any) => {
+            const originalProduct = CATALOG_PRODUCTS.find(p => p.model === row.model_name) || CATALOG_PRODUCTS[0];
+            return {
+              ...originalProduct,
+              id: row.id,
+              imei: row.imei,
+              serialNumber: row.serial_number,
+              brand: row.brand,
+              model: row.model_name,
+              conditionGrade: row.condition_grade,
+              batteryHealthPct: row.battery_health_percentage,
+              cosmeticRating: row.cosmetic_scratches_rating,
+              priceZar: Math.round(row.selling_price_cents / 100),
+              warehouseLocation: `${row.warehouse_facility_code} / ${row.warehouse_bin_location}`,
+              status: row.status
+            };
+          });
+          setProducts(liveProducts.length > 0 ? liveProducts : CATALOG_PRODUCTS);
+          setServerStatus('CONNECTED');
+          setServerHealthMessage('Connected to live Inventory & Catalog Microservices via API Gateway.');
+        }
+      } catch (err) {
+        setServerStatus('OFFLINE');
+        setServerHealthMessage('Microservices offline or unreachable. Operating in Standalone Mock Mode.');
+      }
+    };
+    
+    fetchLiveInventory();
+    const interval = setInterval(fetchLiveInventory, 5000);
+    return () => clearInterval(interval);
+  }, [backendUrl]);
 
   // Checkout flow state
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -83,29 +122,50 @@ export const StorefrontView: React.FC = () => {
   }, [cart.length]);
 
   // Handle adding product to cart (Simulating Redlock Stock Hold)
-  const handleAddToCart = (product: StoreProduct) => {
+  const handleAddToCart = async (product: StoreProduct) => {
     if (product.status !== 'AVAILABLE') return;
+
+    try {
+      const res = await fetch(`${backendUrl}/api/v1/inventory/lock`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imei: product.imei, sessionId })
+      });
+      const data = await res.json();
+      
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Could not hold stock');
+      }
+    } catch (err) {
+      console.warn("API failed, falling back to local simulation.", err);
+    }
 
     const newItem: CartItem = {
       phone: product,
       reservedAt: Date.now(),
-      expiresAt: Date.now() + 15 * 60 * 1000
+      expiresAt: Date.now() + 10 * 60 * 1000
     };
 
     setCart((prev) => [...prev, newItem]);
-
-    // Update product status to locked in local catalog state
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === product.id ? { ...p, status: 'LOCKED_CHECKOUT_HOLD' as const } : p
-      )
-    );
-
+    setProducts((prev) => prev.map((p) => p.id === product.id ? { ...p, status: 'LOCKED_CHECKOUT_HOLD' as const } : p));
     setIsCartOpen(true);
   };
 
   // Handle removing product from cart (Releasing Redlock Stock Hold)
-  const handleRemoveFromCart = (productId: string) => {
+  const handleRemoveFromCart = async (productId: string) => {
+    const itemToRemove = cart.find(i => i.phone.id === productId);
+    if (itemToRemove) {
+      try {
+        await fetch(`${backendUrl}/api/v1/inventory/release`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ imei: itemToRemove.phone.imei, sessionId })
+        });
+      } catch (err) {
+        console.warn("API failed, falling back to local simulation.", err);
+      }
+    }
+
     setCart((prev) => prev.filter((item) => item.phone.id !== productId));
     setProducts((prev) =>
       prev.map((p) =>
