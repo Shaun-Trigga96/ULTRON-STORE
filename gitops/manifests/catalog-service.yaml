@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: catalog-service
+  template:
+    metadata:
+      labels:
+        app: catalog-service
+    spec:
+      containers:
+      - name: catalog-service
+        image: ultron/catalog-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 4002
+        env:
+        - name: PORT
+          value: "4002"
+        - name: DB_HOST
+          value: "postgres"
+        - name: DB_NAME
+          value: "ultrondb"
+        - name: DB_USER
+          value: "appuser"
+        - name: DB_PASSWORD
+          value: "devsecret"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-service
+spec:
+  ports:
+  - port: 4002
+  selector:
+    app: catalog-service
