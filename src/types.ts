@@ -1,4 +1,4 @@
-export type ActiveTab = 'storefront' | 'phase2-sync' | 'phase3-terraform' | 'phase4-gitops' | 'tree' | 'script' | 'readme' | 'architecture' | 'gitops-infra';
+export type ActiveTab = 'storefront' | 'phase2-sync' | 'phase3-terraform' | 'phase4-gitops' | 'deploy-guide' | 'tree' | 'script' | 'readme' | 'architecture' | 'gitops-infra';
 
 export interface CartItem {
   phone: InventoryPhone;

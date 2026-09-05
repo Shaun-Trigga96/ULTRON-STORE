@@ -6,6 +6,10 @@
 [![GitOps](https://img.shields.io/badge/ArgoCD-GitOps%20v2.9-EF6B48?logo=argo&logoColor=white)](https://argoproj.github.io/cd/)
 [![Security](https://img.shields.io/badge/Trivy-Container%20Scan-1904DA?logo=aquasecurity&logoColor=white)](https://trivy.dev/)
 [![Database](https://img.shields.io/badge/Cloud%20SQL-PostgreSQL%2015-336791?logo=postgresql&logoColor=white)](https://cloud.google.com/sql)
+[![Deployment Guide](https://img.shields.io/badge/DevOps%20Runbook-DEPLOYMENT__GUIDE.md-emerald?style=flat&logo=bookstack&logoColor=white)](DEPLOYMENT_GUIDE.md)
+
+> 📘 **Looking for the step-by-step deployment runbook?**  
+> Check out the [**Complete End-to-End DevOps Deployment Guide (DEPLOYMENT_GUIDE.md)**](DEPLOYMENT_GUIDE.md) for a reproducible, hands-on walkthrough covering required accounts (GCP Free Tier, GitHub), local sandbox testing, Terraform provisioning, Kubernetes deployments, and GitOps automation with ArgoCD (Dev → Prod).
 
 ---
 

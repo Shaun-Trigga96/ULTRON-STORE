@@ -4,6 +4,7 @@ import { StorefrontView } from './components/StorefrontView';
 import { Phase2MicroservicesView } from './components/Phase2MicroservicesView';
 import { Phase3TerraformView } from './components/Phase3TerraformView';
 import { Phase4GitOpsView } from './components/Phase4GitOpsView';
+import { DeploymentGuideView } from './components/DeploymentGuideView';
 import { ArchitectureView } from './components/ArchitectureView';
 import { DirectoryTreeView } from './components/DirectoryTreeView';
 import { InitScriptView } from './components/InitScriptView';
@@ -97,6 +98,19 @@ export default function App() {
               <ShoppingBag className="w-4 h-4 text-emerald-400" />
               <span>Storefront UI (Customer Experience)</span>
               <span className="px-1.5 py-0.2 rounded text-[10px] bg-emerald-400 text-slate-950 font-black animate-pulse">RUNNING</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('deploy-guide')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                activeTab === 'deploy-guide'
+                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm shadow-cyan-500/30'
+                  : 'text-cyan-400 bg-cyan-950/40 border border-cyan-500/40 hover:text-white hover:bg-cyan-900/40'
+              }`}
+            >
+              <BookOpen className="w-4 h-4 text-cyan-400" />
+              <span>DevOps Deployment Guide (Dev → Prod)</span>
+              <span className="px-1.5 py-0.2 rounded text-[10px] bg-cyan-400 text-slate-950 font-black">RUNBOOK</span>
             </button>
 
             <button
@@ -203,6 +217,7 @@ export default function App() {
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'storefront' && <StorefrontView />}
+        {activeTab === 'deploy-guide' && <DeploymentGuideView />}
         {activeTab === 'phase3-terraform' && <Phase3TerraformView />}
         {activeTab === 'phase4-gitops' && <Phase4GitOpsView />}
         {activeTab === 'phase2-sync' && <Phase2MicroservicesView />}

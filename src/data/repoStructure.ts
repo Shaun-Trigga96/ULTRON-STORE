@@ -87,6 +87,7 @@ export const ASCII_DIRECTORY_TREE = `ultron-store/
 ├── Makefile                           # DevOps target runner (dev-up, tf-plan, test, etc.)
 ├── init_repo.sh                       # Executable repository bootstrapper script
 ├── .gitignore                         # Security & artifact exclusions
+├── DEPLOYMENT_GUIDE.md                # Reproducible DevOps runbook (Accounts, GCP Dev & Prod)
 └── README.md                          # Full architectural & developer documentation`;
 
 export const ARCHITECTURE_COMPONENTS: ArchitectureComponent[] = [
@@ -370,6 +371,7 @@ export const EXPLORABLE_TREE_DATA: FileNode = {
     { id: 'f-make', name: 'Makefile', type: 'file', path: '/Makefile', description: 'Developer and DevOps task runner targets' },
     { id: 'f-init', name: 'init_repo.sh', type: 'file', path: '/init_repo.sh', badge: 'Executable', description: 'Runnable bash script initializing all directories and starter templates' },
     { id: 'f-ignore', name: '.gitignore', type: 'file', path: '/.gitignore', description: 'Enterprise gitignore rules for terraform state, secrets, and node_modules' },
+    { id: 'f-guide', name: 'DEPLOYMENT_GUIDE.md', type: 'file', path: '/DEPLOYMENT_GUIDE.md', badge: 'DevOps Runbook', description: 'Step-by-step reproducible deployment manual: Accounts, GCP Dev & Prod, Terraform, K8s & ArgoCD' },
     { id: 'f-readme', name: 'README.md', type: 'file', path: '/README.md', badge: 'Production Ready', description: 'Comprehensive architectural and operational documentation' }
   ]
 };
