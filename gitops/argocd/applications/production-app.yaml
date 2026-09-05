@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ultron-store-staging
+  name: ultron-store-production
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,25 +9,25 @@ spec:
   project: ultron-store
   source:
     repoURL: https://github.com/Shaun-Trigga96/ULTRON-STORE.git
-    targetRevision: HEAD
+    targetRevision: main
     path: gitops/helm/ultron-store
     helm:
       valueFiles:
         - values.yaml
-        - values-staging.yaml
+        - values-prod.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: ultron-staging
+    namespace: ultron-prod
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
+      - PruneLast=true
     retry:
       limit: 5
       backoff:
-        duration: 5s
+        duration: 10s
         factor: 2
-        maxDuration: 3m
+        maxDuration: 5m

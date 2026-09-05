@@ -1,0 +1,18 @@
+# ============================================================================
+# STAGING ENVIRONMENT OVERRIDES
+# ============================================================================
+
+environment: staging
+replicaCount: 2
+
+ingress:
+  hosts:
+    - host: staging-api.ultron.store
+      paths:
+        - path: /
+          pathType: Prefix
+
+autoscaling:
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70

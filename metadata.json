@@ -1,6 +1,6 @@
 {
   "name": "ULTRON Store - DevOps Architecture & Repo Setup",
-  "description": "Enterprise repository structure, microservices database schemas, real-time inventory sync with Redis Redlock, GKE infrastructure blueprints, and init automation for ULTRON Store.",
+  "description": "Enterprise repository structure, customer storefront UI (standalone & live mode), microservices schemas, real-time inventory sync with Redis Redlock, Terraform GCP modules, and GitOps ArgoCD pipelines.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

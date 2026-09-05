@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ultron-store
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Enterprise AppProject boundary for ULTRON Store e-commerce workloads
+  sourceRepos:
+    - "https://github.com/Shaun-Trigga96/ULTRON-STORE.git"
+  destinations:
+    - namespace: ultron-staging
+      server: https://kubernetes.default.svc
+    - namespace: ultron-prod
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  roles:
+    - name: devops-operator
+      description: Read and sync permissions for deployment engineers
+      policies:
+        - p, proj:ultron-store:devops-operator, applications, sync, ultron-store/*, allow
+        - p, proj:ultron-store:devops-operator, applications, get, ultron-store/*, allow

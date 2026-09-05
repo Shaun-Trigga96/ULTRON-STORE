@@ -1,0 +1,114 @@
+# ============================================================================
+# ULTRON STORE HELM CHART VALUES (PROJECT-2)
+# Production Base Values with High Availability & Security Hardening
+# ============================================================================
+
+environment: staging
+appName: inventory-service
+
+replicaCount: 2
+
+image:
+  repository: us-central1-docker.pkg.dev/ultron-store-dev/ultron-registry/inventory-service
+  pullPolicy: IfNotPresent
+  tag: "bfa9e27"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "ultron-inventory-service"
+
+serviceAccount:
+  create: true
+  name: inventory-service-ksa
+  annotations:
+    iam.gke.io/gcp-service-account: ultron-staging-inventory-sa@ultron-store-dev.iam.gserviceaccount.com
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "/metrics"
+  prometheus.io/port: "4001"
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 10001
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 4001
+
+ingress:
+  enabled: true
+  className: "gce"
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    networking.gke.io/managed-certificates: "ultron-ssl-cert"
+    networking.gke.io/v1beta1.FrontendConfig: "ultron-frontend-config"
+    cloud.google.com/backend-config: '{"default": "ultron-backend-config"}'
+  hosts:
+    - host: staging-api.ultron.store
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 80
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+networkPolicy:
+  enabled: true
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 4001
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 4001
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 2
+
+env:
+  NODE_ENV: "production"
+  PORT: "4001"
+  DB_NAME: "ultron_inventory"
+  DB_PORT: "5432"
+  REDIS_PORT: "6379"
+  REDIS_HOST: "ultron-redis-master.redis.svc.cluster.local"
+  LOCK_TTL_MS: "600000"

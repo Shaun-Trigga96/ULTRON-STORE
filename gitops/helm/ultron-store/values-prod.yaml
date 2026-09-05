@@ -1,0 +1,30 @@
+# ============================================================================
+# PRODUCTION ENVIRONMENT OVERRIDES
+# ============================================================================
+
+environment: prod
+replicaCount: 4
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2048Mi
+  requests:
+    cpu: 500m
+    memory: 1024Mi
+
+autoscaling:
+  minReplicas: 4
+  maxReplicas: 25
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 80
+
+podDisruptionBudget:
+  minAvailable: 2
+
+ingress:
+  hosts:
+    - host: api.ultron.store
+      paths:
+        - path: /
+          pathType: Prefix

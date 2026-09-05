@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ultron-store
+description: Enterprise Helm Chart for ULTRON Store Real-Time E-Commerce Platform on GKE
+type: application
+version: 1.2.0
+appVersion: "2.0.0"
+maintainers:
+  - name: ULTRON DevOps Team
+    email: devops@ultron.store

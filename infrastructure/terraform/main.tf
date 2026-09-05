@@ -49,3 +49,18 @@ module "database" {
   tier               = var.db_tier
   db_password_secret = var.db_password_secret
 }
+
+# Module: Security & Workload Identity
+module "security" {
+  source                   = "./modules/security"
+  project_id               = var.project_id
+  environment              = var.environment
+  k8s_service_account_name = "inventory-service-ksa"
+}
+
+# Module: Monitoring & Alert Policies
+module "monitoring" {
+  source      = "./modules/monitoring"
+  project_id  = var.project_id
+  environment = var.environment
+}
