@@ -6,6 +6,10 @@ export const ASCII_DIRECTORY_TREE = `ultron-store/
 │       ├── ci.yml                     # PR Quality Gate, Unit Tests & Trivy CVE Scanner
 │       └── cd.yml                     # Build, Artifact Registry push & GitOps manifest update
 ├── services/                          # Microservices Source Code & Tests
+│   ├── gateway/                       # API Gateway reverse proxy & routing layer
+│   │   ├── Dockerfile                 # Lightweight container image
+│   │   ├── src/                       # Dynamic route proxy & CORS config
+│   │   └── package.json
 │   ├── inventory-service/             # Real-time IMEI locking & Redis state sync
 │   │   ├── Dockerfile                 # Multi-stage container build (non-root)
 │   │   ├── src/                       # API controllers & WebSocket pub/sub
@@ -22,9 +26,11 @@ export const ASCII_DIRECTORY_TREE = `ultron-store/
 │   │   ├── Dockerfile
 │   │   ├── src/
 │   │   └── tests/
-│   └── frontend-store/                # Customer storefront & diagnostic phone trade-in
+│   └── frontend-store/                # Customer storefront (Apple aesthetic, 40-point diagnostics)
 │       ├── Dockerfile
 │       ├── src/
+│       │   ├── App.jsx                # Interactive store with studio photography & Redlock hold
+│       │   └── main.jsx
 │       └── public/
 ├── infrastructure/                    # Infrastructure as Code (Terraform)
 │   └── terraform/
@@ -155,6 +161,19 @@ export const EXPLORABLE_TREE_DATA: FileNode = {
       description: 'Microservices source code, tests, and Dockerfiles',
       children: [
         {
+          id: 'svc-gateway',
+          name: 'gateway',
+          type: 'directory',
+          path: '/services/gateway',
+          description: 'Unified API Gateway reverse proxy routing client requests to microservices',
+          badge: 'Reverse Proxy',
+          children: [
+            { id: 'gate-docker', name: 'Dockerfile', type: 'file', path: '/services/gateway/Dockerfile', description: 'Container image for proxy layer' },
+            { id: 'gate-src', name: 'src/index.js', type: 'file', path: '/services/gateway/src/index.js', description: 'Reverse proxy server with dynamic routing & health probes' },
+            { id: 'gate-pkg', name: 'package.json', type: 'file', path: '/services/gateway/package.json', description: 'Express & http-proxy-middleware dependencies' }
+          ]
+        },
+        {
           id: 'svc-inventory',
           name: 'inventory-service',
           type: 'directory',
@@ -205,9 +224,12 @@ export const EXPLORABLE_TREE_DATA: FileNode = {
           name: 'frontend-store',
           type: 'directory',
           path: '/services/frontend-store',
-          description: 'Customer storefront UI, device condition inspectors, and checkout',
+          description: 'Customer storefront with Apple iStore aesthetic, studio photography & Redlock hold',
+          badge: 'UI Storefront',
           children: [
-            { id: 'front-src', name: 'src/App.tsx', type: 'file', path: '/services/frontend-store/src/App.tsx', description: 'E-commerce UI storefront' }
+            { id: 'front-docker', name: 'Dockerfile', type: 'file', path: '/services/frontend-store/Dockerfile', description: 'Vite multi-stage Nginx production container' },
+            { id: 'front-src-app', name: 'src/App.jsx', type: 'file', path: '/services/frontend-store/src/App.jsx', description: 'Apple-style storefront UI with 40-point diagnostics' },
+            { id: 'front-src-main', name: 'src/main.jsx', type: 'file', path: '/services/frontend-store/src/main.jsx', description: 'React 18 entrypoint' }
           ]
         }
       ]

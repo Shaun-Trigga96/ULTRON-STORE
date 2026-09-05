@@ -86,23 +86,30 @@ ultron-store/
 ├── .gitignore                        # Enterprise ignore rules (secrets, terraform, dist)
 │
 ├── services/                         # Microservices Source Code & Unit Tests
+│   ├── gateway/                      # Unified API Gateway & reverse proxy router
+│   │   ├── Dockerfile                # Container packaging for proxy layer
+│   │   ├── src/index.js              # Express reverse proxy routing /api/v1/* to microservices
+│   │   └── package.json
 │   ├── inventory-service/            # Real-time IMEI locking & stock state engine
 │   │   ├── Dockerfile                # Multi-stage secure build (non-root runner)
 │   │   ├── src/                      # API controllers, Redis pub/sub handler
 │   │   └── tests/                    # Unit & concurrency race-condition tests
 │   ├── catalog-service/              # Phone specs, condition grading & diagnostics
 │   │   ├── Dockerfile
-│   │   ├── src/
+│   │   ├── src/                      # Device models, specs, IMEI data
 │   │   └── tests/
 │   ├── order-service/                # Checkout orchestrator, cart reservation locks
 │   │   ├── Dockerfile
-│   │   ├── src/
+│   │   ├── src/                      # Distributed checkout lock logic
 │   │   └── tests/
 │   ├── payment-service/              # Payment gateway webhook receiver & idempotency
 │   │   ├── Dockerfile
-│   │   ├── src/
+│   │   ├── src/                      # Webhooks & idempotent transaction handling
 │   │   └── tests/
-│   └── frontend-store/               # Customer e-commerce storefront & diagnostics UI
+│   └── frontend-store/               # Customer storefront (Apple iStore aesthetic & studio photography)
+│       ├── Dockerfile                # Multi-stage Vite + Nginx build
+│       ├── src/                      # React 18, 40-Point Diagnostic Passport, bag drawer
+│       └── public/
 │
 ├── infrastructure/                   # Infrastructure as Code (Terraform)
 │   └── terraform/

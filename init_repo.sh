@@ -26,6 +26,7 @@ echo -e "\n${YELLOW}[1/5] Creating Modular Directory Structure...${NC}"
 # Define core modular directories
 DIRECTORIES=(
   # Microservices
+  "services/gateway/src"
   "services/inventory-service/src"
   "services/inventory-service/tests"
   "services/catalog-service/src"
