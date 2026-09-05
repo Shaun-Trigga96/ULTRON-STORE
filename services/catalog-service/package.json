@@ -8,7 +8,16 @@
     "dev": "node --watch src/index.js",
     "test": "node tests/catalog.test.js"
   },
-  "keywords": ["microservice", "catalog", "diagnostics", "devices", "ultron"],
+  "keywords": [
+    "microservice",
+    "catalog",
+    "diagnostics",
+    "devices",
+    "ultron"
+  ],
   "author": "ULTRON DevOps Team",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^8.23.0"
+  }
 }

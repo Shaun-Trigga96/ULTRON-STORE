@@ -37,6 +37,9 @@ services:
     depends_on:
       - redis
       - postgres
+    depends_on:
+      - redis
+      - postgres
     networks:
       - ultron-network
 

@@ -1,139 +1,35 @@
 const http = require('http');
+const { pool, query } = require('./db');
 
 const PORT = process.env.PORT || 4002;
 
-const DEVICES = [
-  {
-    id: 'ph_01',
-    imei: '354892019482910',
-    serialNumber: 'F2LL89V0PZ',
-    brand: 'Apple',
-    model: 'iPhone 15 Pro Max',
-    storageGb: 256,
-    color: 'Natural Titanium',
-    conditionGrade: 'MINT',
-    batteryHealthPct: 98,
-    batteryCycleCount: 42,
-    cosmeticRating: 9.8,
-    priceZar: 22499,
-    originalMSRPZar: 28999,
-    savingsZar: 6500,
-    warehouseLocation: 'CPT-WH-01 / Shelf B-14',
-    tagline: 'Grade A+ Pristine condition with zero micro-scratches. 100% genuine Apple components.',
-    imageColorHex: '#9ca3af',
-    specs: {
-      screen: '6.7-inch Super Retina XDR OLED (120Hz ProMotion)',
-      chipset: 'Apple A17 Pro (3nm)',
-      ram: '8GB Unified Memory',
-      camera: '48MP Main (f/1.8, Sensor-shift OIS) + 12MP 5x Periscope + 12MP Ultra-Wide'
-    },
-    inTheBox: ['Certified Pre-Owned Device', 'Braided USB-C to USB-C Fast Cable', 'Official 12-Month Guarantee Passport']
-  },
-  {
-    id: 'ph_02',
-    imei: '358291029482109',
-    serialNumber: 'R5CW301X9AA',
-    brand: 'Samsung',
-    model: 'Galaxy S24 Ultra',
-    storageGb: 512,
-    color: 'Titanium Black',
-    conditionGrade: 'GOOD',
-    batteryHealthPct: 94,
-    batteryCycleCount: 112,
-    cosmeticRating: 9.2,
-    priceZar: 19999,
-    originalMSRPZar: 26999,
-    savingsZar: 7000,
-    warehouseLocation: 'JHB-WH-02 / Shelf A-08',
-    tagline: 'Near-mint condition with integrated S-Pen stylus and Galaxy AI suite enabled.',
-    imageColorHex: '#1e293b',
-    specs: {
-      screen: '6.8-inch Dynamic AMOLED 2X (1-120Hz, 2600 nits)',
-      chipset: 'Snapdragon 8 Gen 3 for Galaxy',
-      ram: '12GB LPDDR5X',
-      camera: '200MP Main + 50MP 5x Periscope + 10MP 3x Telephoto + 12MP Ultra-Wide'
-    },
-    inTheBox: ['Certified Device with S-Pen', 'USB-C to C High-Speed Data Cable', 'ULTRON Inspection Passport']
-  },
-  {
-    id: 'ph_03',
-    imei: '867123901827461',
-    serialNumber: '38191FDH29',
-    brand: 'Google',
-    model: 'Pixel 8 Pro',
-    storageGb: 128,
-    color: 'Bay Blue',
-    conditionGrade: 'FAIR',
-    batteryHealthPct: 89,
-    batteryCycleCount: 198,
-    cosmeticRating: 8.5,
-    priceZar: 14499,
-    originalMSRPZar: 20999,
-    savingsZar: 6500,
-    warehouseLocation: 'CPT-WH-01 / Shelf C-02',
-    tagline: 'Light signs of wear along bezel; screen flawless with matte protector. Exceptional camera value.',
-    imageColorHex: '#38bdf8',
-    specs: {
-      screen: '6.7-inch Super Actua LTPO OLED (1-120Hz, 2400 nits)',
-      chipset: 'Google Tensor G3 (Titan M2 Security)',
-      ram: '12GB LPDDR5X',
-      camera: '50MP Octa PD Main + 48MP Quad PD 5x Telephoto + 48MP Ultra-Wide'
-    },
-    inTheBox: ['Pixel 8 Pro Handset', 'USB-C Cable', 'Quick Switch Adapter', 'Diagnostic Certificate']
-  },
-  {
-    id: 'ph_04',
-    imei: '359102948291039',
-    serialNumber: 'H90K2801LP',
-    brand: 'Apple',
-    model: 'iPhone 14 Pro',
-    storageGb: 256,
-    color: 'Deep Purple',
-    conditionGrade: 'MINT',
-    batteryHealthPct: 96,
-    batteryCycleCount: 88,
-    cosmeticRating: 9.7,
-    priceZar: 16999,
-    originalMSRPZar: 23999,
-    savingsZar: 7000,
-    warehouseLocation: 'JHB-WH-02 / Shelf B-05',
-    tagline: 'Iconic Deep Purple edition. Dynamic Island display, tested and certified 100% clean ESN.',
-    imageColorHex: '#581c87',
-    specs: {
-      screen: '6.1-inch Super Retina XDR OLED with Always-On',
-      chipset: 'Apple A16 Bionic (4nm)',
-      ram: '6GB Unified Memory',
-      camera: '48MP Main + 12MP 3x Telephoto + 12MP Ultra-Wide'
-    },
-    inTheBox: ['iPhone 14 Pro Handset', 'Lightning to USB-C Cable', 'ULTRON Inspection Passport']
-  },
-  {
-    id: 'ph_05',
-    imei: '861029481920491',
-    serialNumber: 'OP12998412',
-    brand: 'OnePlus',
-    model: 'OnePlus 12',
-    storageGb: 512,
-    color: 'Silky Black',
-    conditionGrade: 'MINT',
-    batteryHealthPct: 99,
-    batteryCycleCount: 18,
-    cosmeticRating: 9.9,
-    priceZar: 15999,
-    originalMSRPZar: 21999,
-    savingsZar: 6000,
-    warehouseLocation: 'CPT-WH-01 / Shelf D-11',
-    tagline: 'Open-box unit with 100W SuperVOOC rapid charging and 4th Gen Hasselblad camera system.',
-    imageColorHex: '#18181b',
-    specs: {
-      screen: '6.82-inch 2K ProXDR Display (1-120Hz LTPO 4.0)',
-      chipset: 'Snapdragon 8 Gen 3',
-      ram: '16GB LPDDR5X',
-      camera: '50MP Sony LYT-808 + 64MP 3x Periscope + 48MP Ultra-Wide'
-    },
-    inTheBox: ['OnePlus 12 Device', '100W SuperVOOC Power Adapter', 'Type-C Red Cable', 'Warranty Card']
-  }
+// Original mock data, used to seed the DB on startup
+const SEED_DEVICES = [
+  { brand: 'Apple', model_name: 'iPhone 15 Pro Max', storage_capacity_gb: 256, color_name: 'Natural Titanium', model_number: 'A3106', release_year: 2023, base_retail_price_cents: 2249900, image_gallery_urls: ['https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85'], technical_specs: { screen: '6.7-inch Super Retina XDR OLED', chipset: 'Apple A17 Pro' } },
+  { brand: 'Samsung', model_name: 'Galaxy S24 Ultra', storage_capacity_gb: 512, color_name: 'Titanium Black', model_number: 'SM-S928B', release_year: 2024, base_retail_price_cents: 1999900, image_gallery_urls: ['https://images.unsplash.com/photo-1706132711002-c6fdb98a0eb0?auto=format&fit=crop&w=1000&q=85'], technical_specs: { screen: '6.8-inch Dynamic AMOLED 2X', chipset: 'Snapdragon 8 Gen 3 for Galaxy' } },
+  { brand: 'Google', model_name: 'Pixel 8 Pro', storage_capacity_gb: 128, color_name: 'Bay Blue', model_number: 'G1MNW', release_year: 2023, base_retail_price_cents: 1449900, image_gallery_urls: ['https://images.unsplash.com/photo-1696446702330-07eef3ff247e?auto=format&fit=crop&w=1000&q=85'], technical_specs: { screen: '6.7-inch Super Actua LTPO OLED', chipset: 'Google Tensor G3' } }
 ];
+
+async function seedCatalogDb() {
+  try {
+    const { rows } = await query('SELECT count(*) FROM ultron_catalog.catalog_devices');
+    if (parseInt(rows[0].count) === 0) {
+      console.log('Seeding ultron_catalog.catalog_devices...');
+      for (const d of SEED_DEVICES) {
+        await query(
+          `INSERT INTO ultron_catalog.catalog_devices 
+          (brand, model_name, storage_capacity_gb, color_name, model_number, release_year, base_retail_price_cents, image_gallery_urls, technical_specs)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+          ON CONFLICT DO NOTHING`,
+          [d.brand, d.model_name, d.storage_capacity_gb, d.color_name, d.model_number, d.release_year, d.base_retail_price_cents, JSON.stringify(d.image_gallery_urls), JSON.stringify(d.technical_specs)]
+        );
+      }
+      console.log('Catalog seeding complete.');
+    }
+  } catch (err) {
+    console.error('Catalog DB seed error:', err.message);
+  }
+}
 
 function sendJson(res, statusCode, data) {
   res.writeHead(statusCode, {
@@ -145,13 +41,9 @@ function sendJson(res, statusCode, data) {
   res.end(JSON.stringify(data, null, 2));
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') {
-    res.writeHead(204, {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-    });
+    res.writeHead(204, { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization' });
     res.end();
     return;
   }
@@ -159,116 +51,50 @@ const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = url.pathname;
 
-  // 1. Health
-  if (pathname === '/health' && req.method === 'GET') {
-    return sendJson(res, 200, {
-      status: 'UP',
-      service: 'catalog-service',
-      port: PORT,
-      version: '1.0.0',
-      totalDevices: DEVICES.length,
-      timestamp: new Date().toISOString()
-    });
-  }
-
-  // 2. All Devices
-  if (pathname === '/api/v1/catalog/devices' && req.method === 'GET') {
-    const brand = url.searchParams.get('brand');
-    const grade = url.searchParams.get('grade');
-    const minBattery = url.searchParams.get('minBattery');
-
-    let results = [...DEVICES];
-    if (brand && brand !== 'ALL') {
-      results = results.filter(d => d.brand.toUpperCase() === brand.toUpperCase());
-    }
-    if (grade && grade !== 'ALL') {
-      results = results.filter(d => d.conditionGrade === grade);
-    }
-    if (minBattery) {
-      results = results.filter(d => d.batteryHealthPct >= parseInt(minBattery, 10));
+  try {
+    // 1. Health
+    if (pathname === '/health' && req.method === 'GET') {
+      const dbHealth = await query('SELECT 1 as healthy').catch(() => ({ rows: [] }));
+      return sendJson(res, 200, {
+        status: 'UP',
+        service: 'catalog-service',
+        database: dbHealth.rows.length > 0 ? 'CONNECTED' : 'DISCONNECTED',
+        port: PORT,
+        timestamp: new Date().toISOString()
+      });
     }
 
-    return sendJson(res, 200, {
-      success: true,
-      count: results.length,
-      data: results
-    });
-  }
-
-  // 3. Single Device by ID or IMEI
-  const deviceMatch = pathname.match(/^\/api\/v1\/catalog\/devices\/([0-9a-zA-Z_]+)$/);
-  if (deviceMatch && req.method === 'GET') {
-    const query = deviceMatch[1];
-    const device = DEVICES.find(d => d.id === query || d.imei === query);
-    if (!device) {
-      return sendJson(res, 404, { success: false, error: `Device not found: ${query}` });
-    }
-    return sendJson(res, 200, { success: true, data: device });
-  }
-
-  // 4. 40-Point Hardware Diagnostics Passport for IMEI
-  const diagMatch = pathname.match(/^\/api\/v1\/catalog\/diagnostics\/([0-9a-zA-Z_]+)$/);
-  if (diagMatch && req.method === 'GET') {
-    const query = diagMatch[1];
-    const device = DEVICES.find(d => d.id === query || d.imei === query);
-    if (!device) {
-      return sendJson(res, 404, { success: false, error: `Device not found for diagnostic query: ${query}` });
-    }
-
-    return sendJson(res, 200, {
-      success: true,
-      imei: device.imei,
-      serialNumber: device.serialNumber,
-      model: `${device.brand} ${device.model}`,
-      certifiedAt: new Date(Date.now() - 86400000 * 3).toISOString(),
-      inspectorBadgeId: 'ULTRON-TECH-8491',
-      overallResult: 'PASSED_100_PERCENT',
-      conditionGrade: device.conditionGrade,
-      battery: {
-        healthPercentage: device.batteryHealthPct,
-        cycleCount: device.batteryCycleCount,
-        originalOEMPart: true,
-        degradationStatus: device.batteryHealthPct >= 95 ? 'OPTIMAL' : 'GOOD'
-      },
-      hardwareChecks: [
-        { test: 'ESN / Blacklist / Stolen Database Check', status: 'CLEAN_VERIFIED', database: 'CheckMEND Global' },
-        { test: 'Biometric Face ID / Under-Display Fingerprint', status: 'PASSED', latencyMs: 140 },
-        { test: 'OEM OLED Display Colorimeter Calibration', status: 'PASSED', trueToneActive: true },
-        { test: '5G Sub-6GHz & mmWave RF Radio Transceivers', status: 'PASSED', signalDb: -78 },
-        { test: 'Dual-Noise-Cancelling Array & Loudspeakers', status: 'PASSED', thdPercent: 0.12 },
-        { test: 'Qi2 / MagSafe Wireless & SuperVOOC Wired Charging', status: 'PASSED', maxWattsTested: 45 },
-        { test: 'Hermetic Seal Barometric Pressure Differential (IP68)', status: 'PASSED', deltaKpa: 0.04 },
-        { test: 'Camera OIS Gyroscope & Periscope Telephoto Alignment', status: 'PASSED', focusTimeMs: 85 }
-      ]
-    });
-  }
-
-  // 5. Brands List
-  if (pathname === '/api/v1/catalog/brands' && req.method === 'GET') {
-    const brands = [...new Set(DEVICES.map(d => d.brand))];
-    return sendJson(res, 200, { success: true, brands });
-  }
-
-  // 6. Catalog Stats
-  if (pathname === '/api/v1/catalog/stats' && req.method === 'GET') {
-    const avgBattery = Math.round(DEVICES.reduce((acc, d) => acc + d.batteryHealthPct, 0) / DEVICES.length);
-    const avgPrice = Math.round(DEVICES.reduce((acc, d) => acc + d.priceZar, 0) / DEVICES.length);
-    return sendJson(res, 200, {
-      success: true,
-      totalUnits: DEVICES.length,
-      averageBatteryHealthPct: avgBattery,
-      averagePriceZar: avgPrice,
-      grades: {
-        mint: DEVICES.filter(d => d.conditionGrade === 'MINT').length,
-        good: DEVICES.filter(d => d.conditionGrade === 'GOOD').length,
-        fair: DEVICES.filter(d => d.conditionGrade === 'FAIR').length
+    // 2. All Devices
+    if (pathname === '/api/v1/catalog/devices' && req.method === 'GET') {
+      const brand = url.searchParams.get('brand');
+      let sql = 'SELECT * FROM ultron_catalog.catalog_devices';
+      let params = [];
+      
+      if (brand && brand !== 'ALL') {
+        sql += ' WHERE UPPER(brand) = UPPER($1)';
+        params.push(brand);
       }
-    });
-  }
 
-  return sendJson(res, 404, { success: false, error: 'Route not found' });
+      const { rows } = await query(sql, params);
+      return sendJson(res, 200, { success: true, count: rows.length, data: rows });
+    }
+
+    // 3. Single Device by ID
+    const deviceMatch = pathname.match(/^\/api\/v1\/catalog\/devices\/([0-9a-fA-F\-]+)$/);
+    if (deviceMatch && req.method === 'GET') {
+      const { rows } = await query('SELECT * FROM ultron_catalog.catalog_devices WHERE id = $1', [deviceMatch[1]]);
+      if (rows.length === 0) return sendJson(res, 404, { success: false, error: 'Device not found' });
+      return sendJson(res, 200, { success: true, data: rows[0] });
+    }
+
+    return sendJson(res, 404, { success: false, error: 'Route not found' });
+  } catch (err) {
+    console.error(err);
+    return sendJson(res, 500, { success: false, error: 'Internal Server Error' });
+  }
 });
 
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`[ULTRON Catalog Service] Listening on http://0.0.0.0:${PORT}`);
+  seedCatalogDb();
 });
