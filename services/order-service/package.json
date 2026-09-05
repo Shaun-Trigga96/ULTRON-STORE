@@ -1,0 +1,14 @@
+{
+  "name": "ultron-order-service",
+  "version": "1.0.0",
+  "description": "ULTRON Store Order Management & Checkout Microservice",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node tests/order.test.js"
+  },
+  "keywords": ["microservice", "orders", "checkout", "fulfillment", "ultron"],
+  "author": "ULTRON DevOps Team",
+  "license": "MIT"
+}

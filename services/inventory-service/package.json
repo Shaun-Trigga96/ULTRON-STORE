@@ -1,0 +1,14 @@
+{
+  "name": "ultron-inventory-service",
+  "version": "1.0.0",
+  "description": "ULTRON Store Inventory Microservice with Redis Redlock atomic stock reservation",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node tests/inventory.test.js"
+  },
+  "keywords": ["microservice", "inventory", "redlock", "redis", "ultron"],
+  "author": "ULTRON DevOps Team",
+  "license": "MIT"
+}

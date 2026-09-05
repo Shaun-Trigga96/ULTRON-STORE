@@ -1,22 +1,24 @@
 version: '3.8'
 
 services:
-  # Ingress / Gateway Simulation
-  ingress-proxy:
+  # API Gateway / Ingress Router
+  gateway:
     build:
       context: ./services/gateway
       dockerfile: Dockerfile
-    container_name: ultron-ingress
+    container_name: ultron-gateway
     ports:
       - "8080:80"
     depends_on:
-      - catalog-service
       - inventory-service
+      - catalog-service
       - order-service
       - payment-service
       - frontend-store
+    networks:
+      - ultron-network
 
-  # Microservice 1: Inventory (Real-Time Redis Sync for IMEI / Device Grade)
+  # Microservice 1: Inventory (Redis Redlock & Real-Time Stock)
   inventory-service:
     build:
       context: ./services/inventory-service
@@ -35,8 +37,10 @@ services:
     depends_on:
       - redis
       - postgres
+    networks:
+      - ultron-network
 
-  # Microservice 2: Catalog (Phone Models, Diagnostics, Condition Grades)
+  # Microservice 2: Catalog (Devices, Grades, 40-Point Diagnostics)
   catalog-service:
     build:
       context: ./services/catalog-service
@@ -52,8 +56,10 @@ services:
       - DB_PASSWORD=devsecret
     depends_on:
       - postgres
+    networks:
+      - ultron-network
 
-  # Microservice 3: Order Service (Phone Reservation Locks & Cart State)
+  # Microservice 3: Order Service (Checkout, Stock Locks, Fulfillment)
   order-service:
     build:
       context: ./services/order-service
@@ -71,8 +77,10 @@ services:
     depends_on:
       - postgres
       - inventory-service
+    networks:
+      - ultron-network
 
-  # Microservice 4: Payment Service (Gateway Webhooks & Idempotency)
+  # Microservice 4: Payment Service (Instant EFT, Cards, Lightning, Idempotency)
   payment-service:
     build:
       context: ./services/payment-service
@@ -84,8 +92,10 @@ services:
       - PORT=4004
       - STRIPE_SECRET_KEY=sk_test_mock_dummy
       - WEBHOOK_SECRET=whsec_mock_dummy
+    networks:
+      - ultron-network
 
-  # Customer Frontend Store
+  # Customer Frontend Store (Vite React SPA)
   frontend-store:
     build:
       context: ./services/frontend-store
@@ -93,15 +103,23 @@ services:
     container_name: ultron-frontend
     ports:
       - "3001:80"
+    environment:
+      - VITE_API_GATEWAY_URL=http://localhost:8080
+    networks:
+      - ultron-network
 
-  # Supporting State Stores: Redis for Sub-millisecond Inventory Locks
+  # Redis 7 (In-Memory Sub-millisecond Redlock & Pub/Sub)
   redis:
     image: redis:7-alpine
     container_name: ultron-redis
     ports:
       - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - ultron-network
 
-  # Supporting State Stores: PostgreSQL (Simulating on-prem prior to Cloud SQL)
+  # PostgreSQL 15 (Source Database with ULTRON Schemas)
   postgres:
     image: postgres:15-alpine
     container_name: ultron-postgres
@@ -112,4 +130,15 @@ services:
       POSTGRES_USER: appuser
       POSTGRES_PASSWORD: devsecret
     volumes:
+      - postgres_data:/var/lib/postgresql/data
       - ./services/inventory-service/src/schema/database.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - ultron-network
+
+volumes:
+  redis_data:
+  postgres_data:
+
+networks:
+  ultron-network:
+    driver: bridge

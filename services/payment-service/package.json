@@ -1,0 +1,14 @@
+{
+  "name": "ultron-payment-service",
+  "version": "1.0.0",
+  "description": "ULTRON Store Payment Gateway & Idempotency Microservice",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node tests/payment.test.js"
+  },
+  "keywords": ["microservice", "payment", "idempotency", "eft", "ultron"],
+  "author": "ULTRON DevOps Team",
+  "license": "MIT"
+}

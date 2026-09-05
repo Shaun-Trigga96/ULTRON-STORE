@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InventoryPhone, SimulationEventLog } from '../types';
+import { BackendMicroservicesLiveView } from './BackendMicroservicesLiveView';
 import {
   Server,
   Database,
@@ -143,7 +144,7 @@ else
 end`;
 
 export function Phase2MicroservicesView() {
-  const [activeSubTab, setActiveSubTab] = useState<'simulator' | 'sql' | 'redis' | 'flow'>('simulator');
+  const [activeSubTab, setActiveSubTab] = useState<'simulator' | 'apis' | 'sql' | 'redis' | 'flow'>('simulator');
   const [phones, setPhones] = useState<InventoryPhone[]>(INITIAL_PHONES);
   const [selectedImei, setSelectedImei] = useState<string>('354892019482910');
   const [activeBuyer, setActiveBuyer] = useState<'buyerA' | 'buyerB'>('buyerA');
@@ -471,6 +472,19 @@ export function Phase2MicroservicesView() {
         >
           <Activity className="w-4 h-4" />
           Interactive Redlock Simulator & WebSocket Stream
+        </button>
+
+        <button
+          onClick={() => setActiveSubTab('apis')}
+          className={`px-4 py-2.5 border-b-2 transition-colors flex items-center gap-2 font-mono shrink-0 ${
+            activeSubTab === 'apis'
+              ? 'border-cyan-500 text-cyan-400 font-bold'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Server className="w-4 h-4 text-emerald-400" />
+          <span>Backend Microservices & API Console</span>
+          <span className="px-1.5 py-0.2 rounded text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-mono">PORTS 4001-4004</span>
         </button>
 
         <button
@@ -812,7 +826,12 @@ export function Phase2MicroservicesView() {
         </div>
       )}
 
-      {/* TAB 2: POSTGRESQL CLOUD SQL DDL */}
+      {/* TAB 2: BACKEND MICROSERVICES & LIVE API CONSOLE */}
+      {activeSubTab === 'apis' && (
+        <BackendMicroservicesLiveView />
+      )}
+
+      {/* TAB 3: POSTGRESQL CLOUD SQL DDL */}
       {activeSubTab === 'sql' && (
         <div className="space-y-4">
           <div className="bg-[#0d1117] rounded-xl p-5 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono">

@@ -1,0 +1,14 @@
+{
+  "name": "ultron-catalog-service",
+  "version": "1.0.0",
+  "description": "ULTRON Store Catalog Microservice - certified pre-owned devices, 40-point diagnostics, and specifications",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node tests/catalog.test.js"
+  },
+  "keywords": ["microservice", "catalog", "diagnostics", "devices", "ultron"],
+  "author": "ULTRON DevOps Team",
+  "license": "MIT"
+}
