@@ -42,6 +42,7 @@ export const StorefrontView: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<StoreProduct | null>(null);
+  const [activeModalImage, setActiveModalImage] = useState<string>('');
 
   // Server Connection & Standalone Mode state
   const [isServerModalOpen, setIsServerModalOpen] = useState(false);
@@ -184,46 +185,46 @@ export const StorefrontView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner: Standalone UI & Server Status Bar */}
-      <div className="bg-[#0d1117] border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
-        <div className="flex items-start sm:items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shrink-0">
-            <Smartphone className="w-5 h-5" />
+    <div className="space-y-10 pb-12">
+      {/* Top Banner: Apple-Style Storefront Header & Redlock Status */}
+      <div className="bg-[#161617]/90 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-white shrink-0 shadow-inner">
+            <Smartphone className="w-5 h-5 text-blue-400" />
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-base font-bold text-white tracking-tight">
-                ULTRON Storefront UI (Customer Experience)
+              <h2 className="text-base font-semibold text-white tracking-tight">
+                ULTRON Certified Pre-Owned Store
               </h2>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center gap-1">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                FRONTEND READY (STANDALONE ACTIVE)
+                ORIGINAL OEM HARDWARE GUARANTEED
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              Browse pre-owned devices, inspect 40-point diagnostics, test Redlock real-time stock holds, and execute the full checkout flow completely decoupled from backend servers.
+              Every device passes 40-point hardware tests. 10-minute Redis Redlock guarantees exclusive stock holding during checkout.
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={() => setIsServerModalOpen(true)}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-mono text-slate-300 transition-colors"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 transition-colors"
           >
-            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-emerald-400' : 'text-cyan-400'}`} />
+            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-emerald-400' : 'text-blue-400'}`} />
             <span>Server: {serverStatus}</span>
           </button>
 
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative flex items-center gap-2 px-3.5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-colors shadow-sm"
+            className="relative flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium text-xs transition-all shadow-md shadow-blue-500/20 active:scale-95"
           >
             <ShoppingBag className="w-4 h-4" />
-            <span>Cart</span>
+            <span>Bag</span>
             {cart.length > 0 && (
-              <span className="w-5 h-5 rounded-full bg-slate-950 text-cyan-300 text-[11px] font-mono flex items-center justify-center font-bold ml-1">
+              <span className="w-5 h-5 rounded-full bg-white text-[#0071e3] text-[11px] font-bold font-mono flex items-center justify-center ml-0.5">
                 {cart.length}
               </span>
             )}
@@ -231,57 +232,116 @@ export const StorefrontView: React.FC = () => {
         </div>
       </div>
 
-      {/* Hero Announcement Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-[#0d1624] to-cyan-950/50 border border-slate-800 p-6 md:p-8">
-        <div className="relative z-10 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-semibold mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Zero-Downtime Certified Pre-Owned Flagships</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug">
-            Grade A+ Devices, Verified IMEI & 12-Month Guarantee.
-          </h1>
-          <p className="text-sm text-slate-300 mt-2 leading-relaxed">
-            Every device undergoes a 40-point hardware verification with certified battery health testing. Real-time stock locks ensure no item is double-sold.
-          </p>
+      {/* Apple Keynote Style Hero Feature Banner */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#1d1d1f] via-[#151516] to-[#000000] border border-white/10 p-8 sm:p-12 shadow-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Hero Typography & Highlights */}
+          <div className="lg:col-span-7 space-y-5 z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Certified Flagship Showcase</span>
+            </div>
 
-          <div className="flex flex-wrap items-center gap-4 mt-5 text-xs text-slate-300 font-mono">
-            <span className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              100% Genuine Parts
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Truck className="w-4 h-4 text-cyan-400" />
-              Free Insured Delivery &gt; R1,500
-            </span>
-            <span className="flex items-center gap-1.5">
-              <RotateCcw className="w-4 h-4 text-amber-400" />
-              7-Day Return Policy
-            </span>
+            <div>
+              <div className="text-xs uppercase font-mono tracking-widest text-slate-400 font-bold mb-1">
+                Apple iPhone 15 Pro Max
+              </div>
+              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                Titanium. So strong. So light. So Pro.
+              </h1>
+            </div>
+
+            <p className="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed font-normal">
+              Acquire certified Grade A+ Mint condition with genuine Apple Super Retina XDR OLED, Action Button, and 98% OEM battery capacity. Backed by our 12-Month zero-deductible replacement warranty.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 font-sans pt-1">
+              <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                40-Point Diagnostic Passed
+              </span>
+              <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+                <Truck className="w-4 h-4 text-blue-400" />
+                Free Overnight Courier Guy
+              </span>
+              <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+                <RotateCcw className="w-4 h-4 text-amber-400" />
+                7-Day Money-Back Guarantee
+              </span>
+            </div>
+
+            <div className="pt-3 flex flex-wrap items-center gap-4">
+              <div>
+                <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight">R22,499</span>
+                <span className="text-xs text-slate-400 ml-2">or R1,875/mo x 12</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    const heroProduct = products.find((p) => p.id === 'ph_01') || products[0];
+                    handleAddToCart(heroProduct);
+                  }}
+                  className="px-6 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold tracking-wide transition-all shadow-lg shadow-blue-500/25 active:scale-95 flex items-center gap-2"
+                >
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>Hold Stock (10-Min Reserve)</span>
+                </button>
+                <button
+                  onClick={() => {
+                    const heroProduct = products.find((p) => p.id === 'ph_01') || products[0];
+                    setSelectedProduct(heroProduct);
+                    setActiveModalImage(heroProduct.imageUrl);
+                  }}
+                  className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-white text-xs font-medium transition-all flex items-center gap-2"
+                >
+                  <Eye className="w-3.5 h-3.5 text-blue-300" />
+                  <span>Inspect Tech Specs</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Hero Studio Image Display */}
+          <div className="lg:col-span-5 flex justify-center relative">
+            <div className="relative w-full max-w-sm">
+              {/* Subtle spotlight glow */}
+              <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full transform scale-90 pointer-events-none"></div>
+              <img
+                src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85"
+                alt="Apple iPhone 15 Pro Max Natural Titanium"
+                referrerPolicy="no-referrer"
+                className="relative z-10 w-full max-h-80 sm:max-h-96 object-contain filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-transform duration-700 hover:scale-105"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1000&q=85';
+                }}
+              />
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md border border-white/10 px-3.5 py-1.5 rounded-full text-[11px] font-mono text-slate-300 whitespace-nowrap shadow-xl z-20 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span>Natural Titanium • 256GB • Grade A+</span>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* Decorative background grid */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none hidden md:block"></div>
       </div>
 
-      {/* Catalog Search & Filtering Bar */}
-      <div className="bg-[#0d1117] border border-slate-800 rounded-xl p-4 space-y-3 shadow-sm">
+      {/* Catalog Search & Filtering Bar (Apple iStore Clean Strip) */}
+      <div className="bg-[#161617] border border-white/10 rounded-2xl p-4 sm:p-5 space-y-4 shadow-lg">
         <div className="flex flex-col md:flex-row items-center gap-3">
           {/* Search Input */}
           <div className="relative w-full md:flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search by model, brand, or IMEI..."
+              placeholder="Search by device model, brand (Apple, Samsung, Google), or IMEI..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-[#010409] border border-slate-800 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors font-mono"
+              className="w-full pl-11 pr-4 py-2.5 bg-black/40 border border-white/10 rounded-xl text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs"
               >
                 Clear
               </button>
@@ -290,26 +350,26 @@ export const StorefrontView: React.FC = () => {
 
           {/* Condition Grade Filter */}
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <span className="text-xs text-slate-400 font-mono shrink-0">Grade:</span>
+            <span className="text-xs text-slate-400 shrink-0 font-medium">Condition:</span>
             <select
               value={selectedGrade}
               onChange={(e) => setSelectedGrade(e.target.value)}
-              className="bg-[#010409] border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono w-full md:w-auto"
+              className="bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500 w-full md:w-auto"
             >
-              <option value="ALL">All Grades</option>
-              <option value="MINT">Mint (100% Pristine)</option>
+              <option value="ALL">All Certified Grades</option>
+              <option value="MINT">Mint (100% Flawless)</option>
               <option value="GOOD">Good (Light Wear)</option>
-              <option value="FAIR">Fair (Great Value)</option>
+              <option value="FAIR">Fair (Best Value)</option>
             </select>
           </div>
 
           {/* Sort By */}
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <span className="text-xs text-slate-400 font-mono shrink-0">Sort:</span>
+            <span className="text-xs text-slate-400 shrink-0 font-medium">Sort:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-[#010409] border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono w-full md:w-auto"
+              className="bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500 w-full md:w-auto"
             >
               <option value="featured">Featured First</option>
               <option value="price-asc">Price: Low to High</option>
@@ -319,29 +379,29 @@ export const StorefrontView: React.FC = () => {
           </div>
         </div>
 
-        {/* Brand Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 border-t border-slate-800/80 pt-3 text-xs">
+        {/* Brand Tabs (Apple Navigation Pills) */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 border-t border-white/5 pt-3 text-xs">
           {['ALL', 'Apple', 'Samsung', 'Google', 'OnePlus'].map((brand) => (
             <button
               key={brand}
               onClick={() => setSelectedBrand(brand)}
-              className={`px-3 py-1.5 rounded-lg font-mono font-medium transition-colors whitespace-nowrap ${
+              className={`px-4 py-1.5 rounded-full font-medium transition-all whitespace-nowrap text-xs ${
                 selectedBrand.toUpperCase() === brand.toUpperCase()
-                  ? 'bg-cyan-500 text-slate-950 font-bold'
-                  : 'bg-slate-900/60 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                  ? 'bg-white text-black font-semibold shadow-sm'
+                  : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 border border-white/5'
               }`}
             >
-              {brand === 'ALL' ? 'All Brands' : brand}
+              {brand === 'ALL' ? 'All Flagships' : brand}
             </button>
           ))}
-          <span className="ml-auto text-[11px] text-slate-500 font-mono">
-            Showing {filteredProducts.length} items
+          <span className="ml-auto text-xs text-slate-400 font-mono">
+            {filteredProducts.length} verified devices available
           </span>
         </div>
       </div>
 
-      {/* Product Catalog Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* Product Catalog Grid (Apple iStore Device Cards with Real High-Res Photography) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProducts.map((product) => {
           const isAvailable = product.status === 'AVAILABLE';
           const isHeldInCart = product.status === 'LOCKED_CHECKOUT_HOLD';
@@ -350,33 +410,33 @@ export const StorefrontView: React.FC = () => {
           return (
             <div
               key={product.id}
-              className="bg-[#0d1117] border border-slate-800 rounded-xl overflow-hidden shadow-sm flex flex-col hover:border-slate-700 transition-all group"
+              className="bg-[#161617] border border-[#2d2d2f] hover:border-[#424245] rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
             >
               {/* Product Visual Container */}
-              <div className="relative h-48 bg-[#010409] p-5 flex items-center justify-center border-b border-slate-800/80">
+              <div className="relative h-64 bg-gradient-to-b from-[#1d1d1f] to-[#121214] p-6 flex items-center justify-center border-b border-white/5 overflow-hidden">
                 {/* Status Badge */}
-                <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5">
                   <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-wide uppercase ${
                       isAvailable
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                         : isHeldInCart
-                        ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40'
+                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                         : 'bg-slate-800 text-slate-400 border border-slate-700'
                     }`}
                   >
-                    {isAvailable ? '● IN STOCK' : isHeldInCart ? '🔒 RESERVED IN CART' : '✕ SOLD'}
+                    {isAvailable ? '● IN STOCK' : isHeldInCart ? '🔒 RESERVED' : '✕ SOLD OUT'}
                   </span>
                 </div>
 
                 {/* Grade Badge */}
-                <div className="absolute top-3 right-3">
+                <div className="absolute top-4 right-4 z-20">
                   <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wide ${
                       product.conditionGrade === 'MINT'
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                        : product.conditionGrade === 'GOOD'
                         ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                        : product.conditionGrade === 'GOOD'
+                        ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
                         : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                     }`}
                   >
@@ -384,85 +444,120 @@ export const StorefrontView: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Simulated Phone Visual Render */}
-                <div className="relative w-28 h-40 rounded-2xl border-2 border-slate-700 shadow-xl flex flex-col items-center justify-between p-2 transition-transform group-hover:scale-105 duration-200"
-                  style={{ backgroundColor: product.imageColorHex }}>
-                  <div className="w-10 h-2.5 rounded-full bg-black/80 flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-slate-800"></div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-[10px] font-bold text-white/90 drop-shadow">{product.brand}</div>
-                    <div className="text-[9px] text-slate-200/80 font-mono">{product.storageGb}GB</div>
-                  </div>
-                  <div className="w-8 h-1 rounded-full bg-white/30"></div>
-                </div>
+                {/* Ambient Device Backdrop Glow */}
+                <div
+                  className="absolute inset-0 opacity-25 blur-3xl pointer-events-none rounded-full transform scale-75"
+                  style={{ backgroundColor: product.imageColorHex }}
+                />
+
+                {/* Real High-Resolution Studio Device Photograph */}
+                <img
+                  src={product.imageUrl}
+                  alt={`${product.brand} ${product.model}`}
+                  referrerPolicy="no-referrer"
+                  className="relative z-10 h-48 w-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80';
+                  }}
+                />
 
                 {/* Battery Pill */}
-                <div className="absolute bottom-3 left-3 bg-[#0d1117]/90 backdrop-blur border border-slate-800 rounded-md px-2 py-0.5 text-[10px] font-mono text-emerald-400 flex items-center gap-1">
-                  <BatteryCharging className="w-3 h-3 text-emerald-400" />
+                <div className="absolute bottom-3.5 left-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-2.5 py-1 text-[11px] font-mono text-emerald-400 flex items-center gap-1.5 shadow-md">
+                  <BatteryCharging className="w-3.5 h-3.5 text-emerald-400" />
                   <span>{product.batteryHealthPct}% Health</span>
                 </div>
 
                 {/* Warehouse Location Pill */}
-                <div className="absolute bottom-3 right-3 bg-[#0d1117]/90 backdrop-blur border border-slate-800 rounded-md px-2 py-0.5 text-[10px] font-mono text-slate-400 flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-cyan-400" />
-                  <span>{product.warehouseLocation.split('/')[0]}</span>
+                <div className="absolute bottom-3.5 right-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-2.5 py-1 text-[11px] font-mono text-slate-300 flex items-center gap-1.5 shadow-md">
+                  <MapPin className="w-3 h-3 text-blue-400" />
+                  <span>{product.warehouseLocation.split('/')[0].trim()}</span>
                 </div>
               </div>
 
-              {/* Product Info */}
-              <div className="p-4 flex-1 flex flex-col justify-between space-y-4">
+              {/* Product Info & Specification */}
+              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
-                  <div className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider font-semibold">
-                    {product.brand} • {product.storageGb}GB • {product.color}
+                  {/* Color Swatches */}
+                  <div className="flex items-center gap-1.5 mb-2">
+                    {product.colorSwatches && product.colorSwatches.length > 0 ? (
+                      product.colorSwatches.map((swatch, idx) => (
+                        <span
+                          key={idx}
+                          title={swatch.name}
+                          className="w-3.5 h-3.5 rounded-full border border-white/20 shadow-sm"
+                          style={{ backgroundColor: swatch.hex }}
+                        />
+                      ))
+                    ) : (
+                      <span
+                        className="w-3.5 h-3.5 rounded-full border border-white/20 shadow-sm"
+                        style={{ backgroundColor: product.imageColorHex }}
+                      />
+                    )}
+                    <span className="text-[11px] text-slate-400 font-medium ml-1">
+                      {product.color}
+                    </span>
                   </div>
-                  <h3 className="text-base font-bold text-white mt-0.5 tracking-tight group-hover:text-cyan-300 transition-colors">
+
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-blue-400 font-bold">
+                    {product.brand} • {product.storageGb}GB
+                  </div>
+
+                  <h3 className="text-xl font-bold text-white tracking-tight group-hover:text-blue-300 transition-colors mt-0.5">
                     {product.model}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+
+                  <p className="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed font-normal">
                     {product.tagline}
                   </p>
 
-                  <div className="mt-3 py-1.5 px-2.5 bg-[#010409] rounded-lg border border-slate-800/80 font-mono text-[11px] text-slate-400 flex items-center justify-between">
+                  <div className="mt-3.5 py-1.5 px-3 bg-black/30 rounded-xl border border-white/5 font-mono text-[11px] text-slate-400 flex items-center justify-between">
                     <span>IMEI:</span>
-                    <span className="text-slate-200 font-bold">{product.imei}</span>
+                    <span className="text-slate-200 font-bold tracking-wider">{product.imei}</span>
                   </div>
                 </div>
 
-                {/* Price and Actions */}
-                <div className="pt-2 border-t border-slate-800/80">
-                  <div className="flex items-baseline justify-between mb-3">
+                {/* Price and Financing Actions */}
+                <div className="pt-3 border-t border-white/10">
+                  <div className="flex items-baseline justify-between mb-1">
                     <div>
-                      <span className="text-lg font-black text-white">
+                      <span className="text-2xl font-bold text-white tracking-tight">
                         {formatZar(product.priceZar)}
                       </span>
-                      <span className="text-[10px] text-slate-500 font-mono ml-1.5">incl. VAT</span>
+                      <span className="text-[10px] text-slate-400 font-mono ml-1.5">incl. VAT</span>
                     </div>
-                    <span className="text-[10px] text-emerald-400 font-mono bg-emerald-950/40 border border-emerald-500/30 px-1.5 py-0.5 rounded">
+                    <span className="text-[11px] text-emerald-400 font-medium bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
                       12M Warranty
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="text-xs text-slate-400 mb-4 font-sans">
+                    or from <span className="text-white font-semibold">{formatZar(product.monthlyFinancingZar || Math.round(product.priceZar / 12))}/mo</span> with 0% interest
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2.5">
                     <button
-                      onClick={() => setSelectedProduct(product)}
-                      className="px-3 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-mono text-slate-300 font-semibold transition-colors flex items-center justify-center gap-1.5"
+                      onClick={() => {
+                        setSelectedProduct(product);
+                        setActiveModalImage(product.imageUrl);
+                      }}
+                      className="px-3 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                     >
-                      <Eye className="w-3.5 h-3.5 text-cyan-400" />
-                      <span>Inspect</span>
+                      <Eye className="w-3.5 h-3.5 text-blue-400" />
+                      <span>Quick Look</span>
                     </button>
 
                     <button
                       onClick={() => handleAddToCart(product)}
                       disabled={!isAvailable}
-                      className={`px-3 py-2 rounded-lg font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                      className={`px-3 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all flex items-center justify-center gap-1.5 ${
                         isAvailable
-                          ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-sm shadow-cyan-500/20 cursor-pointer'
-                          : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
+                          ? 'bg-[#0071e3] hover:bg-[#0077ed] text-white shadow-md shadow-blue-500/20 cursor-pointer active:scale-95'
+                          : 'bg-white/10 text-slate-500 border border-white/5 cursor-not-allowed'
                       }`}
                     >
                       <Lock className="w-3.5 h-3.5" />
-                      <span>{isAvailable ? 'Hold Stock' : isHeldInCart ? 'In Cart' : 'Sold'}</span>
+                      <span>{isAvailable ? 'Hold Stock' : isHeldInCart ? 'In Bag' : 'Sold Out'}</span>
                     </button>
                   </div>
                 </div>
@@ -472,19 +567,19 @@ export const StorefrontView: React.FC = () => {
         })}
       </div>
 
-      {/* Cart Drawer / Modal */}
+      {/* Cart Drawer / Apple Shopping Bag */}
       {isCartOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-[#0d1117] border-l border-slate-800 h-full flex flex-col justify-between shadow-2xl">
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-md bg-[#161617] border-l border-white/10 h-full flex flex-col justify-between shadow-2xl">
             {/* Cart Header */}
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <ShoppingBag className="w-5 h-5 text-cyan-400" />
-                <h2 className="text-base font-bold text-white">Your Cart ({cart.length})</h2>
+            <div className="p-6 border-b border-white/10 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <ShoppingBag className="w-5 h-5 text-blue-400" />
+                <h2 className="text-base font-bold text-white tracking-tight">Review Your Bag ({cart.length})</h2>
               </div>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -492,52 +587,65 @@ export const StorefrontView: React.FC = () => {
 
             {/* Redlock Countdown Timer Banner */}
             {cart.length > 0 && (
-              <div className="bg-amber-950/40 border-b border-amber-500/30 px-5 py-3 flex items-center justify-between text-xs font-mono text-amber-300">
+              <div className="bg-amber-500/10 border-b border-amber-500/20 px-6 py-3 flex items-center justify-between text-xs font-mono text-amber-300">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-amber-400 animate-spin" />
                   <span>Redis Redlock Stock Hold:</span>
                 </div>
-                <span className="font-bold text-white bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/40">
+                <span className="font-bold text-white bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/40">
                   {formatTime(lockTimeRemaining)}
                 </span>
               </div>
             )}
 
             {/* Cart Items List */}
-            <div className="p-5 flex-1 overflow-y-auto space-y-3">
+            <div className="p-6 flex-1 overflow-y-auto space-y-4">
               {cart.length === 0 ? (
-                <div className="text-center py-16">
-                  <ShoppingBag className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-                  <p className="text-sm text-slate-400 font-medium">Your cart is currently empty</p>
-                  <p className="text-xs text-slate-500 font-mono mt-1">
-                    Select a certified device from the catalog to test stock holds.
+                <div className="text-center py-20">
+                  <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4 text-slate-500">
+                    <ShoppingBag className="w-8 h-8" />
+                  </div>
+                  <p className="text-base text-white font-medium">Your Bag is empty</p>
+                  <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">
+                    Select a certified pre-owned device from the catalog to test real-time stock holds.
                   </p>
                 </div>
               ) : (
                 cart.map((item) => (
                   <div
                     key={item.phone.id}
-                    className="p-3 bg-[#010409] border border-slate-800 rounded-xl flex items-center justify-between gap-3"
+                    className="p-4 bg-black/40 border border-white/10 rounded-2xl flex items-center justify-between gap-4"
                   >
-                    <div>
-                      <div className="text-xs font-bold text-white">{item.phone.model}</div>
-                      <div className="text-[11px] text-slate-400 font-mono mt-0.5">
-                        {item.phone.storageGb}GB • {item.phone.color} • Grade {item.phone.conditionGrade}
-                      </div>
-                      <div className="text-[10px] text-cyan-400 font-mono mt-1">
-                        IMEI: {item.phone.imei}
+                    <div className="flex items-center gap-3.5">
+                      <img
+                        src={item.phone.imageUrl}
+                        alt={item.phone.model}
+                        referrerPolicy="no-referrer"
+                        className="w-14 h-14 object-contain rounded-xl bg-[#1d1d1f] p-1 border border-white/5 shrink-0"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80';
+                        }}
+                      />
+                      <div>
+                        <div className="text-sm font-bold text-white">{item.phone.model}</div>
+                        <div className="text-xs text-slate-400 font-mono mt-0.5">
+                          {item.phone.storageGb}GB • {item.phone.color}
+                        </div>
+                        <div className="text-[10px] text-blue-400 font-mono mt-1">
+                          IMEI: {item.phone.imei}
+                        </div>
                       </div>
                     </div>
 
                     <div className="text-right shrink-0">
-                      <div className="text-xs font-black text-white font-mono">
+                      <div className="text-sm font-bold text-white font-mono">
                         {formatZar(item.phone.priceZar)}
                       </div>
                       <button
                         onClick={() => handleRemoveFromCart(item.phone.id)}
-                        className="text-[11px] text-rose-400 hover:text-rose-300 font-mono mt-1 underline"
+                        className="text-xs text-rose-400 hover:text-rose-300 font-mono mt-1.5 underline cursor-pointer"
                       >
-                        Release Lock
+                        Release Hold
                       </button>
                     </div>
                   </div>
@@ -547,21 +655,21 @@ export const StorefrontView: React.FC = () => {
 
             {/* Cart Footer */}
             {cart.length > 0 && (
-              <div className="p-5 border-t border-slate-800 bg-[#0a0c10] space-y-4">
-                <div className="space-y-1.5 text-xs font-mono text-slate-400">
+              <div className="p-6 border-t border-white/10 bg-[#121214] space-y-4">
+                <div className="space-y-2 text-xs text-slate-400">
                   <div className="flex justify-between">
                     <span>Subtotal:</span>
-                    <span className="text-slate-200">{formatZar(subtotal)}</span>
+                    <span className="text-slate-200 font-mono font-medium">{formatZar(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Insured Courier Shipping:</span>
-                    <span className="text-emerald-400">
-                      {shippingCost === 0 ? 'FREE (Nationwide)' : formatZar(shippingCost)}
+                    <span>Insured Overnight Shipping:</span>
+                    <span className="text-emerald-400 font-medium">
+                      {shippingCost === 0 ? 'FREE (Courier Guy)' : formatZar(shippingCost)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-slate-800">
+                  <div className="flex justify-between text-base font-bold text-white pt-2.5 border-t border-white/10">
                     <span>Total:</span>
-                    <span className="text-cyan-300">{formatZar(total)}</span>
+                    <span className="text-white font-mono">{formatZar(total)}</span>
                   </div>
                 </div>
 
@@ -571,9 +679,9 @@ export const StorefrontView: React.FC = () => {
                     setIsCheckoutOpen(true);
                     setCheckoutStep(1);
                   }}
-                  className="w-full py-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs font-mono tracking-wide transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-3.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-xs tracking-wide transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                 >
-                  <span>Proceed to Insured Checkout</span>
+                  <span>Check Out with Insured Delivery</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -582,82 +690,125 @@ export const StorefrontView: React.FC = () => {
         </div>
       )}
 
-      {/* 40-Point Diagnostic Inspection Modal */}
+      {/* 40-Point Diagnostic Inspection Modal (Apple-grade Tech Specs & Diagnostics) */}
       {selectedProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-[#0d1117] border border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-150">
+          <div className="bg-[#161617] border border-white/10 rounded-3xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6">
             {/* Modal Header */}
-            <div className="flex items-start justify-between pb-4 border-b border-slate-800">
+            <div className="flex items-start justify-between pb-4 border-b border-white/10">
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
                     40-POINT HARDWARE DIAGNOSTIC PASSPORT
                   </span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                    PASSED 100%
+                  <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    100% PASSED
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-white mt-1.5">
+                <h3 className="text-2xl font-bold text-white mt-2 tracking-tight">
                   {selectedProduct.brand} {selectedProduct.model}
                 </h3>
                 <p className="text-xs text-slate-400 font-mono mt-0.5">
-                  IMEI: {selectedProduct.imei} | SN: {selectedProduct.serialNumber}
+                  IMEI: {selectedProduct.imei} • Serial: {selectedProduct.serialNumber} • Grade {selectedProduct.conditionGrade}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedProduct(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
+            {/* Device Studio Photo Showcase & Angles */}
+            <div className="bg-gradient-to-b from-[#1d1d1f] to-[#121214] rounded-2xl p-6 border border-white/5 flex flex-col items-center justify-center relative overflow-hidden">
+              <div
+                className="absolute inset-0 opacity-20 blur-3xl pointer-events-none rounded-full"
+                style={{ backgroundColor: selectedProduct.imageColorHex }}
+              />
+
+              {/* Main Image */}
+              <img
+                src={activeModalImage || selectedProduct.imageUrl}
+                alt={selectedProduct.model}
+                referrerPolicy="no-referrer"
+                className="relative z-10 h-60 w-full object-contain filter drop-shadow-[0_16px_32px_rgba(0,0,0,0.8)] transition-all duration-300"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80';
+                }}
+              />
+
+              {/* Thumbnail Angles Selector */}
+              {selectedProduct.galleryImages && selectedProduct.galleryImages.length > 1 && (
+                <div className="flex items-center gap-2.5 mt-4 z-10">
+                  {selectedProduct.galleryImages.map((imgUrl, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveModalImage(imgUrl)}
+                      className={`w-12 h-12 rounded-xl bg-black/60 p-1 border transition-all ${
+                        (activeModalImage || selectedProduct.imageUrl) === imgUrl
+                          ? 'border-blue-500 scale-105 shadow-md shadow-blue-500/20'
+                          : 'border-white/10 opacity-70 hover:opacity-100'
+                      }`}
+                    >
+                      <img
+                        src={imgUrl}
+                        alt={`Angle ${idx + 1}`}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-contain"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Battery & Health Stats */}
             <div className="grid grid-cols-3 gap-3 font-mono text-center">
-              <div className="p-3 bg-[#010409] rounded-xl border border-slate-800">
-                <div className="text-[10px] text-slate-500">BATTERY HEALTH</div>
-                <div className="text-lg font-bold text-emerald-400 mt-1">
+              <div className="p-4 bg-black/30 rounded-2xl border border-white/5">
+                <div className="text-[10px] text-slate-400 font-bold tracking-wider">BATTERY HEALTH</div>
+                <div className="text-2xl font-bold text-emerald-400 mt-1">
                   {selectedProduct.batteryHealthPct}%
                 </div>
-                <div className="text-[10px] text-slate-400">Peak Capacity</div>
+                <div className="text-[10px] text-slate-400 mt-0.5">OEM Peak Capacity</div>
               </div>
-              <div className="p-3 bg-[#010409] rounded-xl border border-slate-800">
-                <div className="text-[10px] text-slate-500">CYCLE COUNT</div>
-                <div className="text-lg font-bold text-cyan-400 mt-1">
+              <div className="p-4 bg-black/30 rounded-2xl border border-white/5">
+                <div className="text-[10px] text-slate-400 font-bold tracking-wider">CYCLE COUNT</div>
+                <div className="text-2xl font-bold text-blue-400 mt-1">
                   {selectedProduct.batteryCycleCount}
                 </div>
-                <div className="text-[10px] text-slate-400">Low Degradation</div>
+                <div className="text-[10px] text-slate-400 mt-0.5">Low Degradation</div>
               </div>
-              <div className="p-3 bg-[#010409] rounded-xl border border-slate-800">
-                <div className="text-[10px] text-slate-500">COSMETIC SCORE</div>
-                <div className="text-lg font-bold text-amber-400 mt-1">
+              <div className="p-4 bg-black/30 rounded-2xl border border-white/5">
+                <div className="text-[10px] text-slate-400 font-bold tracking-wider">COSMETIC SCORE</div>
+                <div className="text-2xl font-bold text-amber-400 mt-1">
                   {selectedProduct.cosmeticRating}/10
                 </div>
-                <div className="text-[10px] text-slate-400">Grade {selectedProduct.conditionGrade}</div>
+                <div className="text-[10px] text-slate-400 mt-0.5">Grade {selectedProduct.conditionGrade} Mint</div>
               </div>
             </div>
 
             {/* Inspection Checklist */}
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">
-                Certified Hardware Verification Points:
+              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold mb-2.5">
+                Verified 40-Point Diagnostic Checklist:
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
                 {[
-                  'Clean ESN & Unlocked (CheckMEND Database)',
-                  'Face ID / Biometric Sensor Fully Responsive',
-                  'Original Display Assembly & TrueTone Calibrated',
-                  '5G Sub-6 & mmWave Modem Radio Bands Tested',
-                  'Dual Mic Noise-Cancellation & Loudspeakers',
-                  'Wireless Qi & High-Wattage Wired Fast Charge',
-                  'IP68 Submersion Chamber Pressure Test Passed',
-                  'Cameras Auto-Focus, OIS & Telephoto Alignment'
+                  'Clean ESN & Unlocked (CheckMEND Database Passed)',
+                  'Biometric Sensor & Face ID Latency Under 150ms',
+                  'Original OLED Assembly & TrueTone Calibrated',
+                  '5G Sub-6 & mmWave Radio Transceivers Tested',
+                  'Dual Noise-Canceling Microphones & Speakers',
+                  'Qi Wireless & Fast Wired Charging Rate Verified',
+                  'IP68 Hermetic Barometric Chamber Seal Passed',
+                  'Camera Sensors OIS, Lidar & Telephoto Alignment'
                 ].map((check, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-2 p-2 rounded-lg bg-[#010409] border border-slate-800/80 text-slate-300"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-black/30 border border-white/5 text-slate-300"
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span className="text-[11px]">{check}</span>
                   </div>
                 ))}
@@ -666,44 +817,49 @@ export const StorefrontView: React.FC = () => {
 
             {/* Technical Specifications */}
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold mb-2.5">
                 Factory Specifications:
               </h4>
-              <div className="p-3 bg-[#010409] rounded-xl border border-slate-800 font-mono text-xs space-y-1.5 text-slate-300">
+              <div className="p-4 bg-black/30 rounded-2xl border border-white/5 font-mono text-xs space-y-2 text-slate-300">
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Display:</span>
-                  <span>{selectedProduct.specs.screen}</span>
+                  <span className="text-slate-400">Display:</span>
+                  <span className="font-semibold text-white">{selectedProduct.specs.screen}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Processor:</span>
-                  <span>{selectedProduct.specs.chipset}</span>
+                  <span className="text-slate-400">Processor:</span>
+                  <span className="font-semibold text-white">{selectedProduct.specs.chipset}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Memory:</span>
-                  <span>{selectedProduct.specs.ram}</span>
+                  <span className="text-slate-400">Memory & Storage:</span>
+                  <span className="font-semibold text-white">{selectedProduct.specs.ram} RAM • {selectedProduct.storageGb}GB</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Camera System:</span>
-                  <span>{selectedProduct.specs.camera}</span>
+                  <span className="text-slate-400">Camera System:</span>
+                  <span className="font-semibold text-white">{selectedProduct.specs.camera}</span>
                 </div>
               </div>
             </div>
 
             {/* In The Box */}
-            <div className="text-xs font-mono text-slate-400">
-              <span className="font-bold text-slate-300">In the box: </span>
+            <div className="text-xs text-slate-400 font-mono bg-white/5 p-3 rounded-xl border border-white/5">
+              <span className="font-bold text-white">Included Accessories: </span>
               {selectedProduct.inTheBox.join(' • ')}
             </div>
 
             {/* Modal Actions */}
-            <div className="flex items-center justify-between pt-4 border-t border-slate-800">
-              <div className="text-lg font-black text-white font-mono">
-                {formatZar(selectedProduct.priceZar)}
+            <div className="flex items-center justify-between pt-4 border-t border-white/10">
+              <div>
+                <div className="text-2xl font-bold text-white tracking-tight">
+                  {formatZar(selectedProduct.priceZar)}
+                </div>
+                <div className="text-xs text-slate-400">
+                  or {formatZar(selectedProduct.monthlyFinancingZar || Math.round(selectedProduct.priceZar / 12))}/mo x 12
+                </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <button
                   onClick={() => setSelectedProduct(null)}
-                  className="px-4 py-2 rounded-lg bg-slate-900 text-slate-300 text-xs font-mono hover:bg-slate-800"
+                  className="px-5 py-2.5 rounded-full bg-white/5 text-slate-300 text-xs font-medium hover:bg-white/10 transition-colors"
                 >
                   Close
                 </button>
@@ -713,9 +869,9 @@ export const StorefrontView: React.FC = () => {
                     setSelectedProduct(null);
                   }}
                   disabled={selectedProduct.status !== 'AVAILABLE'}
-                  className="px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs font-mono transition-colors"
+                  className="px-6 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-xs tracking-wide transition-all shadow-md shadow-blue-500/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Add to Cart & Lock Stock
+                  Add to Bag & Hold Stock
                 </button>
               </div>
             </div>

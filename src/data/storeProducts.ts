@@ -2,6 +2,10 @@ import { InventoryPhone } from '../types';
 
 export interface StoreProduct extends InventoryPhone {
   tagline: string;
+  imageUrl: string;
+  galleryImages: string[];
+  colorSwatches: { name: string; hex: string }[];
+  monthlyFinancingZar: number;
   specs: {
     screen: string;
     chipset: string;
@@ -32,11 +36,24 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     batteryHealthPct: 98,
     cosmeticRating: 10,
     priceZar: 22499,
+    monthlyFinancingZar: 1875,
     warehouseLocation: 'CPT-WH-01 / BIN-A-12',
     status: 'AVAILABLE',
-    tagline: 'Grade A+ Pristine condition with zero micro-scratches. 100% genuine Apple components.',
+    tagline: 'Grade A+ Pristine condition. Aerospace-grade titanium chassis with zero scratches. 100% genuine Apple components.',
     category: 'smartphones',
     imageColorHex: '#9ca3af',
+    imageUrl: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85',
+      'https://images.unsplash.com/photo-1695048065057-2ff2284931a7?auto=format&fit=crop&w=1000&q=85',
+      'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1000&q=85'
+    ],
+    colorSwatches: [
+      { name: 'Natural Titanium', hex: '#9ca3af' },
+      { name: 'Blue Titanium', hex: '#334155' },
+      { name: 'White Titanium', hex: '#e2e8f0' },
+      { name: 'Black Titanium', hex: '#18181b' }
+    ],
     batteryCycleCount: 42,
     originalPartVerified: true,
     warrantyMonths: 12,
@@ -68,11 +85,22 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     batteryHealthPct: 94,
     cosmeticRating: 9,
     priceZar: 19999,
+    monthlyFinancingZar: 1666,
     warehouseLocation: 'JHB-WH-02 / BIN-C-05',
     status: 'AVAILABLE',
     tagline: 'Near-mint condition with integrated S-Pen stylus and Galaxy AI suite enabled.',
     category: 'smartphones',
     imageColorHex: '#1e293b',
+    imageUrl: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=85',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=85',
+      'https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=1000&q=85'
+    ],
+    colorSwatches: [
+      { name: 'Titanium Black', hex: '#1e293b' },
+      { name: 'Titanium Gray', hex: '#71717a' },
+      { name: 'Titanium Violet', hex: '#581c87' }
+    ],
     batteryCycleCount: 110,
     originalPartVerified: true,
     warrantyMonths: 12,
@@ -104,11 +132,22 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     batteryHealthPct: 89,
     cosmeticRating: 8,
     priceZar: 14499,
+    monthlyFinancingZar: 1208,
     warehouseLocation: 'CPT-WH-01 / BIN-B-29',
     status: 'AVAILABLE',
     tagline: 'Light signs of wear along bezel; screen flawless with matte protector. Exceptional camera value.',
     category: 'smartphones',
     imageColorHex: '#38bdf8',
+    imageUrl: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=1000&q=85',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=1000&q=85',
+      'https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=1000&q=85'
+    ],
+    colorSwatches: [
+      { name: 'Bay Blue', hex: '#38bdf8' },
+      { name: 'Obsidian', hex: '#0f172a' },
+      { name: 'Porcelain', hex: '#f8fafc' }
+    ],
     batteryCycleCount: 215,
     originalPartVerified: true,
     warrantyMonths: 6,
@@ -140,11 +179,23 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     batteryHealthPct: 96,
     cosmeticRating: 10,
     priceZar: 16999,
+    monthlyFinancingZar: 1416,
     warehouseLocation: 'JHB-WH-02 / BIN-A-04',
     status: 'AVAILABLE',
     tagline: 'Iconic Deep Purple edition. Dynamic Island display, tested and certified 100% clean ESN.',
     category: 'smartphones',
     imageColorHex: '#581c87',
+    imageUrl: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1000&q=85',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1000&q=85',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1000&q=85'
+    ],
+    colorSwatches: [
+      { name: 'Deep Purple', hex: '#581c87' },
+      { name: 'Space Black', hex: '#18181b' },
+      { name: 'Silver', hex: '#f1f5f9' },
+      { name: 'Gold', hex: '#fef08a' }
+    ],
     batteryCycleCount: 88,
     originalPartVerified: true,
     warrantyMonths: 12,
@@ -176,11 +227,21 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     batteryHealthPct: 99,
     cosmeticRating: 10,
     priceZar: 15999,
+    monthlyFinancingZar: 1333,
     warehouseLocation: 'CPT-WH-01 / BIN-C-19',
     status: 'AVAILABLE',
     tagline: 'Open-box unit with 100W SuperVOOC rapid charging and 4th Gen Hasselblad camera system.',
     category: 'smartphones',
     imageColorHex: '#18181b',
+    imageUrl: 'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=1000&q=85',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=1000&q=85',
+      'https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=1000&q=85'
+    ],
+    colorSwatches: [
+      { name: 'Silky Black', hex: '#18181b' },
+      { name: 'Flowy Emerald', hex: '#065f46' }
+    ],
     batteryCycleCount: 14,
     originalPartVerified: true,
     warrantyMonths: 12,
@@ -212,11 +273,21 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     batteryHealthPct: 100,
     cosmeticRating: 10,
     priceZar: 34999,
+    monthlyFinancingZar: 2916,
     warehouseLocation: 'JHB-WH-01 / VAULT-02',
     status: 'AVAILABLE',
     tagline: 'Spotless Space Black anodized chassis. 18GB Unified RAM, 100% battery capacity.',
     category: 'tablets',
     imageColorHex: '#27272a',
+    imageUrl: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1000&q=85',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1000&q=85',
+      'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=1000&q=85'
+    ],
+    colorSwatches: [
+      { name: 'Space Black', hex: '#27272a' },
+      { name: 'Silver', hex: '#e2e8f0' }
+    ],
     batteryCycleCount: 19,
     originalPartVerified: true,
     warrantyMonths: 12,
