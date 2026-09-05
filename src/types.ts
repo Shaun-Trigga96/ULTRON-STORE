@@ -1,4 +1,4 @@
-export type ActiveTab = 'architecture' | 'tree' | 'script' | 'readme' | 'gitops-infra';
+export type ActiveTab = 'phase2-sync' | 'tree' | 'script' | 'readme' | 'architecture' | 'gitops-infra';
 
 export interface FileNode {
   id: string;
@@ -20,3 +20,35 @@ export interface ArchitectureComponent {
   specs: string[];
   keyFeature: string;
 }
+
+export interface InventoryPhone {
+  id: string;
+  imei: string;
+  serialNumber: string;
+  brand: string;
+  model: string;
+  storageGb: number;
+  color: string;
+  conditionGrade: 'MINT' | 'GOOD' | 'FAIR';
+  batteryHealthPct: number;
+  cosmeticRating: number; // 1-10
+  priceZar: number;
+  warehouseLocation: string;
+  status: 'AVAILABLE' | 'LOCKED_CHECKOUT_HOLD' | 'RESERVED_PAYMENT_PENDING' | 'SOLD';
+  lockedBySessionId?: string | null;
+  lockedAt?: number | null;
+  lockExpiresAt?: number | null;
+  heartbeatRenewals?: number;
+}
+
+export interface SimulationEventLog {
+  id: string;
+  timestamp: string;
+  eventType: 'lock.acquired' | 'lock.conflict' | 'lock.released' | 'heartbeat.renewed' | 'inventory.sold' | 'websocket.broadcast';
+  imei: string;
+  sessionId: string;
+  actor: string;
+  details: string;
+  badgeColor: 'cyan' | 'emerald' | 'rose' | 'amber' | 'purple';
+}
+

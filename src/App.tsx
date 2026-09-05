@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ActiveTab } from './types';
+import { Phase2MicroservicesView } from './components/Phase2MicroservicesView';
 import { ArchitectureView } from './components/ArchitectureView';
 import { DirectoryTreeView } from './components/DirectoryTreeView';
 import { InitScriptView } from './components/InitScriptView';
@@ -16,11 +17,12 @@ import {
   CheckCircle2,
   Cpu,
   Database,
-  GitBranch
+  GitBranch,
+  Zap
 } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('tree');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('phase2-sync');
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-slate-300 flex flex-col font-sans selection:bg-cyan-900/60 selection:text-cyan-200">
@@ -45,11 +47,14 @@ export default function App() {
 
             {/* Phase Progression Indicators */}
             <div className="hidden lg:flex items-center gap-6 text-xs font-medium uppercase tracking-widest font-mono">
-              <span className="text-cyan-400 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+              <span className="text-emerald-400 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 Phase 01: Repository
               </span>
-              <span className="opacity-40 text-slate-400">Phase 02: Provisioning</span>
+              <span className="text-cyan-400 flex items-center gap-1.5 font-bold">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-sm shadow-cyan-400"></span>
+                Phase 02: Microservices & Real-Time Sync
+              </span>
               <span className="opacity-40 text-slate-400">Phase 03: Deployment</span>
             </div>
 
@@ -73,6 +78,19 @@ export default function App() {
         {/* Deliverables Sub-Navigation Bar */}
         <div className="border-t border-slate-800 bg-[#0d1117]/80 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-2 overflow-x-auto py-2">
+            <button
+              onClick={() => setActiveTab('phase2-sync')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                activeTab === 'phase2-sync'
+                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm shadow-cyan-500/20'
+                  : 'text-cyan-400 bg-cyan-950/30 border border-cyan-500/30 hover:text-white hover:bg-cyan-900/40'
+              }`}
+            >
+              <Zap className="w-4 h-4 text-cyan-400" />
+              <span>Phase 2: Microservices & Real-Time Sync</span>
+              <span className="px-1.5 py-0.2 rounded text-[10px] bg-cyan-400 text-slate-950 font-black">NEW</span>
+            </button>
+
             <button
               onClick={() => setActiveTab('tree')}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
@@ -138,6 +156,7 @@ export default function App() {
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {activeTab === 'phase2-sync' && <Phase2MicroservicesView />}
         {activeTab === 'tree' && <DirectoryTreeView />}
         {activeTab === 'script' && <InitScriptView />}
         {activeTab === 'readme' && <ReadmeView />}
