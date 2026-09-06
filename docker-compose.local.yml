@@ -3,18 +3,17 @@ version: '3.8'
 services:
   # Ingress / Gateway Simulation
   ingress-proxy:
-    build:
-      context: ./services/gateway
-      dockerfile: Dockerfile
+    image: nginx:alpine
     container_name: ultron-ingress
     ports:
       - "8080:80"
+    volumes:
+      - ./services/gateway/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - catalog-service
       - inventory-service
       - order-service
       - payment-service
-      - frontend-store
 
   # Microservice 1: Inventory (Real-Time Redis Sync for IMEI / Device Grade)
   inventory-service:
@@ -22,8 +21,6 @@ services:
       context: ./services/inventory-service
       dockerfile: Dockerfile
     container_name: ultron-inventory
-    ports:
-      - "4001:4001"
     environment:
       - PORT=4001
       - REDIS_HOST=redis
@@ -32,6 +29,8 @@ services:
       - DB_NAME=ultrondb
       - DB_USER=appuser
       - DB_PASSWORD=devsecret
+    expose:
+      - "4001"
     depends_on:
       - redis
       - postgres
@@ -42,14 +41,14 @@ services:
       context: ./services/catalog-service
       dockerfile: Dockerfile
     container_name: ultron-catalog
-    ports:
-      - "4002:4002"
     environment:
       - PORT=4002
       - DB_HOST=postgres
       - DB_NAME=ultrondb
       - DB_USER=appuser
       - DB_PASSWORD=devsecret
+    expose:
+      - "4002"
     depends_on:
       - postgres
 
@@ -59,8 +58,6 @@ services:
       context: ./services/order-service
       dockerfile: Dockerfile
     container_name: ultron-order
-    ports:
-      - "4003:4003"
     environment:
       - PORT=4003
       - DB_HOST=postgres
@@ -68,6 +65,8 @@ services:
       - DB_USER=appuser
       - DB_PASSWORD=devsecret
       - INVENTORY_URL=http://inventory-service:4001
+    expose:
+      - "4003"
     depends_on:
       - postgres
       - inventory-service
@@ -78,14 +77,20 @@ services:
       context: ./services/payment-service
       dockerfile: Dockerfile
     container_name: ultron-payment
-    ports:
-      - "4004:4004"
     environment:
       - PORT=4004
       - STRIPE_SECRET_KEY=sk_test_mock_dummy
       - WEBHOOK_SECRET=whsec_mock_dummy
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=ultrondb
+      - DB_USER=appuser
+      - DB_PASSWORD=devsecret
+    expose:
+      - "4004"
+    depends_on:
+      - postgres
 
-  # Customer Frontend Store
   frontend-store:
     build:
       context: ./services/frontend-store
@@ -105,11 +110,14 @@ services:
   postgres:
     image: postgres:15-alpine
     container_name: ultron-postgres
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: ultrondb
       POSTGRES_USER: appuser
       POSTGRES_PASSWORD: devsecret
+    ports:
+      - "5432:5432"
     volumes:
-      - ./services/inventory-service/src/schema/database.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - pgdata:/var/lib/postgresql/data
+      - ./services/inventory-service/src/schema/02-inventory-schema.sql:/docker-entrypoint-initdb.d/init.sql:ro
+volumes:
+  pgdata:

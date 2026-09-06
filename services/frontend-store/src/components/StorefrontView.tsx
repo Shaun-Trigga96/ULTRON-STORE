@@ -56,7 +56,7 @@ export const StorefrontView: React.FC = () => {
   useEffect(() => {
     const fetchLiveInventory = async () => {
       try {
-        const res = await fetch(`${backendUrl}/api/v1/inventory`);
+        const res = await fetch(`${backendUrl}/api/v1/inventory/phones`);
         if (!res.ok) throw new Error('Gateway returned ' + res.status);
         const json = await res.json();
         
