@@ -34,7 +34,10 @@ import {
   Eye,
   BadgeCheck,
   MapPin,
-  ArrowRight
+  ArrowRight,
+  User,
+  LogOut,
+  ListOrdered
 } from 'lucide-react';
 
 export const StorefrontView: React.FC = () => {
