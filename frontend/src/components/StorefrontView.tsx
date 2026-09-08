@@ -348,73 +348,66 @@ export const StorefrontView: React.FC = () => {
 
   return (
     <div className="space-y-12 pb-16">
-      {/* Top Banner: Apple-Style Storefront Header & Redlock Status */}
-      <div className="bg-transparent border-b border-slate-200 dark:border-white/10 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-colors duration-300">
+      {/* Top Header */}
+      <div className="bg-transparent border-b border-black/[0.06] dark:border-white/10 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-colors duration-300">
         <div className="flex items-center gap-4">
-          <div className="flex items-center">
-            <UltronLogo variant="icon" size="md" className="h-10 w-auto" />
-          </div>
+          <UltronLogo variant="icon" size="md" className="h-9 w-auto" />
           <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-base font-semibold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-                <span>ULTRON</span>
-                <span className="text-slate-500 dark:text-slate-400 font-normal">Certified Pre-Owned Store</span>
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h2 className="text-[17px] font-semibold text-[#1d1d1f] dark:text-white tracking-tight">
+                ULTRON
               </h2>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-800 dark:bg-slate-200 animate-pulse"></span>
-                ORIGINAL OEM HARDWARE GUARANTEED
-              </span>
+              <span className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">Certified pre-owned store</span>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Every device passes 40-point hardware tests. 10-minute Redis Redlock guarantees exclusive stock holding during checkout.
+            <p className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] mt-0.5">
+              Every device passes a 40-point inspection, with your stock held for 10 minutes at checkout.
             </p>
           </div>
         </div>
 
-        
-        <div className="flex items-center gap-3 shrink-0">
-          {/* Auth Buttons */}
+        <div className="flex items-center gap-2.5 shrink-0">
           {authToken ? (
-            <div className="flex items-center gap-3 mr-2 border-r border-slate-200 dark:border-white/10 pr-4">
-              <button 
+            <div className="flex items-center gap-1 mr-1">
+              <button
                 onClick={() => setShowOrderHistory(true)}
-                className="px-3 py-1.5 text-[11px] font-bold text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-900 dark:text-white flex items-center gap-1.5 transition-colors"
+                className="px-3 py-2 text-[13px] font-medium text-[#1d1d1f] dark:text-[#f5f5f7] hover:bg-black/5 dark:hover:bg-white/10 rounded-full flex items-center gap-1.5 transition-colors"
               >
-                <ListOrdered className="w-3.5 h-3.5" /> My Orders
+                <ListOrdered className="w-4 h-4" /> Orders
               </button>
-              <button 
+              <button
                 onClick={() => { setAuthToken(null); localStorage.removeItem('token'); setUserProfile(null); }}
-                className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                title="Sign Out"
+                className="p-2 text-[#6e6e73] dark:text-[#a1a1a6] hover:text-[#1d1d1f] dark:hover:text-white rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                title="Sign out"
               >
                 <LogOut className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <button 
+            <button
               onClick={() => setShowAuthModal(true)}
-              className="mr-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-cyan-950/40 border border-slate-200 dark:border-cyan-500 text-slate-700 dark:text-cyan-300 text-[11px] font-bold hover:bg-slate-200 dark:hover:bg-cyan-900 transition-colors flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-full text-[13px] font-medium text-[#1d1d1f] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors flex items-center gap-1.5"
             >
-              <User className="w-3.5 h-3.5" /> Sign In
+              <User className="w-4 h-4" /> Sign in
             </button>
           )}
 
           <button
             onClick={() => setIsServerModalOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-700 dark:text-slate-700 dark:text-slate-300 transition-colors"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-[12px] text-[#6e6e73] dark:text-[#a1a1a6] transition-colors"
+            title="Backend connection settings"
           >
-            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-slate-700 dark:text-slate-700 dark:text-slate-300' : 'text-blue-600 dark:text-blue-400'}`} />
-            <span>Server: {serverStatus}</span>
+            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-[#1d7a3c]' : 'text-[#86868b]'}`} />
+            <span>{serverStatus === 'CONNECTED' ? 'Live' : 'Demo mode'}</span>
           </button>
 
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium text-xs transition-all shadow-md shadow-blue-500/20 active:scale-95"
+            className="relative flex items-center gap-2 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium text-[13px] transition-all active:scale-95"
           >
             <ShoppingBag className="w-4 h-4" />
             <span>Bag</span>
             {cart.length > 0 && (
-              <span className="w-5 h-5 rounded-full bg-white text-[#0071e3] text-[11px] font-bold font-mono flex items-center justify-center ml-0.5">
+              <span className="w-5 h-5 rounded-full bg-white text-[#0071e3] text-[11px] font-semibold flex items-center justify-center ml-0.5">
                 {cart.length}
               </span>
             )}
@@ -422,48 +415,41 @@ export const StorefrontView: React.FC = () => {
         </div>
       </div>
 
-      {/* Apple Keynote Style Hero Feature Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#fafafa] to-white dark:from-[#1c1c1e] dark:to-black border border-slate-200 dark:border-slate-200 dark:border-white/5 p-10 sm:p-16 lg:p-20 shadow-2xl transition-colors duration-300">
+      {/* Hero */}
+      <div className="relative overflow-hidden rounded-[28px] bg-[#fbfbfd] dark:bg-[#1c1c1e] p-10 sm:p-16 lg:p-20 transition-colors duration-300">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          {/* Hero Typography & Highlights */}
-          <div className="lg:col-span-7 space-y-5 z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Certified Flagship Showcase</span>
+          <div className="lg:col-span-7 space-y-6 z-10">
+            <div className="text-[15px] font-medium text-[#6e6e73] dark:text-[#a1a1a6]">
+              Apple iPhone 15 Pro Max
             </div>
 
-            <div>
-              <div className="text-xs uppercase font-mono tracking-widest text-slate-500 dark:text-slate-400 font-bold mb-1">
-                Apple iPhone 15 Pro Max
-              </div>
-              <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-                Titanium. So strong. So light. So Pro.
-              </h1>
-            </div>
+            <h1 className="text-4xl sm:text-6xl font-semibold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.05]">
+              Titanium. So strong.<br className="hidden sm:block" /> So light. So Pro.
+            </h1>
 
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-700 dark:text-slate-300 max-w-xl leading-relaxed font-normal">
-              Acquire certified Grade A+ Mint condition with genuine Apple Super Retina XDR OLED, Action Button, and 98% OEM battery capacity. Backed by our 12-Month zero-deductible replacement warranty.
+            <p className="text-base sm:text-lg text-[#6e6e73] dark:text-[#a1a1a6] max-w-lg leading-relaxed">
+              Certified Grade A+ mint condition, genuine Super Retina XDR display, and 98% original battery capacity — backed by a 12-month replacement warranty.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-700 dark:text-slate-700 dark:text-slate-300 font-sans pt-1">
-              <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
-                <ShieldCheck className="w-4 h-4 text-slate-700 dark:text-slate-700 dark:text-slate-300" />
-                40-Point Diagnostic Passed
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+              <span className="flex items-center gap-1.5 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.06] px-3 py-1.5 rounded-full">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                40-point inspection
               </span>
-              <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
-                <Truck className="w-4 h-4 text-slate-700 dark:text-slate-700 dark:text-slate-300" />
-                Free Overnight Courier Guy
+              <span className="flex items-center gap-1.5 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.06] px-3 py-1.5 rounded-full">
+                <Truck className="w-3.5 h-3.5" />
+                Free overnight delivery
               </span>
-              <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
-                <RotateCcw className="w-4 h-4 text-slate-700 dark:text-slate-700 dark:text-slate-300" />
-                7-Day Money-Back Guarantee
+              <span className="flex items-center gap-1.5 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.06] px-3 py-1.5 rounded-full">
+                <RotateCcw className="w-3.5 h-3.5" />
+                7-day returns
               </span>
             </div>
 
-            <div className="pt-3 flex flex-wrap items-center gap-4">
+            <div className="pt-4 flex flex-wrap items-center gap-5">
               <div>
-                <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">R22,499</span>
-                <span className="text-xs text-slate-500 dark:text-slate-400 ml-2">or R1,875/mo x 12</span>
+                <span className="text-2xl font-semibold text-[#1d1d1f] dark:text-white tracking-tight">R22,499</span>
+                <span className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] ml-2">or R1,875/mo for 12 months</span>
               </div>
 
               <div className="flex items-center gap-3">
@@ -472,10 +458,9 @@ export const StorefrontView: React.FC = () => {
                     const heroProduct = products.find((p) => p.id === 'ph_01') || products[0];
                     handleAddToCart(heroProduct);
                   }}
-                  className="px-6 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold tracking-wide transition-all shadow-lg shadow-blue-500/25 active:scale-95 flex items-center gap-2"
+                  className="px-6 py-3 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[15px] font-medium transition-all active:scale-95"
                 >
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>Hold Stock (10-Min Reserve)</span>
+                  Hold this device
                 </button>
                 <button
                   onClick={() => {
@@ -483,109 +468,101 @@ export const StorefrontView: React.FC = () => {
                     setSelectedProduct(heroProduct);
                     setActiveModalImage(heroProduct.imageUrl);
                   }}
-                  className="px-5 py-2.5 rounded-full bg-slate-200 dark:bg-white/10 hover:bg-slate-300 dark:hover:bg-white/15 border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white text-xs font-medium transition-all flex items-center gap-2"
+                  className="px-5 py-3 rounded-full text-[#0071e3] text-[15px] font-medium hover:underline transition-all flex items-center gap-1"
                 >
-                  <Eye className="w-3.5 h-3.5 text-slate-700 dark:text-slate-700 dark:text-slate-300" />
-                  <span>Inspect Tech Specs</span>
+                  <span>View specs</span>
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Hero Studio Image Display */}
+          {/* Hero Studio Image */}
           <div className="lg:col-span-5 flex justify-center relative">
             <div className="relative w-full max-w-sm">
-              {/* Subtle spotlight glow */}
-              <div className="absolute inset-0 bg-slate-200/50 dark:bg-white/5 blur-3xl rounded-full transform scale-90 pointer-events-none"></div>
               <img
                 src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85"
                 alt="Apple iPhone 15 Pro Max Natural Titanium"
                 referrerPolicy="no-referrer"
-                className="relative z-10 w-full max-h-80 sm:max-h-96 object-contain filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-transform duration-700 hover:scale-105"
+                className="relative z-10 w-full max-h-80 sm:max-h-96 object-contain filter drop-shadow-[0_30px_60px_rgba(0,0,0,0.12)] dark:drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] transition-transform duration-700 hover:scale-105"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1000&q=85';
                 }}
               />
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white/90 dark:bg-black/70 backdrop-blur-md border border-slate-200 dark:border-white/10 px-3.5 py-1.5 rounded-full text-[11px] font-mono text-slate-800 dark:text-slate-700 dark:text-slate-300 whitespace-nowrap shadow-xl z-20 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-slate-800 dark:bg-slate-200"></span>
-                <span>Natural Titanium • 256GB • Grade A+</span>
+              <div className="text-center mt-3 text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">
+                Natural Titanium · 256GB · Grade A+
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Catalog Search & Filtering Bar (Apple iStore Clean Strip) */}
-      <div className="bg-transparent border-b border-slate-200 dark:border-white/10 pb-8 space-y-5 transition-colors duration-300">
-        <div className="flex flex-col md:flex-row items-center gap-4">
-          {/* Search Input */}
+      {/* Search & filters */}
+      <div className="bg-transparent border-b border-black/[0.06] dark:border-white/10 pb-8 space-y-5 transition-colors duration-300">
+        <div className="flex flex-col md:flex-row items-center gap-3">
           <div className="relative w-full md:flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
             <input
               type="text"
-              placeholder="Search by device model, brand (Apple, Samsung, Google), or IMEI..."
+              placeholder="Search by model, brand, or IMEI"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-4 py-2.5 bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full pl-11 pr-4 py-3 bg-[#f5f5f7] dark:bg-white/[0.06] rounded-full text-[14px] text-[#1d1d1f] dark:text-white placeholder-[#86868b] outline-none focus:ring-2 focus:ring-[#0071e3]/20 transition-colors"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-900 dark:text-white text-xs"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#0071e3] text-[13px] font-medium"
               >
                 Clear
               </button>
             )}
           </div>
 
-          {/* Condition Grade Filter */}
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <span className="text-xs text-slate-500 dark:text-slate-400 shrink-0 font-medium">Condition:</span>
             <select
               value={selectedGrade}
               onChange={(e) => setSelectedGrade(e.target.value)}
-              className="bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 w-full md:w-auto"
+              className="bg-[#f5f5f7] dark:bg-white/[0.06] rounded-full px-4 py-3 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] outline-none w-full md:w-auto"
             >
-              <option value="ALL">All Certified Grades</option>
-              <option value="MINT">Mint (100% Flawless)</option>
-              <option value="GOOD">Good (Light Wear)</option>
-              <option value="FAIR">Fair (Best Value)</option>
+              <option value="ALL">Any condition</option>
+              <option value="MINT">Mint</option>
+              <option value="GOOD">Good</option>
+              <option value="FAIR">Fair</option>
             </select>
           </div>
 
-          {/* Sort By */}
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <span className="text-xs text-slate-500 dark:text-slate-400 shrink-0 font-medium">Sort:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 w-full md:w-auto"
+              className="bg-[#f5f5f7] dark:bg-white/[0.06] rounded-full px-4 py-3 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] outline-none w-full md:w-auto"
             >
-              <option value="featured">Featured First</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="battery">Battery Health %</option>
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="battery">Battery health</option>
             </select>
           </div>
         </div>
 
-        {/* Brand Tabs (Apple Navigation Pills) */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 border-t border-slate-200 dark:border-slate-200 dark:border-white/5 pt-3 text-xs">
+        {/* Brand tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 text-[13px]">
           {['ALL', 'Apple', 'Samsung', 'Google', 'OnePlus'].map((brand) => (
             <button
               key={brand}
               onClick={() => setSelectedBrand(brand)}
-              className={`px-4 py-1.5 rounded-full font-medium transition-all whitespace-nowrap text-xs border ${
+              className={`px-4 py-1.5 rounded-full font-medium transition-all whitespace-nowrap ${
                 selectedBrand.toUpperCase() === brand.toUpperCase()
-                  ? 'bg-slate-900 dark:bg-white text-slate-900 dark:text-white dark:text-black font-semibold shadow-sm border-transparent'
-                  : 'bg-white dark:bg-white/5 text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-white/10 border-slate-200 dark:border-slate-200 dark:border-white/5'
+                  ? 'bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f]'
+                  : 'bg-[#f5f5f7] dark:bg-white/[0.06] text-[#1d1d1f] dark:text-[#f5f5f7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12]'
               }`}
             >
-              {brand === 'ALL' ? 'All Flagships' : brand}
+              {brand === 'ALL' ? 'All devices' : brand}
             </button>
           ))}
-          <span className="ml-auto text-xs text-slate-500 dark:text-slate-400 font-mono">
-            {filteredProducts.length} verified devices available
+          <span className="ml-auto text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] whitespace-nowrap">
+            {filteredProducts.length} available
           </span>
         </div>
       </div>
@@ -600,60 +577,53 @@ export const StorefrontView: React.FC = () => {
           return (
             <div
               key={product.id}
-              className="bg-white dark:bg-[#121212] border border-slate-200 dark:border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-[#424245] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
+              className="bg-white dark:bg-[#1d1d1f] rounded-[22px] overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
             >
               {/* Product Visual Container */}
-              <div className="relative h-64 bg-gradient-to-b from-[#fafafa] to-[#f5f5f5] dark:from-[#18181a] dark:to-[#101010] p-8 flex items-center justify-center border-b border-slate-100 dark:border-slate-200 dark:border-white/5 overflow-hidden">
+              <div className="relative h-64 bg-[#f5f5f7] dark:bg-[#141414] p-8 flex items-center justify-center overflow-hidden">
                 {/* Status Badge */}
-                <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5">
+                <div className="absolute top-4 left-4 z-20">
                   <span
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-wide uppercase ${
+                    className={`px-2.5 py-1 rounded-full text-[11px] font-medium flex items-center gap-1.5 ${
                       isAvailable
-                        ? 'bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10'
+                        ? 'bg-white/90 dark:bg-black/50 text-[#1d7a3c]'
                         : isHeldInCart
-                        ? 'bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10'
-                        : 'bg-slate-50 dark:bg-[#1c1c1e] text-slate-500 dark:text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-200 dark:border-white/5'
+                        ? 'bg-white/90 dark:bg-black/50 text-[#0071e3]'
+                        : 'bg-white/90 dark:bg-black/50 text-[#86868b]'
                     }`}
                   >
-                    {isAvailable ? '● IN STOCK' : isHeldInCart ? '🔒 RESERVED' : '✕ SOLD OUT'}
+                    <span className={`w-1.5 h-1.5 rounded-full ${isAvailable ? 'bg-[#1d7a3c]' : isHeldInCart ? 'bg-[#0071e3]' : 'bg-[#86868b]'}`} />
+                    {isAvailable ? 'In stock' : isHeldInCart ? 'Reserved' : 'Sold out'}
                   </span>
                 </div>
 
                 {/* Grade Badge */}
                 <div className="absolute top-4 right-4 z-20">
-                  <span
-                    className="px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wide bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10"
-                  >
-                    GRADE {product.conditionGrade}
+                  <span className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-white/90 dark:bg-black/50 text-[#1d1d1f] dark:text-[#f5f5f7]">
+                    Grade {product.conditionGrade}
                   </span>
                 </div>
-
-                {/* Ambient Device Backdrop Glow */}
-                <div
-                  className="absolute inset-0 opacity-25 blur-3xl pointer-events-none rounded-full transform scale-75"
-                  style={{ backgroundColor: product.imageColorHex }}
-                />
 
                 {/* Real High-Resolution Studio Device Photograph */}
                 <img
                   src={product.imageUrl}
                   alt={`${product.brand} ${product.model}`}
                   referrerPolicy="no-referrer"
-                  className="relative z-10 h-48 w-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:scale-105"
+                  className="relative z-10 h-48 w-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80';
                   }}
                 />
 
                 {/* Battery Pill */}
-                <div className="absolute bottom-3.5 left-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-2.5 py-1 text-[11px] font-mono text-emerald-400 flex items-center gap-1.5 shadow-md">
-                  <BatteryCharging className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>{product.batteryHealthPct}% Health</span>
+                <div className="absolute bottom-3.5 left-4 z-20 bg-white/90 dark:bg-black/50 rounded-full px-2.5 py-1 text-[11px] font-medium text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center gap-1.5">
+                  <BatteryCharging className="w-3.5 h-3.5 text-[#1d7a3c]" />
+                  <span>{product.batteryHealthPct}%</span>
                 </div>
 
                 {/* Warehouse Location Pill */}
-                <div className="absolute bottom-3.5 right-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-2.5 py-1 text-[11px] font-mono text-slate-700 dark:text-slate-300 flex items-center gap-1.5 shadow-md">
-                  <MapPin className="w-3 h-3 text-blue-400" />
+                <div className="absolute bottom-3.5 right-4 z-20 bg-white/90 dark:bg-black/50 rounded-full px-2.5 py-1 text-[11px] font-medium text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center gap-1.5">
+                  <MapPin className="w-3 h-3 text-[#0071e3]" />
                   <span>{product.warehouseLocation.split('/')[0].trim()}</span>
                 </div>
               </div>
@@ -661,62 +631,60 @@ export const StorefrontView: React.FC = () => {
               {/* Product Info & Specification */}
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
-                  {/* Color Swatches */}
                   <div className="flex items-center gap-1.5 mb-2">
                     {product.colorSwatches && product.colorSwatches.length > 0 ? (
                       product.colorSwatches.map((swatch, idx) => (
                         <span
                           key={idx}
                           title={swatch.name}
-                          className="w-3.5 h-3.5 rounded-full border border-white/20 shadow-sm"
+                          className="w-3.5 h-3.5 rounded-full ring-1 ring-black/10 dark:ring-white/20"
                           style={{ backgroundColor: swatch.hex }}
                         />
                       ))
                     ) : (
                       <span
-                        className="w-3.5 h-3.5 rounded-full border border-white/20 shadow-sm"
+                        className="w-3.5 h-3.5 rounded-full ring-1 ring-black/10 dark:ring-white/20"
                         style={{ backgroundColor: product.imageColorHex }}
                       />
                     )}
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium ml-1">
+                    <span className="text-[12px] text-[#6e6e73] dark:text-[#a1a1a6] ml-1">
                       {product.color}
                     </span>
                   </div>
 
-                  <div className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
-                    {product.brand} • {product.storageGb}GB
+                  <div className="text-[12px] text-[#6e6e73] dark:text-[#a1a1a6]">
+                    {product.brand} · {product.storageGb}GB
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight group-hover:text-slate-600 dark:group-hover:text-slate-700 dark:text-slate-300 transition-colors mt-0.5">
+                  <h3 className="text-xl font-semibold text-[#1d1d1f] dark:text-white tracking-tight mt-0.5">
                     {product.model}
                   </h3>
 
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 line-clamp-2 leading-relaxed font-normal">
+                  <p className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] mt-1.5 line-clamp-2 leading-relaxed">
                     {product.tagline}
                   </p>
 
-                  <div className="mt-3.5 py-1.5 px-3 bg-slate-50 dark:bg-slate-100 dark:bg-black/30 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/5 font-mono text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
-                    <span>IMEI:</span>
-                    <span className="text-slate-900 dark:text-slate-200 font-bold tracking-wider">{product.imei}</span>
+                  <div className="mt-3.5 py-2 px-3 bg-[#f5f5f7] dark:bg-white/[0.06] rounded-lg text-[12px] text-[#6e6e73] dark:text-[#a1a1a6] flex items-center justify-between">
+                    <span>IMEI</span>
+                    <span className="text-[#1d1d1f] dark:text-[#f5f5f7] font-medium">{product.imei}</span>
                   </div>
                 </div>
 
                 {/* Price and Financing Actions */}
-                <div className="pt-3 border-t border-slate-200 dark:border-white/10">
+                <div className="pt-3 border-t border-black/[0.06] dark:border-white/[0.08]">
                   <div className="flex items-baseline justify-between mb-1">
                     <div>
-                      <span className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+                      <span className="text-2xl font-semibold text-[#1d1d1f] dark:text-white tracking-tight">
                         {formatZar(product.priceZar)}
                       </span>
-                      <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono ml-1.5">incl. VAT</span>
                     </div>
-                    <span className="text-[11px] text-slate-600 dark:text-slate-700 dark:text-slate-300 font-medium bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2.5 py-0.5 rounded-full">
-                      12M Warranty
+                    <span className="text-[11px] text-[#6e6e73] dark:text-[#a1a1a6] bg-[#f5f5f7] dark:bg-white/[0.06] px-2.5 py-0.5 rounded-full">
+                      12mo warranty
                     </span>
                   </div>
 
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-4 font-sans">
-                    or from <span className="text-slate-900 dark:text-white font-semibold">{formatZar(product.monthlyFinancingZar || Math.round(product.priceZar / 12))}/mo</span> with 0% interest
+                  <div className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] mb-4">
+                    or {formatZar(product.monthlyFinancingZar || Math.round(product.priceZar / 12))}/mo · 0% interest
                   </div>
 
                   <div className="grid grid-cols-2 gap-2.5">
@@ -725,23 +693,22 @@ export const StorefrontView: React.FC = () => {
                         setSelectedProduct(product);
                         setActiveModalImage(product.imageUrl);
                       }}
-                      className="px-3 py-2.5 rounded-full bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="px-3 py-2.5 rounded-full bg-[#f5f5f7] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/[0.14] text-[13px] font-medium text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors flex items-center justify-center gap-1.5"
                     >
-                      <Eye className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                      <span>Quick Look</span>
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>Quick look</span>
                     </button>
 
                     <button
                       onClick={() => handleAddToCart(product)}
                       disabled={!isAvailable}
-                      className={`px-3 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all flex items-center justify-center gap-1.5 ${
+                      className={`px-3 py-2.5 rounded-full text-[13px] font-medium transition-all flex items-center justify-center gap-1.5 ${
                         isAvailable
-                          ? 'bg-[#0071e3] hover:bg-[#0077ed] text-white shadow-md shadow-blue-500/20 cursor-pointer active:scale-95'
-                          : 'bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-200 dark:border-white/5 cursor-not-allowed'
+                          ? 'bg-[#0071e3] hover:bg-[#0077ed] text-white active:scale-95'
+                          : 'bg-[#f5f5f7] dark:bg-white/[0.06] text-[#86868b] cursor-not-allowed'
                       }`}
                     >
-                      <Lock className="w-3.5 h-3.5" />
-                      <span>{isAvailable ? 'Hold Stock' : isHeldInCart ? 'In Bag' : 'Sold Out'}</span>
+                      <span>{isAvailable ? 'Hold stock' : isHeldInCart ? 'In bag' : 'Sold out'}</span>
                     </button>
                   </div>
                 </div>
@@ -751,85 +718,83 @@ export const StorefrontView: React.FC = () => {
         })}
       </div>
 
-      {/* Cart Drawer / Apple Shopping Bag */}
+      {/* Cart Drawer / Bag */}
       {isCartOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/50 dark:bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-white dark:bg-[#161617] border-l border-slate-200 dark:border-white/10 h-full flex flex-col justify-between shadow-2xl transition-colors duration-300">
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-md bg-white dark:bg-[#1d1d1f] h-full flex flex-col justify-between shadow-2xl transition-colors duration-300">
             {/* Cart Header */}
-            <div className="p-6 border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <ShoppingBag className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">Review Your Bag ({cart.length})</h2>
-              </div>
+            <div className="p-6 border-b border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-[#1d1d1f] dark:text-white tracking-tight">Your bag ({cart.length})</h2>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="p-1.5 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-500 dark:text-slate-400 dark:hover:text-slate-900 dark:text-white dark:hover:bg-white/10 transition-colors"
+                aria-label="Close"
+                className="p-1.5 rounded-full text-[#86868b] hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4.5 h-4.5" />
               </button>
             </div>
 
             {/* Redlock Countdown Timer Banner */}
             {cart.length > 0 && (
-              <div className="bg-slate-50 dark:bg-[#121212] border-b border-slate-200 dark:border-white/10 px-6 py-3 flex items-center justify-between text-xs font-mono text-slate-600 dark:text-slate-500 dark:text-slate-400">
+              <div className="bg-[#f5f5f7] dark:bg-white/[0.04] px-6 py-3 flex items-center justify-between text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-slate-500 dark:text-slate-400" />
-                  <span>Stock Reserved:</span>
+                  <Clock className="w-4 h-4" />
+                  <span>Stock reserved for</span>
                 </div>
-                <span className="font-bold text-slate-900 dark:text-white bg-slate-200 dark:bg-white/10 px-2.5 py-0.5 rounded-full border border-slate-300 dark:border-white/10">
+                <span className="font-medium text-[#1d1d1f] dark:text-white">
                   {formatTime(lockTimeRemaining)}
                 </span>
               </div>
             )}
 
             {/* Cart Items List */}
-            <div className="p-6 flex-1 overflow-y-auto space-y-4">
+            <div className="p-6 flex-1 overflow-y-auto space-y-3">
               {cart.length === 0 ? (
                 <div className="text-center py-20">
-                  <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center mx-auto mb-4 text-slate-500 dark:text-slate-400 dark:text-slate-500">
-                    <ShoppingBag className="w-8 h-8" />
+                  <div className="w-14 h-14 rounded-full bg-[#f5f5f7] dark:bg-white/[0.06] flex items-center justify-center mx-auto mb-4 text-[#86868b]">
+                    <ShoppingBag className="w-6 h-6" />
                   </div>
-                  <p className="text-base text-slate-900 dark:text-white font-medium">Your Bag is empty</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xs mx-auto">
-                    Select a certified pre-owned device from the catalog to test real-time stock holds.
+                  <p className="text-[15px] text-[#1d1d1f] dark:text-white font-medium">Your bag is empty</p>
+                  <p className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] mt-1 max-w-xs mx-auto">
+                    Choose a certified pre-owned device to hold it for checkout.
                   </p>
                 </div>
               ) : (
                 cart.map((item) => (
                   <div
                     key={item.phone.id}
-                    className="p-4 bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl flex items-center justify-between gap-4"
+                    className="p-4 bg-[#f5f5f7] dark:bg-white/[0.04] rounded-2xl flex items-center justify-between gap-4"
                   >
                     <div className="flex items-center gap-3.5">
                       <img
                         src={item.phone.imageUrl}
                         alt={item.phone.model}
                         referrerPolicy="no-referrer"
-                        className="w-14 h-14 object-contain rounded-xl bg-white dark:bg-[#1d1d1f] p-1 border border-slate-200 dark:border-slate-200 dark:border-white/5 shrink-0"
+                        className="w-14 h-14 object-contain rounded-xl bg-white dark:bg-[#1d1d1f] p-1 shrink-0"
                         onError={(e) => {
                           (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80';
                         }}
                       />
                       <div>
-                        <div className="text-sm font-bold text-slate-900 dark:text-white">{item.phone.model}</div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">
-                          {item.phone.storageGb}GB • {item.phone.color}
+                        <div className="text-[14px] font-medium text-[#1d1d1f] dark:text-white">{item.phone.model}</div>
+                        <div className="text-[12px] text-[#6e6e73] dark:text-[#a1a1a6] mt-0.5">
+                          {item.phone.storageGb}GB · {item.phone.color}
                         </div>
-                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono mt-1">
-                          IMEI: {item.phone.imei}
+                        <div className="text-[11px] text-[#86868b] mt-1">
+                          IMEI {item.phone.imei}
                         </div>
                       </div>
                     </div>
 
                     <div className="text-right shrink-0">
-                      <div className="text-sm font-bold text-slate-900 dark:text-white font-mono">
+                      <div className="text-[14px] font-medium text-[#1d1d1f] dark:text-white">
                         {formatZar(item.phone.priceZar)}
                       </div>
                       <button
                         onClick={() => handleRemoveFromCart(item.phone.id)}
-                        className="text-xs text-rose-400 hover:text-rose-300 font-mono mt-1.5 underline cursor-pointer"
+                        className="text-[12px] text-[#0071e3] hover:underline mt-1.5"
                       >
-                        Release Hold
+                        Remove
                       </button>
                     </div>
                   </div>
@@ -839,21 +804,21 @@ export const StorefrontView: React.FC = () => {
 
             {/* Cart Footer */}
             {cart.length > 0 && (
-              <div className="p-6 border-t border-white/10 bg-[#121214] space-y-4">
-                <div className="space-y-2 text-xs text-slate-500 dark:text-slate-400">
+              <div className="p-6 border-t border-black/[0.06] dark:border-white/[0.08] space-y-4">
+                <div className="space-y-2 text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">
                   <div className="flex justify-between">
-                    <span>Subtotal:</span>
-                    <span className="text-slate-200 font-mono font-medium">{formatZar(subtotal)}</span>
+                    <span>Subtotal</span>
+                    <span className="text-[#1d1d1f] dark:text-white font-medium">{formatZar(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Insured Overnight Shipping:</span>
-                    <span className="text-emerald-400 font-medium">
-                      {shippingCost === 0 ? 'FREE (Courier Guy)' : formatZar(shippingCost)}
+                    <span>Delivery</span>
+                    <span className="text-[#1d7a3c] font-medium">
+                      {shippingCost === 0 ? 'Free' : formatZar(shippingCost)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-base font-bold text-slate-900 dark:text-white pt-2.5 border-t border-white/10">
-                    <span>Total:</span>
-                    <span className="text-slate-900 dark:text-white font-mono">{formatZar(total)}</span>
+                  <div className="flex justify-between text-[16px] font-semibold text-[#1d1d1f] dark:text-white pt-2.5 border-t border-black/[0.06] dark:border-white/[0.08]">
+                    <span>Total</span>
+                    <span>{formatZar(total)}</span>
                   </div>
                 </div>
 
@@ -863,9 +828,9 @@ export const StorefrontView: React.FC = () => {
                     setIsCheckoutOpen(true);
                     setCheckoutStep(1);
                   }}
-                  className="w-full py-3.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-xs tracking-wide transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                  className="w-full py-3.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium text-[15px] transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
                 >
-                  <span>Check Out with Insured Delivery</span>
+                  <span>Check out</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
