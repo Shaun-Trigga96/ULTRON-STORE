@@ -1091,7 +1091,7 @@ export const StorefrontView: React.FC = () => {
         setCustomerInfo={setCustomerInfo}
         cardDetails={cardDetails}
         setCardDetails={setCardDetails}
-        handleCheckout={handleCheckout}
+        handleCheckout={handlePlaceOrder}
         cart={cart}
         cartTotal={cartTotal}
       />
