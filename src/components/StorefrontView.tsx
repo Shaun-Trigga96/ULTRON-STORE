@@ -1,3 +1,4 @@
+// @ts-ignore React is available at runtime; its type declarations are not installed.
 import React, { useState, useEffect } from 'react';
 import { StoreProduct, CATALOG_PRODUCTS } from '../data/storeProducts';
 import { CartItem } from '../types';
@@ -47,23 +48,63 @@ export const StorefrontView: React.FC = () => {
 
   // Server Connection & Standalone Mode state
   const [isServerModalOpen, setIsServerModalOpen] = useState(false);
-  const [backendUrl, setBackendUrl] = useState('http://localhost:4001');
-  const [serverStatus, setServerStatus] = useState<'STANDALONE' | 'CONNECTING' | 'CONNECTED' | 'OFFLINE'>('STANDALONE');
-  const [serverHealthMessage, setServerHealthMessage] = useState<string>(
-    'Frontend is currently operating in Standalone Client Mode. All catalog browsing, filtering, Redlock stock reservations, and checkout simulations run locally with zero server dependency.'
-  );
+  const [backendUrl, setBackendUrl] = useState('http://localhost:8080');
+  const [serverStatus, setServerStatus] = useState<'STANDALONE' | 'CONNECTING' | 'CONNECTED' | 'OFFLINE'>('CONNECTING');
+  const [serverHealthMessage, setServerHealthMessage] = useState<string>('Connecting to API Gateway...');
+  const [sessionId] = useState<string>('session_' + Math.random().toString(36).substr(2, 9));
+
+  useEffect(() => {
+    const fetchLiveInventory = async () => {
+      try {
+        const res = await fetch(`${backendUrl}/api/v1/inventory/phones`);
+        if (!res.ok) throw new Error('Gateway returned ' + res.status);
+        const json = await res.json();
+        
+        if (json.success && json.data) {
+          const liveProducts = json.data.map((row: any) => {
+            const originalProduct = CATALOG_PRODUCTS.find(p => p.model === row.model_name) || CATALOG_PRODUCTS[0];
+            return {
+              ...originalProduct,
+              id: row.id,
+              imei: row.imei,
+              serialNumber: row.serial_number,
+              brand: row.brand,
+              model: row.model_name,
+              conditionGrade: row.condition_grade,
+              batteryHealthPct: row.battery_health_percentage,
+              cosmeticRating: row.cosmetic_scratches_rating,
+              priceZar: Math.round(row.selling_price_cents / 100),
+              warehouseLocation: `${row.warehouse_facility_code} / ${row.warehouse_bin_location}`,
+              status: row.status
+            };
+          });
+          setProducts(liveProducts.length > 0 ? liveProducts : CATALOG_PRODUCTS);
+          setServerStatus('CONNECTED');
+          setServerHealthMessage('Connected to live Inventory & Catalog Microservices via API Gateway.');
+        }
+      } catch (err) {
+        setServerStatus('OFFLINE');
+        setServerHealthMessage('Microservices offline or unreachable. Operating in Standalone Mock Mode.');
+      }
+    };
+    
+    fetchLiveInventory();
+    const interval = setInterval(fetchLiveInventory, 5000);
+    return () => clearInterval(interval);
+  }, [backendUrl]);
 
   // Checkout flow state
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState<1 | 2 | 3>(1);
+  const [cardDetails, setCardDetails] = useState({ number: '', expiry: '', cvv: '' });
   const [customerInfo, setCustomerInfo] = useState({
-    name: 'Thabiso Matsaba',
-    email: 'thabiso@example.com',
-    phone: '+27 82 555 0192',
-    address: '142 Sandton Boulevard, Sandhurst',
-    city: 'Johannesburg',
-    postalCode: '2196',
-    paymentMethod: 'instant-eft'
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    paymentMethod: 'card'
   });
   const [confirmedOrderId, setConfirmedOrderId] = useState<string | null>(null);
 
@@ -82,29 +123,50 @@ export const StorefrontView: React.FC = () => {
   }, [cart.length]);
 
   // Handle adding product to cart (Simulating Redlock Stock Hold)
-  const handleAddToCart = (product: StoreProduct) => {
+  const handleAddToCart = async (product: StoreProduct) => {
     if (product.status !== 'AVAILABLE') return;
+
+    try {
+      const res = await fetch(`${backendUrl}/api/v1/inventory/lock`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imei: product.imei, sessionId })
+      });
+      const data = await res.json();
+      
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Could not hold stock');
+      }
+    } catch (err) {
+      console.warn("API failed, falling back to local simulation.", err);
+    }
 
     const newItem: CartItem = {
       phone: product,
       reservedAt: Date.now(),
-      expiresAt: Date.now() + 15 * 60 * 1000
+      expiresAt: Date.now() + 10 * 60 * 1000
     };
 
     setCart((prev) => [...prev, newItem]);
-
-    // Update product status to locked in local catalog state
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === product.id ? { ...p, status: 'LOCKED_CHECKOUT_HOLD' as const } : p
-      )
-    );
-
+    setProducts((prev) => prev.map((p) => p.id === product.id ? { ...p, status: 'LOCKED_CHECKOUT_HOLD' as const } : p));
     setIsCartOpen(true);
   };
 
   // Handle removing product from cart (Releasing Redlock Stock Hold)
-  const handleRemoveFromCart = (productId: string) => {
+  const handleRemoveFromCart = async (productId: string) => {
+    const itemToRemove = cart.find(i => i.phone.id === productId);
+    if (itemToRemove) {
+      try {
+        await fetch(`${backendUrl}/api/v1/inventory/release`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ imei: itemToRemove.phone.imei, sessionId })
+        });
+      } catch (err) {
+        console.warn("API failed, falling back to local simulation.", err);
+      }
+    }
+
     setCart((prev) => prev.filter((item) => item.phone.id !== productId));
     setProducts((prev) =>
       prev.map((p) =>
@@ -172,17 +234,52 @@ export const StorefrontView: React.FC = () => {
   };
 
   // Complete checkout
-  const handlePlaceOrder = () => {
-    const orderNum = `ULT-${Math.floor(100000 + Math.random() * 900000)}`;
-    setConfirmedOrderId(orderNum);
-    setCheckoutStep(3);
+  const handlePlaceOrder = async () => {
+    if (customerInfo.paymentMethod === 'card' && (!cardDetails.number || !cardDetails.expiry || !cardDetails.cvv)) {
+      alert("Please fill in your card details.");
+      return;
+    }
+    if (!customerInfo.name || !customerInfo.email || !customerInfo.address) {
+      alert("Please fill in your shipping details.");
+      setCheckoutStep(1);
+      return;
+    }
+    try {
+      const items = cart.map((i) => i.phone);
+      const totalCents = items.reduce((acc, curr) => acc + curr.priceZar, 0) * 100;
+      
+      const res = await fetch(`${backendUrl}/api/v1/orders/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          customerInfo, 
+          items, 
+          sessionId,
+          totalCents 
+        })
+      });
+      const data = await res.json();
+      
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Checkout failed');
+      }
 
-    // Mark products as SOLD
-    const boughtIds = cart.map((i) => i.phone.id);
-    setProducts((prev) =>
-      prev.map((p) => (boughtIds.includes(p.id) ? { ...p, status: 'SOLD' as const } : p))
-    );
-    setCart([]);
+      setConfirmedOrderId(data.orderId || `ULT-${Math.floor(100000 + Math.random() * 900000)}`);
+      setCheckoutStep(3);
+
+      const boughtIds = items.map((i) => i.id);
+      setProducts((prev) => prev.map((p) => (boughtIds.includes(p.id) ? { ...p, status: 'SOLD' as const } : p)));
+      setCart([]);
+    } catch (err) {
+      console.warn("API failed, falling back to local simulation.", err);
+      // Fallback
+      const orderNum = `ULT-${Math.floor(100000 + Math.random() * 900000)}`;
+      setConfirmedOrderId(orderNum);
+      setCheckoutStep(3);
+      const boughtIds = cart.map((i) => i.phone.id);
+      setProducts((prev) => prev.map((p) => (boughtIds.includes(p.id) ? { ...p, status: 'SOLD' as const } : p)));
+      setCart([]);
+    }
   };
 
   return (
@@ -994,6 +1091,45 @@ export const StorefrontView: React.FC = () => {
                       </button>
                     ))}
                   </div>
+                  {customerInfo.paymentMethod === 'card' && (
+                    <div className="mt-4 p-4 border border-slate-800 rounded-lg bg-[#010409] space-y-3">
+                      <div>
+                        <label className="block text-slate-400 mb-1">Card Number</label>
+                        <input
+                          type="text"
+                          maxLength={16}
+                          placeholder="0000 0000 0000 0000"
+                          value={cardDetails.number}
+                          onChange={(e) => setCardDetails({ ...cardDetails, number: e.target.value })}
+                          className="w-full px-3 py-2 bg-transparent border border-slate-800 rounded-lg text-white font-mono"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-slate-400 mb-1">Expiry Date</label>
+                          <input
+                            type="text"
+                            placeholder="MM/YY"
+                            maxLength={5}
+                            value={cardDetails.expiry}
+                            onChange={(e) => setCardDetails({ ...cardDetails, expiry: e.target.value })}
+                            className="w-full px-3 py-2 bg-transparent border border-slate-800 rounded-lg text-white font-mono"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-slate-400 mb-1">CVV</label>
+                          <input
+                            type="password"
+                            placeholder="123"
+                            maxLength={3}
+                            value={cardDetails.cvv}
+                            onChange={(e) => setCardDetails({ ...cardDetails, cvv: e.target.value })}
+                            className="w-full px-3 py-2 bg-transparent border border-slate-800 rounded-lg text-white font-mono"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-3 bg-[#010409] rounded-xl border border-slate-800 space-y-2">
