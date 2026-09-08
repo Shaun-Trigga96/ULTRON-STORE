@@ -1,7 +1,8 @@
 const http = require('http');
 const { pool, query } = require('./db');
 const PORT = process.env.PORT || 4003;
-const INVENTORY_URL = process.env.INVENTORY_URL || 'http://localhost:4001'; // Not actually needed if using nginx gateway, but internal is better. Wait, we should use inventory-service:4001 internally.
+const INVENTORY_URL = process.env.INVENTORY_URL || 'http://localhost:4001';
+const PAYMENT_URL = process.env.PAYMENT_URL || 'http://localhost:4004'; // Not actually needed if using nginx gateway, but internal is better. Wait, we should use inventory-service:4001 internally.
 
 function sendJson(res, statusCode, data) {
   res.writeHead(statusCode, {
@@ -64,14 +65,32 @@ const server = http.createServer(async (req, res) => {
         );
         const orderId = orderRows[0].id;
 
-        // 2. Insert Order Items & Commit Sale in Inventory
+        // 2. Call Payment Service
+        const paymentRes = await fetch(`${PAYMENT_URL}/api/v1/payments/process`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Idempotency-Key': 'idem_' + orderId // In reality frontend should send this
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            amountCents: totalCents,
+            providerName: customerInfo.paymentMethod || 'CARD'
+          })
+        });
+        
+        const paymentData = await paymentRes.json();
+        if (!paymentRes.ok || !paymentData.success) {
+          throw new Error('Payment Authorization Failed: ' + (paymentData.error || 'Unknown error'));
+        }
+
+        // 3. Insert Order Items & Commit Sale in Inventory
         for (const item of items) {
           await client.query(
             `INSERT INTO ultron_orders.order_items (order_id, inventory_item_id, imei, price_cents) VALUES ($1, $2, $3, $4)`,
-            [orderId, item.id, item.imei, item.priceZar * 100] // id here maps to inventory item id if we fetched it, but wait: the frontend sends the whole phone object.
+            [orderId, item.id, item.imei, item.priceZar * 100]
           );
 
-          // We must communicate with Inventory Service to transition from LOCKED_CHECKOUT_HOLD to SOLD
           const invRes = await fetch(`${INVENTORY_URL}/api/v1/inventory/commit-sale`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

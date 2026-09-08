@@ -77,6 +77,7 @@ services:
       - DB_USER=appuser
       - DB_PASSWORD=devsecret
       - INVENTORY_URL=http://inventory-service:4001
+      - PAYMENT_URL=http://payment-service:4004
     depends_on:
       - postgres
       - inventory-service

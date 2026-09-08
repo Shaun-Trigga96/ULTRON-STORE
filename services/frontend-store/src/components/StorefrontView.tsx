@@ -96,14 +96,15 @@ export const StorefrontView: React.FC = () => {
   // Checkout flow state
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState<1 | 2 | 3>(1);
+  const [cardDetails, setCardDetails] = useState({ number: '', expiry: '', cvv: '' });
   const [customerInfo, setCustomerInfo] = useState({
-    name: 'Thabiso Matsaba',
-    email: 'thabiso@example.com',
-    phone: '+27 82 555 0192',
-    address: '142 Sandton Boulevard, Sandhurst',
-    city: 'Johannesburg',
-    postalCode: '2196',
-    paymentMethod: 'instant-eft'
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    paymentMethod: 'card'
   });
   const [confirmedOrderId, setConfirmedOrderId] = useState<string | null>(null);
 
@@ -234,6 +235,15 @@ export const StorefrontView: React.FC = () => {
 
   // Complete checkout
   const handlePlaceOrder = async () => {
+    if (customerInfo.paymentMethod === 'card' && (!cardDetails.number || !cardDetails.expiry || !cardDetails.cvv)) {
+      alert("Please fill in your card details.");
+      return;
+    }
+    if (!customerInfo.name || !customerInfo.email || !customerInfo.address) {
+      alert("Please fill in your shipping details.");
+      setCheckoutStep(1);
+      return;
+    }
     try {
       const items = cart.map((i) => i.phone);
       const totalCents = items.reduce((acc, curr) => acc + curr.priceZar, 0) * 100;
@@ -1081,6 +1091,45 @@ export const StorefrontView: React.FC = () => {
                       </button>
                     ))}
                   </div>
+                  {customerInfo.paymentMethod === 'card' && (
+                    <div className="mt-4 p-4 border border-slate-800 rounded-lg bg-[#010409] space-y-3">
+                      <div>
+                        <label className="block text-slate-400 mb-1">Card Number</label>
+                        <input
+                          type="text"
+                          maxLength={16}
+                          placeholder="0000 0000 0000 0000"
+                          value={cardDetails.number}
+                          onChange={(e) => setCardDetails({ ...cardDetails, number: e.target.value })}
+                          className="w-full px-3 py-2 bg-transparent border border-slate-800 rounded-lg text-white font-mono"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-slate-400 mb-1">Expiry Date</label>
+                          <input
+                            type="text"
+                            placeholder="MM/YY"
+                            maxLength={5}
+                            value={cardDetails.expiry}
+                            onChange={(e) => setCardDetails({ ...cardDetails, expiry: e.target.value })}
+                            className="w-full px-3 py-2 bg-transparent border border-slate-800 rounded-lg text-white font-mono"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-slate-400 mb-1">CVV</label>
+                          <input
+                            type="password"
+                            placeholder="123"
+                            maxLength={3}
+                            value={cardDetails.cvv}
+                            onChange={(e) => setCardDetails({ ...cardDetails, cvv: e.target.value })}
+                            className="w-full px-3 py-2 bg-transparent border border-slate-800 rounded-lg text-white font-mono"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-3 bg-[#010409] rounded-xl border border-slate-800 space-y-2">
