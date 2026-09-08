@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   # API Gateway / Ingress Router
@@ -15,8 +14,6 @@ services:
       - order-service
       - payment-service
       - frontend-store
-    networks:
-      - ultron-network
 
   # Microservice 1: Inventory (Redis Redlock & Real-Time Stock)
   inventory-service:
@@ -40,8 +37,6 @@ services:
     depends_on:
       - redis
       - postgres
-    networks:
-      - ultron-network
 
   # Microservice 2: Catalog (Devices, Grades, 40-Point Diagnostics)
   catalog-service:
@@ -59,8 +54,6 @@ services:
       - DB_PASSWORD=devsecret
     depends_on:
       - postgres
-    networks:
-      - ultron-network
 
   # Microservice 3: Order Service (Checkout, Stock Locks, Fulfillment)
   order-service:
@@ -81,8 +74,6 @@ services:
     depends_on:
       - postgres
       - inventory-service
-    networks:
-      - ultron-network
 
   user-service:
     build: ./services/user-service
@@ -98,8 +89,6 @@ services:
       - "4005:4005"
     depends_on:
       - postgres
-    networks:
-      - ultron-network
 
   # Microservice 4: Payment Service (Instant EFT, Cards, Lightning, Idempotency)
   payment-service:
@@ -119,8 +108,6 @@ services:
       - WEBHOOK_SECRET=whsec_mock_dummy
     depends_on:
       - postgres
-    networks:
-      - ultron-network
 
   # Customer Frontend Store (Vite React SPA)
   frontend-store:
@@ -132,8 +119,6 @@ services:
       - "3001:80"
     environment:
       - VITE_API_GATEWAY_URL=http://localhost:8080
-    networks:
-      - ultron-network
 
   # Redis 7 (In-Memory Sub-millisecond Redlock & Pub/Sub)
   redis:
@@ -143,8 +128,6 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    networks:
-      - ultron-network
 
   # PostgreSQL 15 (Source Database with ULTRON Schemas)
   postgres:
@@ -162,8 +145,6 @@ services:
       - ./services/inventory-service/src/schema/02-inventory-schema.sql:/docker-entrypoint-initdb.d/02-inventory.sql:ro
       - ./services/order-service/src/schema/03-orders-schema.sql:/docker-entrypoint-initdb.d/03-orders.sql:ro
       - ./services/payment-service/src/schema/04-payments-schema.sql:/docker-entrypoint-initdb.d/04-payments.sql:ro
-    networks:
-      - ultron-network
 
 volumes:
   redis_data:
