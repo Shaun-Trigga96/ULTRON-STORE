@@ -354,7 +354,7 @@ export const StorefrontView: React.FC = () => {
                 <span>ULTRON</span>
                 <span className="text-slate-500 dark:text-slate-400 font-normal">Certified Pre-Owned Store</span>
               </h2>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 flex items-center gap-1.5">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-800 dark:bg-slate-200 animate-pulse"></span>
                 ORIGINAL OEM HARDWARE GUARANTEED
               </span>
@@ -365,12 +365,39 @@ export const StorefrontView: React.FC = () => {
           </div>
         </div>
 
+        
         <div className="flex items-center gap-3 shrink-0">
+          {/* Auth Buttons */}
+          {authToken ? (
+            <div className="flex items-center gap-3 mr-2 border-r border-slate-200 dark:border-white/10 pr-4">
+              <button 
+                onClick={() => setShowOrderHistory(true)}
+                className="px-3 py-1.5 text-[11px] font-bold text-slate-600 dark:text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-900 dark:text-white flex items-center gap-1.5 transition-colors"
+              >
+                <ListOrdered className="w-3.5 h-3.5" /> My Orders
+              </button>
+              <button 
+                onClick={() => { setAuthToken(null); localStorage.removeItem('token'); setUserProfile(null); }}
+                className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                title="Sign Out"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <button 
+              onClick={() => setShowAuthModal(true)}
+              className="mr-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-cyan-950/40 border border-slate-200 dark:border-cyan-500 text-slate-700 dark:text-cyan-300 text-[11px] font-bold hover:bg-slate-200 dark:hover:bg-cyan-900 transition-colors flex items-center gap-1.5"
+            >
+              <User className="w-3.5 h-3.5" /> Sign In
+            </button>
+          )}
+
           <button
             onClick={() => setIsServerModalOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-700 dark:text-slate-300 transition-colors"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-700 dark:text-slate-700 dark:text-slate-300 transition-colors"
           >
-            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-slate-700 dark:text-slate-300' : 'text-blue-600 dark:text-blue-400'}`} />
+            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-slate-700 dark:text-slate-700 dark:text-slate-300' : 'text-blue-600 dark:text-blue-400'}`} />
             <span>Server: {serverStatus}</span>
           </button>
 
@@ -390,7 +417,7 @@ export const StorefrontView: React.FC = () => {
       </div>
 
       {/* Apple Keynote Style Hero Feature Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#fafafa] to-white dark:from-[#1c1c1e] dark:to-black border border-slate-200 dark:border-white/5 p-10 sm:p-16 lg:p-20 shadow-2xl transition-colors duration-300">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#fafafa] to-white dark:from-[#1c1c1e] dark:to-black border border-slate-200 dark:border-slate-200 dark:border-white/5 p-10 sm:p-16 lg:p-20 shadow-2xl transition-colors duration-300">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Hero Typography & Highlights */}
           <div className="lg:col-span-7 space-y-5 z-10">
@@ -408,21 +435,21 @@ export const StorefrontView: React.FC = () => {
               </h1>
             </div>
 
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-700 dark:text-slate-300 max-w-xl leading-relaxed font-normal">
               Acquire certified Grade A+ Mint condition with genuine Apple Super Retina XDR OLED, Action Button, and 98% OEM battery capacity. Backed by our 12-Month zero-deductible replacement warranty.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-700 dark:text-slate-300 font-sans pt-1">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-700 dark:text-slate-700 dark:text-slate-300 font-sans pt-1">
               <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
-                <ShieldCheck className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+                <ShieldCheck className="w-4 h-4 text-slate-700 dark:text-slate-700 dark:text-slate-300" />
                 40-Point Diagnostic Passed
               </span>
               <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
-                <Truck className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+                <Truck className="w-4 h-4 text-slate-700 dark:text-slate-700 dark:text-slate-300" />
                 Free Overnight Courier Guy
               </span>
               <span className="flex items-center gap-1.5 bg-slate-200/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-full">
-                <RotateCcw className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+                <RotateCcw className="w-4 h-4 text-slate-700 dark:text-slate-700 dark:text-slate-300" />
                 7-Day Money-Back Guarantee
               </span>
             </div>
@@ -452,7 +479,7 @@ export const StorefrontView: React.FC = () => {
                   }}
                   className="px-5 py-2.5 rounded-full bg-slate-200 dark:bg-white/10 hover:bg-slate-300 dark:hover:bg-white/15 border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white text-xs font-medium transition-all flex items-center gap-2"
                 >
-                  <Eye className="w-3.5 h-3.5 text-slate-700 dark:text-slate-300" />
+                  <Eye className="w-3.5 h-3.5 text-slate-700 dark:text-slate-700 dark:text-slate-300" />
                   <span>Inspect Tech Specs</span>
                 </button>
               </div>
@@ -473,7 +500,7 @@ export const StorefrontView: React.FC = () => {
                   (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1000&q=85';
                 }}
               />
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white/90 dark:bg-black/70 backdrop-blur-md border border-slate-200 dark:border-white/10 px-3.5 py-1.5 rounded-full text-[11px] font-mono text-slate-800 dark:text-slate-300 whitespace-nowrap shadow-xl z-20 flex items-center gap-2">
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white/90 dark:bg-black/70 backdrop-blur-md border border-slate-200 dark:border-white/10 px-3.5 py-1.5 rounded-full text-[11px] font-mono text-slate-800 dark:text-slate-700 dark:text-slate-300 whitespace-nowrap shadow-xl z-20 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-slate-800 dark:bg-slate-200"></span>
                 <span>Natural Titanium • 256GB • Grade A+</span>
               </div>
@@ -487,7 +514,7 @@ export const StorefrontView: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center gap-4">
           {/* Search Input */}
           <div className="relative w-full md:flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400" />
             <input
               type="text"
               placeholder="Search by device model, brand (Apple, Samsung, Google), or IMEI..."
@@ -498,7 +525,7 @@ export const StorefrontView: React.FC = () => {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white text-xs"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-900 dark:text-white text-xs"
               >
                 Clear
               </button>
@@ -537,15 +564,15 @@ export const StorefrontView: React.FC = () => {
         </div>
 
         {/* Brand Tabs (Apple Navigation Pills) */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 border-t border-slate-200 dark:border-white/5 pt-3 text-xs">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 border-t border-slate-200 dark:border-slate-200 dark:border-white/5 pt-3 text-xs">
           {['ALL', 'Apple', 'Samsung', 'Google', 'OnePlus'].map((brand) => (
             <button
               key={brand}
               onClick={() => setSelectedBrand(brand)}
               className={`px-4 py-1.5 rounded-full font-medium transition-all whitespace-nowrap text-xs border ${
                 selectedBrand.toUpperCase() === brand.toUpperCase()
-                  ? 'bg-slate-900 dark:bg-white text-white dark:text-black font-semibold shadow-sm border-transparent'
-                  : 'bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/10 border-slate-200 dark:border-white/5'
+                  ? 'bg-slate-900 dark:bg-white text-slate-900 dark:text-white dark:text-black font-semibold shadow-sm border-transparent'
+                  : 'bg-white dark:bg-white/5 text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-white/10 border-slate-200 dark:border-slate-200 dark:border-white/5'
               }`}
             >
               {brand === 'ALL' ? 'All Flagships' : brand}
@@ -567,19 +594,19 @@ export const StorefrontView: React.FC = () => {
           return (
             <div
               key={product.id}
-              className="bg-white dark:bg-[#121212] border border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-[#424245] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
+              className="bg-white dark:bg-[#121212] border border-slate-200 dark:border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-[#424245] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
             >
               {/* Product Visual Container */}
-              <div className="relative h-64 bg-gradient-to-b from-[#fafafa] to-[#f5f5f5] dark:from-[#18181a] dark:to-[#101010] p-8 flex items-center justify-center border-b border-slate-100 dark:border-white/5 overflow-hidden">
+              <div className="relative h-64 bg-gradient-to-b from-[#fafafa] to-[#f5f5f5] dark:from-[#18181a] dark:to-[#101010] p-8 flex items-center justify-center border-b border-slate-100 dark:border-slate-200 dark:border-white/5 overflow-hidden">
                 {/* Status Badge */}
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5">
                   <span
                     className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-wide uppercase ${
                       isAvailable
-                        ? 'bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-300 border border-slate-200 dark:border-white/10'
+                        ? 'bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10'
                         : isHeldInCart
-                        ? 'bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-300 border border-slate-200 dark:border-white/10'
-                        : 'bg-slate-50 dark:bg-[#1c1c1e] text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-white/5'
+                        ? 'bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10'
+                        : 'bg-slate-50 dark:bg-[#1c1c1e] text-slate-500 dark:text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-200 dark:border-white/5'
                     }`}
                   >
                     {isAvailable ? '● IN STOCK' : isHeldInCart ? '🔒 RESERVED' : '✕ SOLD OUT'}
@@ -589,7 +616,7 @@ export const StorefrontView: React.FC = () => {
                 {/* Grade Badge */}
                 <div className="absolute top-4 right-4 z-20">
                   <span
-                    className="px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wide bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10"
+                    className="px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wide bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10"
                   >
                     GRADE {product.conditionGrade}
                   </span>
@@ -619,7 +646,7 @@ export const StorefrontView: React.FC = () => {
                 </div>
 
                 {/* Warehouse Location Pill */}
-                <div className="absolute bottom-3.5 right-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-2.5 py-1 text-[11px] font-mono text-slate-300 flex items-center gap-1.5 shadow-md">
+                <div className="absolute bottom-3.5 right-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-2.5 py-1 text-[11px] font-mono text-slate-700 dark:text-slate-300 flex items-center gap-1.5 shadow-md">
                   <MapPin className="w-3 h-3 text-blue-400" />
                   <span>{product.warehouseLocation.split('/')[0].trim()}</span>
                 </div>
@@ -654,7 +681,7 @@ export const StorefrontView: React.FC = () => {
                     {product.brand} • {product.storageGb}GB
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors mt-0.5">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight group-hover:text-slate-600 dark:group-hover:text-slate-700 dark:text-slate-300 transition-colors mt-0.5">
                     {product.model}
                   </h3>
 
@@ -662,7 +689,7 @@ export const StorefrontView: React.FC = () => {
                     {product.tagline}
                   </p>
 
-                  <div className="mt-3.5 py-1.5 px-3 bg-slate-50 dark:bg-black/30 rounded-xl border border-slate-200 dark:border-white/5 font-mono text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
+                  <div className="mt-3.5 py-1.5 px-3 bg-slate-50 dark:bg-slate-100 dark:bg-black/30 rounded-xl border border-slate-200 dark:border-slate-200 dark:border-white/5 font-mono text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
                     <span>IMEI:</span>
                     <span className="text-slate-900 dark:text-slate-200 font-bold tracking-wider">{product.imei}</span>
                   </div>
@@ -677,7 +704,7 @@ export const StorefrontView: React.FC = () => {
                       </span>
                       <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono ml-1.5">incl. VAT</span>
                     </div>
-                    <span className="text-[11px] text-slate-600 dark:text-slate-300 font-medium bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2.5 py-0.5 rounded-full">
+                    <span className="text-[11px] text-slate-600 dark:text-slate-700 dark:text-slate-300 font-medium bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2.5 py-0.5 rounded-full">
                       12M Warranty
                     </span>
                   </div>
@@ -704,7 +731,7 @@ export const StorefrontView: React.FC = () => {
                       className={`px-3 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all flex items-center justify-center gap-1.5 ${
                         isAvailable
                           ? 'bg-[#0071e3] hover:bg-[#0077ed] text-white shadow-md shadow-blue-500/20 cursor-pointer active:scale-95'
-                          : 'bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-white/5 cursor-not-allowed'
+                          : 'bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-200 dark:border-white/5 cursor-not-allowed'
                       }`}
                     >
                       <Lock className="w-3.5 h-3.5" />
@@ -730,7 +757,7 @@ export const StorefrontView: React.FC = () => {
               </div>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="p-1.5 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10 transition-colors"
+                className="p-1.5 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-500 dark:text-slate-400 dark:hover:text-slate-900 dark:text-white dark:hover:bg-white/10 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -738,7 +765,7 @@ export const StorefrontView: React.FC = () => {
 
             {/* Redlock Countdown Timer Banner */}
             {cart.length > 0 && (
-              <div className="bg-slate-50 dark:bg-[#121212] border-b border-slate-200 dark:border-white/10 px-6 py-3 flex items-center justify-between text-xs font-mono text-slate-600 dark:text-slate-400">
+              <div className="bg-slate-50 dark:bg-[#121212] border-b border-slate-200 dark:border-white/10 px-6 py-3 flex items-center justify-between text-xs font-mono text-slate-600 dark:text-slate-500 dark:text-slate-400">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                   <span>Stock Reserved:</span>
@@ -753,7 +780,7 @@ export const StorefrontView: React.FC = () => {
             <div className="p-6 flex-1 overflow-y-auto space-y-4">
               {cart.length === 0 ? (
                 <div className="text-center py-20">
-                  <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center mx-auto mb-4 text-slate-400 dark:text-slate-500">
+                  <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center mx-auto mb-4 text-slate-500 dark:text-slate-400 dark:text-slate-500">
                     <ShoppingBag className="w-8 h-8" />
                   </div>
                   <p className="text-base text-slate-900 dark:text-white font-medium">Your Bag is empty</p>
@@ -772,7 +799,7 @@ export const StorefrontView: React.FC = () => {
                         src={item.phone.imageUrl}
                         alt={item.phone.model}
                         referrerPolicy="no-referrer"
-                        className="w-14 h-14 object-contain rounded-xl bg-white dark:bg-[#1d1d1f] p-1 border border-slate-200 dark:border-white/5 shrink-0"
+                        className="w-14 h-14 object-contain rounded-xl bg-white dark:bg-[#1d1d1f] p-1 border border-slate-200 dark:border-slate-200 dark:border-white/5 shrink-0"
                         onError={(e) => {
                           (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80';
                         }}
@@ -789,7 +816,7 @@ export const StorefrontView: React.FC = () => {
                     </div>
 
                     <div className="text-right shrink-0">
-                      <div className="text-sm font-bold text-white font-mono">
+                      <div className="text-sm font-bold text-slate-900 dark:text-white font-mono">
                         {formatZar(item.phone.priceZar)}
                       </div>
                       <button
@@ -807,7 +834,7 @@ export const StorefrontView: React.FC = () => {
             {/* Cart Footer */}
             {cart.length > 0 && (
               <div className="p-6 border-t border-white/10 bg-[#121214] space-y-4">
-                <div className="space-y-2 text-xs text-slate-400">
+                <div className="space-y-2 text-xs text-slate-500 dark:text-slate-400">
                   <div className="flex justify-between">
                     <span>Subtotal:</span>
                     <span className="text-slate-200 font-mono font-medium">{formatZar(subtotal)}</span>
@@ -818,9 +845,9 @@ export const StorefrontView: React.FC = () => {
                       {shippingCost === 0 ? 'FREE (Courier Guy)' : formatZar(shippingCost)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-base font-bold text-white pt-2.5 border-t border-white/10">
+                  <div className="flex justify-between text-base font-bold text-slate-900 dark:text-white pt-2.5 border-t border-white/10">
                     <span>Total:</span>
-                    <span className="text-white font-mono">{formatZar(total)}</span>
+                    <span className="text-slate-900 dark:text-white font-mono">{formatZar(total)}</span>
                   </div>
                 </div>
 
@@ -856,23 +883,23 @@ export const StorefrontView: React.FC = () => {
                     100% PASSED
                   </span>
                 </div>
-                <h3 className="text-2xl font-bold text-white mt-2 tracking-tight">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-2 tracking-tight">
                   {selectedProduct.brand} {selectedProduct.model}
                 </h3>
-                <p className="text-xs text-slate-400 font-mono mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">
                   IMEI: {selectedProduct.imei} • Serial: {selectedProduct.serialNumber} • Grade {selectedProduct.conditionGrade}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedProduct(null)}
-                className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-white/10 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Device Studio Photo Showcase & Angles */}
-            <div className="bg-gradient-to-b from-[#1d1d1f] to-[#121214] rounded-2xl p-6 border border-white/5 flex flex-col items-center justify-center relative overflow-hidden">
+            <div className="bg-gradient-to-b from-[#1d1d1f] to-[#121214] rounded-2xl p-6 border border-slate-200 dark:border-white/5 flex flex-col items-center justify-center relative overflow-hidden">
               <div
                 className="absolute inset-0 opacity-20 blur-3xl pointer-events-none rounded-full"
                 style={{ backgroundColor: selectedProduct.imageColorHex }}
@@ -916,32 +943,32 @@ export const StorefrontView: React.FC = () => {
 
             {/* Battery & Health Stats */}
             <div className="grid grid-cols-3 gap-3 font-mono text-center">
-              <div className="p-4 bg-black/30 rounded-2xl border border-white/5">
-                <div className="text-[10px] text-slate-400 font-bold tracking-wider">BATTERY HEALTH</div>
+              <div className="p-4 bg-slate-100 dark:bg-black/30 rounded-2xl border border-slate-200 dark:border-white/5">
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold tracking-wider">BATTERY HEALTH</div>
                 <div className="text-2xl font-bold text-emerald-400 mt-1">
                   {selectedProduct.batteryHealthPct}%
                 </div>
-                <div className="text-[10px] text-slate-400 mt-0.5">OEM Peak Capacity</div>
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">OEM Peak Capacity</div>
               </div>
-              <div className="p-4 bg-black/30 rounded-2xl border border-white/5">
-                <div className="text-[10px] text-slate-400 font-bold tracking-wider">CYCLE COUNT</div>
+              <div className="p-4 bg-slate-100 dark:bg-black/30 rounded-2xl border border-slate-200 dark:border-white/5">
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold tracking-wider">CYCLE COUNT</div>
                 <div className="text-2xl font-bold text-blue-400 mt-1">
                   {selectedProduct.batteryCycleCount}
                 </div>
-                <div className="text-[10px] text-slate-400 mt-0.5">Low Degradation</div>
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Low Degradation</div>
               </div>
-              <div className="p-4 bg-black/30 rounded-2xl border border-white/5">
-                <div className="text-[10px] text-slate-400 font-bold tracking-wider">COSMETIC SCORE</div>
+              <div className="p-4 bg-slate-100 dark:bg-black/30 rounded-2xl border border-slate-200 dark:border-white/5">
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold tracking-wider">COSMETIC SCORE</div>
                 <div className="text-2xl font-bold text-amber-400 mt-1">
                   {selectedProduct.cosmeticRating}/10
                 </div>
-                <div className="text-[10px] text-slate-400 mt-0.5">Grade {selectedProduct.conditionGrade} Mint</div>
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Grade {selectedProduct.conditionGrade} Mint</div>
               </div>
             </div>
 
             {/* Inspection Checklist */}
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold mb-2.5">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold mb-2.5">
                 Verified 40-Point Diagnostic Checklist:
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
@@ -957,7 +984,7 @@ export const StorefrontView: React.FC = () => {
                 ].map((check, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-black/30 border border-white/5 text-slate-300"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-100 dark:bg-black/30 border border-slate-200 dark:border-white/5 text-slate-700 dark:text-slate-300"
                   >
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span className="text-[11px]">{check}</span>
@@ -968,49 +995,49 @@ export const StorefrontView: React.FC = () => {
 
             {/* Technical Specifications */}
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold mb-2.5">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold mb-2.5">
                 Factory Specifications:
               </h4>
-              <div className="p-4 bg-black/30 rounded-2xl border border-white/5 font-mono text-xs space-y-2 text-slate-300">
+              <div className="p-4 bg-slate-100 dark:bg-black/30 rounded-2xl border border-slate-200 dark:border-white/5 font-mono text-xs space-y-2 text-slate-700 dark:text-slate-300">
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Display:</span>
-                  <span className="font-semibold text-white">{selectedProduct.specs.screen}</span>
+                  <span className="text-slate-500 dark:text-slate-400">Display:</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">{selectedProduct.specs.screen}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Processor:</span>
-                  <span className="font-semibold text-white">{selectedProduct.specs.chipset}</span>
+                  <span className="text-slate-500 dark:text-slate-400">Processor:</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">{selectedProduct.specs.chipset}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Memory & Storage:</span>
-                  <span className="font-semibold text-white">{selectedProduct.specs.ram} RAM • {selectedProduct.storageGb}GB</span>
+                  <span className="text-slate-500 dark:text-slate-400">Memory & Storage:</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">{selectedProduct.specs.ram} RAM • {selectedProduct.storageGb}GB</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Camera System:</span>
-                  <span className="font-semibold text-white">{selectedProduct.specs.camera}</span>
+                  <span className="text-slate-500 dark:text-slate-400">Camera System:</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">{selectedProduct.specs.camera}</span>
                 </div>
               </div>
             </div>
 
             {/* In The Box */}
-            <div className="text-xs text-slate-400 font-mono bg-white/5 p-3 rounded-xl border border-white/5">
-              <span className="font-bold text-white">Included Accessories: </span>
+            <div className="text-xs text-slate-500 dark:text-slate-400 font-mono bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5">
+              <span className="font-bold text-slate-900 dark:text-white">Included Accessories: </span>
               {selectedProduct.inTheBox.join(' • ')}
             </div>
 
             {/* Modal Actions */}
             <div className="flex items-center justify-between pt-4 border-t border-white/10">
               <div>
-                <div className="text-2xl font-bold text-white tracking-tight">
+                <div className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
                   {formatZar(selectedProduct.priceZar)}
                 </div>
-                <div className="text-xs text-slate-400">
+                <div className="text-xs text-slate-500 dark:text-slate-400">
                   or {formatZar(selectedProduct.monthlyFinancingZar || Math.round(selectedProduct.priceZar / 12))}/mo x 12
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setSelectedProduct(null)}
-                  className="px-5 py-2.5 rounded-full bg-white/5 text-slate-300 text-xs font-medium hover:bg-white/10 transition-colors"
+                  className="px-5 py-2.5 rounded-full bg-white/5 text-slate-700 dark:text-slate-300 text-xs font-medium hover:bg-white/10 transition-colors"
                 >
                   Close
                 </button>
@@ -1035,27 +1062,27 @@ export const StorefrontView: React.FC = () => {
       {/* Auth Modal */}
       {showAuthModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-sm bg-[#0d1117] border border-slate-800 rounded-2xl p-6 shadow-2xl">
+          <div className="w-full max-w-sm bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl">
              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-white">{authMode === 'login' ? 'Sign In' : 'Create Account'}</h3>
-                <button onClick={() => setShowAuthModal(false)} className="text-slate-400 hover:text-white"><X className="w-5 h-5"/></button>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">{authMode === 'login' ? 'Sign In' : 'Create Account'}</h3>
+                <button onClick={() => setShowAuthModal(false)} className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white"><X className="w-5 h-5"/></button>
              </div>
              <form onSubmit={handleAuth} className="space-y-4">
                 {authMode === 'register' && (
                   <div>
-                    <label className="block text-xs font-mono text-slate-400 mb-1">Full Name</label>
-                    <input type="text" required value={authForm.name} onChange={e => setAuthForm({...authForm, name: e.target.value})} className="w-full bg-[#010409] border border-slate-800 rounded-lg px-3 py-2 text-white font-mono text-sm" />
+                    <label className="block text-xs font-mono text-slate-500 dark:text-slate-400 mb-1">Full Name</label>
+                    <input type="text" required value={authForm.name} onChange={e => setAuthForm({...authForm, name: e.target.value})} className="w-full bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white font-mono text-sm" />
                   </div>
                 )}
                 <div>
-                  <label className="block text-xs font-mono text-slate-400 mb-1">Email Address</label>
-                  <input type="email" required value={authForm.email} onChange={e => setAuthForm({...authForm, email: e.target.value})} className="w-full bg-[#010409] border border-slate-800 rounded-lg px-3 py-2 text-white font-mono text-sm" />
+                  <label className="block text-xs font-mono text-slate-500 dark:text-slate-400 mb-1">Email Address</label>
+                  <input type="email" required value={authForm.email} onChange={e => setAuthForm({...authForm, email: e.target.value})} className="w-full bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white font-mono text-sm" />
                 </div>
                 <div>
-                  <label className="block text-xs font-mono text-slate-400 mb-1">Password</label>
-                  <input type="password" required value={authForm.password} onChange={e => setAuthForm({...authForm, password: e.target.value})} className="w-full bg-[#010409] border border-slate-800 rounded-lg px-3 py-2 text-white font-mono text-sm" />
+                  <label className="block text-xs font-mono text-slate-500 dark:text-slate-400 mb-1">Password</label>
+                  <input type="password" required value={authForm.password} onChange={e => setAuthForm({...authForm, password: e.target.value})} className="w-full bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white font-mono text-sm" />
                 </div>
-                <button type="submit" className="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-colors">
+                <button type="submit" className="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold font-bold transition-colors">
                   {authMode === 'login' ? 'Secure Login' : 'Register'}
                 </button>
              </form>
@@ -1071,24 +1098,24 @@ export const StorefrontView: React.FC = () => {
       {/* Order History Modal */}
       {showOrderHistory && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-2xl max-h-[80vh] overflow-y-auto bg-[#0d1117] border border-slate-800 rounded-2xl p-6 shadow-2xl">
+          <div className="w-full max-w-2xl max-h-[80vh] overflow-y-auto bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl">
              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-white flex items-center gap-2"><ListOrdered className="w-5 h-5 text-cyan-400"/> Order History</h3>
-                <button onClick={() => setShowOrderHistory(false)} className="text-slate-400 hover:text-white"><X className="w-5 h-5"/></button>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2"><ListOrdered className="w-5 h-5 text-cyan-400"/> Order History</h3>
+                <button onClick={() => setShowOrderHistory(false)} className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white"><X className="w-5 h-5"/></button>
              </div>
              {orderHistory.length === 0 ? (
                <div className="text-center py-12 text-slate-500 font-mono text-sm">No orders found.</div>
              ) : (
                <div className="space-y-4">
                  {orderHistory.map(order => (
-                   <div key={order.id} className="p-4 bg-[#010409] border border-slate-800 rounded-xl">
-                     <div className="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
-                       <span className="font-mono text-xs text-slate-400">Order #{order.id.split('-')[0]}</span>
+                   <div key={order.id} className="p-4 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-xl">
+                     <div className="flex justify-between items-center mb-3 border-b border-slate-200 dark:border-slate-800 pb-2">
+                       <span className="font-mono text-xs text-slate-500 dark:text-slate-400">Order #{order.id.split('-')[0]}</span>
                        <span className="text-sm font-bold text-emerald-400">R {(order.total_amount_cents / 100).toLocaleString()}</span>
                      </div>
                      <div className="space-y-2">
                        {order.items?.map((item: any) => (
-                         <div key={item.id} className="flex justify-between text-sm text-slate-300">
+                         <div key={item.id} className="flex justify-between text-sm text-slate-700 dark:text-slate-300">
                            <span>1x Device (IMEI: {item.imei})</span>
                            <span>R {(item.price_cents / 100).toLocaleString()}</span>
                          </div>
@@ -1107,11 +1134,11 @@ export const StorefrontView: React.FC = () => {
 
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-[#0d1117] border border-slate-800 rounded-2xl max-w-xl w-full shadow-2xl p-6 space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 rounded-2xl max-w-xl w-full shadow-2xl p-6 space-y-6">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-cyan-400" />
-                <h3 className="text-base font-bold text-white">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">
                   {checkoutStep === 1 && 'Step 1 of 2: Insured Delivery Address'}
                   {checkoutStep === 2 && 'Step 2 of 2: Payment & Final Review'}
                   {checkoutStep === 3 && 'Order Confirmed!'}
@@ -1120,7 +1147,7 @@ export const StorefrontView: React.FC = () => {
               {checkoutStep !== 3 && (
                 <button
                   onClick={() => setIsCheckoutOpen(false)}
-                  className="p-1 rounded-lg text-slate-400 hover:text-white"
+                  className="p-1 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -1130,60 +1157,60 @@ export const StorefrontView: React.FC = () => {
             {checkoutStep === 1 && (
               <div className="space-y-4 font-mono text-xs">
                 <div>
-                  <label className="block text-slate-400 mb-1">Full Recipient Name</label>
+                  <label className="block text-slate-500 dark:text-slate-400 mb-1">Full Recipient Name</label>
                   <input
                     type="text"
                     value={customerInfo.name}
                     onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#010409] border border-slate-800 rounded-lg text-white"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-slate-400 mb-1">Email Address</label>
+                    <label className="block text-slate-500 dark:text-slate-400 mb-1">Email Address</label>
                     <input
                       type="email"
                       value={customerInfo.email}
                       onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#010409] border border-slate-800 rounded-lg text-white"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-400 mb-1">Phone (SMS Delivery Updates)</label>
+                    <label className="block text-slate-500 dark:text-slate-400 mb-1">Phone (SMS Delivery Updates)</label>
                     <input
                       type="text"
                       value={customerInfo.phone}
                       onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#010409] border border-slate-800 rounded-lg text-white"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-slate-400 mb-1">Street Address</label>
+                  <label className="block text-slate-500 dark:text-slate-400 mb-1">Street Address</label>
                   <input
                     type="text"
                     value={customerInfo.address}
                     onChange={(e) => setCustomerInfo({ ...customerInfo, address: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#010409] border border-slate-800 rounded-lg text-white"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-slate-400 mb-1">City / Province</label>
+                    <label className="block text-slate-500 dark:text-slate-400 mb-1">City / Province</label>
                     <input
                       type="text"
                       value={customerInfo.city}
                       onChange={(e) => setCustomerInfo({ ...customerInfo, city: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#010409] border border-slate-800 rounded-lg text-white"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-400 mb-1">Postal Code</label>
+                    <label className="block text-slate-500 dark:text-slate-400 mb-1">Postal Code</label>
                     <input
                       type="text"
                       value={customerInfo.postalCode}
                       onChange={(e) => setCustomerInfo({ ...customerInfo, postalCode: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#010409] border border-slate-800 rounded-lg text-white"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white"
                     />
                   </div>
                 </div>
@@ -1203,7 +1230,7 @@ export const StorefrontView: React.FC = () => {
             {checkoutStep === 2 && (
               <div className="space-y-4 font-mono text-xs">
                 <div>
-                  <label className="block text-slate-400 mb-2">Select Payment Method</label>
+                  <label className="block text-slate-500 dark:text-slate-400 mb-2">Select Payment Method</label>
                   <div className="grid grid-cols-3 gap-2">
                     {[
                       { id: 'instant-eft', label: 'Instant EFT (Ozow)' },
@@ -1216,7 +1243,7 @@ export const StorefrontView: React.FC = () => {
                         className={`p-3 rounded-lg border text-center transition-all ${
                           customerInfo.paymentMethod === m.id
                             ? 'bg-cyan-950/40 border-cyan-500 text-cyan-300 font-bold'
-                            : 'bg-[#010409] border-slate-800 text-slate-400 hover:text-white'
+                            : 'bg-slate-50 dark:bg-[#010409] border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white'
                         }`}
                       >
                         {m.label}
@@ -1224,39 +1251,39 @@ export const StorefrontView: React.FC = () => {
                     ))}
                   </div>
                   {customerInfo.paymentMethod === 'card' && (
-                    <div className="mt-4 p-4 border border-slate-800 rounded-lg bg-[#010409] space-y-3">
+                    <div className="mt-4 p-4 border border-slate-200 dark:border-slate-800 rounded-lg bg-slate-50 dark:bg-[#010409] space-y-3">
                       <div>
-                        <label className="block text-slate-400 mb-1">Card Number</label>
+                        <label className="block text-slate-500 dark:text-slate-400 mb-1">Card Number</label>
                         <input
                           type="text"
                           maxLength={16}
                           placeholder="0000 0000 0000 0000"
                           value={cardDetails.number}
                           onChange={(e) => setCardDetails({ ...cardDetails, number: e.target.value })}
-                          className="w-full px-3 py-2 bg-transparent border border-slate-800 rounded-lg text-white font-mono"
+                          className="w-full px-3 py-2 bg-transparent border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white font-mono"
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-slate-400 mb-1">Expiry Date</label>
+                          <label className="block text-slate-500 dark:text-slate-400 mb-1">Expiry Date</label>
                           <input
                             type="text"
                             placeholder="MM/YY"
                             maxLength={5}
                             value={cardDetails.expiry}
                             onChange={(e) => setCardDetails({ ...cardDetails, expiry: e.target.value })}
-                            className="w-full px-3 py-2 bg-transparent border border-slate-800 rounded-lg text-white font-mono"
+                            className="w-full px-3 py-2 bg-transparent border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white font-mono"
                           />
                         </div>
                         <div>
-                          <label className="block text-slate-400 mb-1">CVV</label>
+                          <label className="block text-slate-500 dark:text-slate-400 mb-1">CVV</label>
                           <input
                             type="password"
                             placeholder="123"
                             maxLength={3}
                             value={cardDetails.cvv}
                             onChange={(e) => setCardDetails({ ...cardDetails, cvv: e.target.value })}
-                            className="w-full px-3 py-2 bg-transparent border border-slate-800 rounded-lg text-white font-mono"
+                            className="w-full px-3 py-2 bg-transparent border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white font-mono"
                           />
                         </div>
                       </div>
@@ -1264,17 +1291,17 @@ export const StorefrontView: React.FC = () => {
                   )}
                 </div>
 
-                <div className="p-3 bg-[#010409] rounded-xl border border-slate-800 space-y-2">
-                  <div className="text-[11px] text-slate-400 font-bold uppercase">Order Summary</div>
-                  <div className="flex justify-between text-slate-300">
+                <div className="p-3 bg-slate-50 dark:bg-[#010409] rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase">Order Summary</div>
+                  <div className="flex justify-between text-slate-700 dark:text-slate-300">
                     <span>Items ({cart.length}):</span>
                     <span>{formatZar(subtotal)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-300">
+                  <div className="flex justify-between text-slate-700 dark:text-slate-300">
                     <span>Courier Insured Delivery:</span>
                     <span className="text-emerald-400">FREE</span>
                   </div>
-                  <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-slate-800">
+                  <div className="flex justify-between text-sm font-bold text-slate-900 dark:text-white pt-2 border-t border-slate-200 dark:border-slate-800">
                     <span>Grand Total:</span>
                     <span className="text-cyan-300">{formatZar(total)}</span>
                   </div>
@@ -1288,13 +1315,13 @@ export const StorefrontView: React.FC = () => {
                 <div className="pt-2 flex items-center justify-between">
                   <button
                     onClick={() => setCheckoutStep(1)}
-                    className="px-4 py-2 rounded-lg bg-slate-900 text-slate-300 hover:bg-slate-800"
+                    className="px-4 py-2 rounded-lg bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-800"
                   >
                     Back
                   </button>
                   <button
                     onClick={handlePlaceOrder}
-                    className="px-6 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-colors flex items-center gap-2"
+                    className="px-6 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold font-bold transition-colors flex items-center gap-2"
                   >
                     <Check className="w-4 h-4" />
                     <span>Authorize & Complete Order</span>
@@ -1312,13 +1339,13 @@ export const StorefrontView: React.FC = () => {
                   <Check className="w-7 h-7" />
                 </div>
                 <div>
-                  <h4 className="text-xl font-bold text-white">Payment Authorized!</h4>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <h4 className="text-xl font-bold text-slate-900 dark:text-white">Payment Authorized!</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                     Order Reference: <span className="text-cyan-300 font-bold">{confirmedOrderId}</span>
                   </p>
                 </div>
 
-                <div className="p-4 bg-[#010409] rounded-xl border border-slate-800 text-xs text-left text-slate-300 space-y-1.5">
+                <div className="p-4 bg-slate-50 dark:bg-[#010409] rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-left text-slate-700 dark:text-slate-300 space-y-1.5">
                   <div className="flex justify-between">
                     <span className="text-slate-500">Recipient:</span>
                     <span>{customerInfo.name}</span>
@@ -1355,37 +1382,37 @@ export const StorefrontView: React.FC = () => {
       {/* Backend Connection Manager Modal */}
       {isServerModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-[#0d1117] border border-slate-800 rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <Server className="w-5 h-5 text-cyan-400" />
-                <h3 className="text-base font-bold text-white">Backend Connection Settings</h3>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Backend Connection Settings</h3>
               </div>
               <button
                 onClick={() => setIsServerModalOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white"
+                className="p-1 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
               The ULTRON Storefront is built to operate with <strong>100% full fidelity in Standalone Mode</strong> before you boot the backend server. All browsing, filters, stock holds, and simulated checkout work client-side.
             </p>
 
             <div className="space-y-3 font-mono text-xs">
               <div>
-                <label className="block text-slate-400 mb-1">Target Inventory Microservice URL</label>
+                <label className="block text-slate-500 dark:text-slate-400 mb-1">Target Inventory Microservice URL</label>
                 <input
                   type="text"
                   value={backendUrl}
                   onChange={(e) => setBackendUrl(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#010409] border border-slate-800 rounded-lg text-white"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white"
                   placeholder="http://localhost:4001"
                 />
               </div>
 
-              <div className="p-3 bg-[#010409] rounded-xl border border-slate-800">
+              <div className="p-3 bg-slate-50 dark:bg-[#010409] rounded-xl border border-slate-200 dark:border-slate-800">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-slate-500">Connection Status:</span>
                   <span className={`font-bold ${
@@ -1396,14 +1423,14 @@ export const StorefrontView: React.FC = () => {
                     {serverStatus}
                   </span>
                 </div>
-                <div className="text-[11px] text-slate-400 leading-relaxed">
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
                   {serverHealthMessage}
                 </div>
               </div>
 
-              <div className="p-3 bg-slate-900/50 rounded-xl border border-slate-800/80">
+              <div className="p-3 bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800/80">
                 <div className="text-[11px] font-bold text-cyan-400 mb-1">To run backend services locally:</div>
-                <code className="text-[11px] text-slate-300 block bg-black/50 p-2 rounded">
+                <code className="text-[11px] text-slate-700 dark:text-slate-300 block bg-black/50 p-2 rounded">
                   cd services/inventory-service<br />
                   node src/index.js
                 </code>
@@ -1416,7 +1443,7 @@ export const StorefrontView: React.FC = () => {
                   setServerStatus('STANDALONE');
                   setServerHealthMessage('Operating in Standalone Client Mode. Zero external dependency required.');
                 }}
-                className="px-3 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 font-mono text-xs"
+                className="px-3 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs"
               >
                 Use Standalone Mode
               </button>
