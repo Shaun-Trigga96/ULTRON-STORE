@@ -1,6 +1,21 @@
 const http = require('http');
 const { pool, query } = require('./db');
+const jwt = require('jsonwebtoken');
 const PORT = process.env.PORT || 4003;
+
+const JWT_SECRET = process.env.JWT_SECRET || 'ultron_super_secret_jwt_key_2026';
+
+function verifyAuth(req) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) return null;
+  const token = authHeader.split(' ')[1];
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch(e) {
+    return null;
+  }
+}
+
 const INVENTORY_URL = process.env.INVENTORY_URL || 'http://localhost:4001';
 const PAYMENT_URL = process.env.PAYMENT_URL || 'http://localhost:4004'; // Not actually needed if using nginx gateway, but internal is better. Wait, we should use inventory-service:4001 internally.
 
@@ -44,9 +59,31 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
+    
+    if (pathname === '/api/v1/orders/history' && req.method === 'GET') {
+      const userPayload = verifyAuth(req);
+      if (!userPayload) return sendJson(res, 401, { success: false, error: 'Unauthorized' });
+      
+      const { rows } = await query(
+        'SELECT * FROM ultron_orders.orders WHERE customer_id = $1 ORDER BY created_at DESC', 
+        [userPayload.userId]
+      );
+      
+      // For each order, fetch items
+      const history = [];
+      for (const order of rows) {
+        const itemRes = await query('SELECT * FROM ultron_orders.order_items WHERE order_id = $1', [order.id]);
+        history.push({ ...order, items: itemRes.rows });
+      }
+      
+      return sendJson(res, 200, { success: true, data: history });
+    }
+  
     if (pathname === '/api/v1/orders/checkout' && req.method === 'POST') {
       const body = await parseBody(req);
       const { customerInfo, items, sessionId, totalCents } = body;
+      const userPayload = verifyAuth(req);
+      const customerId = userPayload ? userPayload.userId : 'cust_' + Math.floor(Math.random()*10000);
 
       if (!items || items.length === 0) {
         return sendJson(res, 400, { success: false, error: 'Cart is empty' });
@@ -61,7 +98,7 @@ const server = http.createServer(async (req, res) => {
           `INSERT INTO ultron_orders.orders 
           (customer_id, customer_email, total_amount_cents, shipping_address) 
           VALUES ($1, $2, $3, $4) RETURNING id`,
-          ['cust_' + Math.floor(Math.random()*10000), customerInfo.email, totalCents, JSON.stringify(customerInfo)]
+          [customerId, customerInfo.email, totalCents, JSON.stringify(customerInfo)]
         );
         const orderId = orderRows[0].id;
 

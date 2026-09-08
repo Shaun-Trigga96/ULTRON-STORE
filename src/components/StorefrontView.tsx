@@ -42,6 +42,23 @@ export const StorefrontView: React.FC = () => {
   const [selectedGrade, setSelectedGrade] = useState<string>('ALL');
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'battery'>('featured');
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('token'));
+  const [userProfile, setUserProfile] = useState<any>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [authForm, setAuthForm] = useState({ email: '', password: '', name: '' });
+  const [orderHistory, setOrderHistory] = useState<any[]>([]);
+  const [showOrderHistory, setShowOrderHistory] = useState(false);
+  
+  useEffect(() => {
+    if (authToken) {
+       // Just basic setup, normally we'd fetch profile
+       try {
+         const payload = JSON.parse(atob(authToken.split('.')[1]));
+         setUserProfile(payload);
+       } catch(e) { setAuthToken(null); }
+    }
+  }, [authToken]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<StoreProduct | null>(null);
   const [activeModalImage, setActiveModalImage] = useState<string>('');
@@ -98,8 +115,8 @@ export const StorefrontView: React.FC = () => {
   const [checkoutStep, setCheckoutStep] = useState<1 | 2 | 3>(1);
   const [cardDetails, setCardDetails] = useState({ number: '', expiry: '', cvv: '' });
   const [customerInfo, setCustomerInfo] = useState({
-    name: '',
-    email: '',
+    name: userProfile?.name || '',
+    email: userProfile?.email || '',
     phone: '',
     address: '',
     city: '',
@@ -123,6 +140,47 @@ export const StorefrontView: React.FC = () => {
   }, [cart.length]);
 
   // Handle adding product to cart (Simulating Redlock Stock Hold)
+  
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const endpoint = authMode === 'login' ? '/api/v1/auth/login' : '/api/v1/auth/register';
+      const res = await fetch(`${backendUrl}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {}) },
+        body: JSON.stringify(authForm)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      
+      localStorage.setItem('token', data.token);
+      setAuthToken(data.token);
+      setShowAuthModal(false);
+      setAuthForm({ email: '', password: '', name: '' });
+      if (data.user) {
+         setCustomerInfo(prev => ({ ...prev, name: data.user.name || '', email: data.user.email || '' }));
+      }
+    } catch(err: any) {
+      alert(err.message || "Authentication failed");
+    }
+  };
+
+  const fetchOrderHistory = async () => {
+    try {
+      const res = await fetch(`${backendUrl}/api/v1/orders/history`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      const data = await res.json();
+      if (res.ok) setOrderHistory(data.data);
+    } catch(err) {
+      console.warn(err);
+    }
+  };
+  
+  useEffect(() => {
+    if (showOrderHistory && authToken) fetchOrderHistory();
+  }, [showOrderHistory, authToken]);
+
   const handleAddToCart = async (product: StoreProduct) => {
     if (product.status !== 'AVAILABLE') return;
 
@@ -973,6 +1031,80 @@ export const StorefrontView: React.FC = () => {
       )}
 
       {/* Interactive Checkout Modal */}
+      
+      {/* Auth Modal */}
+      {showAuthModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="w-full max-w-sm bg-[#0d1117] border border-slate-800 rounded-2xl p-6 shadow-2xl">
+             <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-bold text-white">{authMode === 'login' ? 'Sign In' : 'Create Account'}</h3>
+                <button onClick={() => setShowAuthModal(false)} className="text-slate-400 hover:text-white"><X className="w-5 h-5"/></button>
+             </div>
+             <form onSubmit={handleAuth} className="space-y-4">
+                {authMode === 'register' && (
+                  <div>
+                    <label className="block text-xs font-mono text-slate-400 mb-1">Full Name</label>
+                    <input type="text" required value={authForm.name} onChange={e => setAuthForm({...authForm, name: e.target.value})} className="w-full bg-[#010409] border border-slate-800 rounded-lg px-3 py-2 text-white font-mono text-sm" />
+                  </div>
+                )}
+                <div>
+                  <label className="block text-xs font-mono text-slate-400 mb-1">Email Address</label>
+                  <input type="email" required value={authForm.email} onChange={e => setAuthForm({...authForm, email: e.target.value})} className="w-full bg-[#010409] border border-slate-800 rounded-lg px-3 py-2 text-white font-mono text-sm" />
+                </div>
+                <div>
+                  <label className="block text-xs font-mono text-slate-400 mb-1">Password</label>
+                  <input type="password" required value={authForm.password} onChange={e => setAuthForm({...authForm, password: e.target.value})} className="w-full bg-[#010409] border border-slate-800 rounded-lg px-3 py-2 text-white font-mono text-sm" />
+                </div>
+                <button type="submit" className="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-colors">
+                  {authMode === 'login' ? 'Secure Login' : 'Register'}
+                </button>
+             </form>
+             <div className="mt-4 text-center">
+                <button onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')} className="text-xs text-cyan-400 hover:underline">
+                  {authMode === 'login' ? "Don't have an account? Register" : "Already have an account? Sign In"}
+                </button>
+             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Order History Modal */}
+      {showOrderHistory && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="w-full max-w-2xl max-h-[80vh] overflow-y-auto bg-[#0d1117] border border-slate-800 rounded-2xl p-6 shadow-2xl">
+             <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-bold text-white flex items-center gap-2"><ListOrdered className="w-5 h-5 text-cyan-400"/> Order History</h3>
+                <button onClick={() => setShowOrderHistory(false)} className="text-slate-400 hover:text-white"><X className="w-5 h-5"/></button>
+             </div>
+             {orderHistory.length === 0 ? (
+               <div className="text-center py-12 text-slate-500 font-mono text-sm">No orders found.</div>
+             ) : (
+               <div className="space-y-4">
+                 {orderHistory.map(order => (
+                   <div key={order.id} className="p-4 bg-[#010409] border border-slate-800 rounded-xl">
+                     <div className="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
+                       <span className="font-mono text-xs text-slate-400">Order #{order.id.split('-')[0]}</span>
+                       <span className="text-sm font-bold text-emerald-400">R {(order.total_amount_cents / 100).toLocaleString()}</span>
+                     </div>
+                     <div className="space-y-2">
+                       {order.items?.map((item: any) => (
+                         <div key={item.id} className="flex justify-between text-sm text-slate-300">
+                           <span>1x Device (IMEI: {item.imei})</span>
+                           <span>R {(item.price_cents / 100).toLocaleString()}</span>
+                         </div>
+                       ))}
+                     </div>
+                     <div className="mt-3 pt-2 text-[10px] text-slate-500 font-mono">
+                       Placed on {new Date(order.created_at).toLocaleString()}
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             )}
+          </div>
+        </div>
+      )}
+
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-in fade-in duration-150">
           <div className="bg-[#0d1117] border border-slate-800 rounded-2xl max-w-xl w-full shadow-2xl p-6 space-y-6">
