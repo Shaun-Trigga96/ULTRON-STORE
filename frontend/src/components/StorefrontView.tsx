@@ -1093,7 +1093,9 @@ export const StorefrontView: React.FC = () => {
         setCardDetails={setCardDetails}
         handleCheckout={handlePlaceOrder}
         cart={cart}
-        cartTotal={cartTotal}
+        subtotal={subtotal}
+        total={total}
+        formatZar={formatZar}
       />
 
       {/* Backend Connection Manager Modal */}

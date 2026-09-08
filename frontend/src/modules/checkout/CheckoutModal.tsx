@@ -4,7 +4,7 @@ import { X, ShieldCheck, CreditCard, Truck, CheckCircle } from 'lucide-react';
 
 export const CheckoutModal = ({
   isCheckoutOpen, setIsCheckoutOpen, checkoutStep, setCheckoutStep,
-  customerInfo, setCustomerInfo, cardDetails, setCardDetails, handleCheckout, cart, cartTotal
+  customerInfo, setCustomerInfo, cardDetails, setCardDetails, handleCheckout, cart, subtotal, total, formatZar
 }: any) => {
   if (!isCheckoutOpen) return null;
   return (
