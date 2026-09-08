@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { X, ShieldCheck, CreditCard, Truck, CheckCircle } from 'lucide-react';
+import { UltronLogo } from '../../components/UltronLogo';
+import { X, ShieldCheck, CreditCard, Truck, CheckCircle2, Check, ArrowRight } from 'lucide-react';
 
 export const CheckoutModal = ({
   isCheckoutOpen, setIsCheckoutOpen, checkoutStep, setCheckoutStep,
