@@ -65,7 +65,14 @@ services:
       - DB_USER=appuser
       - DB_PASSWORD=devsecret
       - INVENTORY_URL=http://inventory-service:4001
-      - PAYMENT_URL=http://user-service:
+      - PAYMENT_URL=http://payment-service:4004
+    expose:
+      - "4003"
+    depends_on:
+      - postgres
+      - inventory-service
+
+  user-service:
     build: ./services/user-service
     container_name: ultron-user-service
     environment:
@@ -81,13 +88,6 @@ services:
       - postgres
     networks:
       - ultron-network
-
-  payment-service:4004
-    expose:
-      - "4003"
-    depends_on:
-      - postgres
-      - inventory-service
 
   # Microservice 4: Payment Service (Gateway Webhooks & Idempotency)
   payment-service:
