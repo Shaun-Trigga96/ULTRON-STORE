@@ -42,8 +42,8 @@ export default function App() {
                 <a href="#Apple" className="hover:opacity-70 transition-opacity font-semibold">Apple</a>
                 <a href="#Samsung" className="hover:opacity-70 transition-opacity font-semibold">Samsung</a>
                 <a href="#Google" className="hover:opacity-70 transition-opacity font-semibold">Google</a>
-                <a href="#" className="hover:opacity-70 transition-opacity">Accessories</a>
-                <a href="#" className="hover:opacity-70 transition-opacity">Support</a>
+                <a href="#Accessories" className="hover:opacity-70 transition-opacity font-semibold">Accessories</a>
+                <a href="#Support" className="hover:opacity-70 transition-opacity font-semibold">Support</a>
               </nav>
             </div>
 

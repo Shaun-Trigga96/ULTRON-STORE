@@ -190,4 +190,26 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     specs: { screen: '7.6" Foldable OLED (120Hz)', chipset: 'Google Tensor G2 (5nm)', ram: '12GB', camera: '48MP Main + 10.8MP Tele + 10.8MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'Android 14' },
     features: ['Thin foldable design', 'Pixel camera system', 'Split-screen multitasking'], inTheBox: ['Certified Pre-Owned Pixel Fold', 'USB-C Cable', 'Ultron Diagnostic Passport']
   }
+,
+  // ACCESSORIES
+  {
+    id: 'acc_01', imei: 'N/A', serialNumber: 'SN-APL-AW9-001',
+    brand: 'Apple', model: 'Watch Series 9', storageGb: 64, color: 'Midnight', conditionGrade: 'MINT', batteryHealthPct: 100, cosmeticRating: 10,
+    priceZar: 7999, monthlyFinancingZar: 666, warehouseLocation: 'JHB-WH-01', status: 'AVAILABLE',
+    tagline: 'Smarter. Brighter. Mightier.', category: 'accessories', imageColorHex: '#1e293b',
+    imageUrl: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 0, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '1.9" Retina LTPO OLED', chipset: 'Apple S9 SiP', ram: '1GB', camera: 'N/A', network: 'GPS', os: 'watchOS 10' },
+    features: ['Double tap gesture', 'Blood oxygen sensor'], inTheBox: ['Apple Watch', 'Sport Band', 'Charger']
+  },
+  {
+    id: 'acc_02', imei: 'N/A', serialNumber: 'SN-APL-APP2-001',
+    brand: 'Apple', model: 'AirPods Pro (2nd Gen)', storageGb: 0, color: 'White', conditionGrade: 'MINT', batteryHealthPct: 100, cosmeticRating: 10,
+    priceZar: 4499, monthlyFinancingZar: 375, warehouseLocation: 'JHB-WH-01', status: 'AVAILABLE',
+    tagline: 'Rebuilt from the sound up.', category: 'accessories', imageColorHex: '#ffffff',
+    imageUrl: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 0, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: 'N/A', chipset: 'Apple H2', ram: 'N/A', camera: 'N/A', network: 'Bluetooth 5.3', os: 'Firmware 6B34' },
+    features: ['Active Noise Cancellation', 'Adaptive Audio'], inTheBox: ['AirPods Pro', 'MagSafe Case', 'Ear tips']
+  }
 ];

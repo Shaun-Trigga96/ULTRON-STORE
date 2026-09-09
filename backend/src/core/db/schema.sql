@@ -240,7 +240,12 @@ VALUES
 ('d1a2b3c4-0000-0000-0000-000000000013', 'Google', 'Pixel 7', 128, 'Lemongrass', 2022, 1049900, '["https://images.unsplash.com/photo-1665686377065-08ba896d16fd?q=80&w=400&auto=format&fit=crop"]', '{"screen": "6.3 AMOLED", "chip": "Tensor G2", "cameras": "50MP Main"}'),
 ('d1a2b3c4-0000-0000-0000-000000000014', 'Google', 'Pixel 6 Pro', 128, 'Cloudy White', 2021, 799900, '["https://images.unsplash.com/photo-1644342555577-b84cc52cbff6?q=80&w=400&auto=format&fit=crop"]', '{"screen": "6.7 LTPO AMOLED", "chip": "Tensor", "cameras": "50MP Main"}'),
 ('d1a2b3c4-0000-0000-0000-000000000015', 'Google', 'Pixel Fold', 256, 'Obsidian', 2023, 2499900, '["https://images.unsplash.com/photo-1615526675159-e248c3021d3f?q=80&w=400&auto=format&fit=crop"]', '{"screen": "7.6 Foldable OLED", "chip": "Tensor G2", "cameras": "48MP Main"}')
+
+-- ACCESSORIES
+('d1a2b3c4-0000-0000-0000-000000000016', 'Apple', 'Watch Series 9', 64, 'Midnight', 2023, 799900, '["https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=400&auto=format&fit=crop"]', '{"screen": "1.9 Retina LTPO OLED", "chip": "Apple S9 SiP", "cameras": "N/A"}'),
+('d1a2b3c4-0000-0000-0000-000000000017', 'Apple', 'AirPods Pro (2nd Gen)', 0, 'White', 2022, 449900, '["https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?q=80&w=400&auto=format&fit=crop"]', '{"screen": "N/A", "chip": "Apple H2", "cameras": "N/A"}')
 ON CONFLICT DO NOTHING;
+
 
 INSERT INTO ultron_inventory.inventory_items (device_id, imei, serial_number, condition_grade, battery_health_percentage, cosmetic_scratches_rating, has_original_box, has_original_charger, inspection_id, inspector_technician_id, selling_price_cents, status)
 VALUES 
@@ -262,4 +267,8 @@ VALUES
 ('d1a2b3c4-0000-0000-0000-000000000013', '358900112233663', 'SN-GGL-P7-001', 'GOOD', 90, 8, false, true, 'INSP-1013', 'TECH-410', 1049900, 'AVAILABLE'),
 ('d1a2b3c4-0000-0000-0000-000000000014', '358900112233664', 'SN-GGL-P6P-001', 'FAIR', 83, 7, false, false, 'INSP-1014', 'TECH-410', 799900, 'AVAILABLE'),
 ('d1a2b3c4-0000-0000-0000-000000000015', '358900112233665', 'SN-GGL-PF-001', 'MINT', 96, 9, true, true, 'INSP-1015', 'TECH-411', 2499900, 'AVAILABLE')
+
+-- ACCESSORIES
+('d1a2b3c4-0000-0000-0000-000000000016', 'N/A-AW9', 'SN-APL-AW9-001', 'MINT', 100, 10, true, true, 'INSP-1016', 'TECH-412', 799900, 'AVAILABLE'),
+('d1a2b3c4-0000-0000-0000-000000000017', 'N/A-APP', 'SN-APL-APP2-001', 'MINT', 100, 10, true, true, 'INSP-1017', 'TECH-412', 449900, 'AVAILABLE')
 ON CONFLICT DO NOTHING;

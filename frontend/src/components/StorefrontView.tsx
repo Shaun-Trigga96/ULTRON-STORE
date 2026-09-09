@@ -61,10 +61,14 @@ export const StorefrontView: React.FC = () => {
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['Apple', 'Samsung', 'Google', 'ALL'].includes(hash)) {
+      if (['Apple', 'Samsung', 'Google', 'Accessories', 'ALL'].includes(hash)) {
         setSelectedBrand(hash);
         setTimeout(() => {
           document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else if (hash === 'Support') {
+        setTimeout(() => {
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }, 100);
       }
     };
@@ -263,7 +267,8 @@ export const StorefrontView: React.FC = () => {
       product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.imei.includes(searchQuery);
 
-    const matchesBrand = selectedBrand === 'ALL' || product.brand.toUpperCase() === selectedBrand.toUpperCase();
+    const matchesBrand = selectedBrand === 'ALL' || 
+                         (selectedBrand.toUpperCase() === 'ACCESSORIES' ? product.category === 'accessories' : product.brand.toUpperCase() === selectedBrand.toUpperCase());
     const matchesGrade = selectedGrade === 'ALL' || product.conditionGrade === selectedGrade;
 
     return matchesSearch && matchesBrand && matchesGrade;
@@ -565,7 +570,7 @@ export const StorefrontView: React.FC = () => {
 
         {/* Brand tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 text-[13px]">
-          {['ALL', 'Apple', 'Samsung', 'Google'].map((brand) => (
+          {['ALL', 'Apple', 'Samsung', 'Google', 'Accessories'].map((brand) => (
             <button
               key={brand}
               onClick={() => {
@@ -709,6 +714,33 @@ export const StorefrontView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Support Footer */}
+      <footer id="Support" className="mt-24 border-t border-black/10 dark:border-white/10 pt-16 pb-12">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div>
+              <h3 className="text-xl font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] mb-2">ULTRON Support</h3>
+              <p className="text-[#6e6e73] dark:text-[#a1a1a6] max-w-sm">
+                Need help with your pre-owned device? Our technicians are ready to assist with warranty claims, repairs, and diagnostics.
+              </p>
+            </div>
+            <div className="flex flex-col md:items-end gap-2 text-sm text-[#1d1d1f] dark:text-[#f5f5f7]">
+              <a href="#" className="hover:underline">Contact Support</a>
+              <a href="#" className="hover:underline">Track Repair Status</a>
+              <a href="#" className="hover:underline">Returns & Exchanges</a>
+              <a href="#" className="hover:underline">Check Warranty Coverage</a>
+            </div>
+          </div>
+          <div className="mt-12 text-xs text-[#86868b] border-t border-black/10 dark:border-white/10 pt-6 flex flex-col md:flex-row justify-between">
+            <p>Copyright © 2026 ULTRON. All rights reserved.</p>
+            <div className="flex gap-4 mt-2 md:mt-0">
+              <a href="#" className="hover:underline">Privacy Policy</a>
+              <a href="#" className="hover:underline">Terms of Use</a>
+            </div>
+          </div>
+        </div>
+      </footer>
 
       <ProductPDP product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={(prod) => { handleAddToCart(prod); setSelectedProduct(null); }} isAddingToCart={false} />
 
