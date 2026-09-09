@@ -39,9 +39,9 @@ export default function App() {
                 />
               </div>
               <nav className="hidden md:flex items-center gap-6 text-[12px] text-[#1d1d1f] dark:text-[#f5f5f7] tracking-wide">
-                <a href="#" className="hover:opacity-70 transition-opacity font-semibold">Apple</a>
-                <a href="#" className="hover:opacity-70 transition-opacity">Samsung</a>
-                <a href="#" className="hover:opacity-70 transition-opacity">Google</a>
+                <a href="#Apple" className="hover:opacity-70 transition-opacity font-semibold">Apple</a>
+                <a href="#Samsung" className="hover:opacity-70 transition-opacity font-semibold">Samsung</a>
+                <a href="#Google" className="hover:opacity-70 transition-opacity font-semibold">Google</a>
                 <a href="#" className="hover:opacity-70 transition-opacity">Accessories</a>
                 <a href="#" className="hover:opacity-70 transition-opacity">Support</a>
               </nav>

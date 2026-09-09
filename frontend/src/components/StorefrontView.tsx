@@ -57,7 +57,22 @@ export const StorefrontView: React.FC = () => {
   const [authForm, setAuthForm] = useState({ email: '', password: '', name: '' });
   const [orderHistory, setOrderHistory] = useState<any[]>([]);
   const [showOrderHistory, setShowOrderHistory] = useState(false);
-  
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['Apple', 'Samsung', 'Google', 'ALL'].includes(hash)) {
+        setSelectedBrand(hash);
+        setTimeout(() => {
+          document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    };
+    window.addEventListener('hashchange', handleHash);
+    handleHash();
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
   useEffect(() => {
     if (authToken) {
        // Just basic setup, normally we'd fetch profile
@@ -500,7 +515,7 @@ export const StorefrontView: React.FC = () => {
       </div>
 
       {/* Search & filters */}
-      <div className="bg-transparent border-b border-black/[0.06] dark:border-white/10 pb-8 space-y-5 transition-colors duration-300">
+      <div id="product-grid" className="scroll-mt-24 bg-transparent border-b border-black/[0.06] dark:border-white/10 pb-8 space-y-5 transition-colors duration-300">
         <div className="flex flex-col md:flex-row items-center gap-3">
           <div className="relative w-full md:flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
@@ -553,7 +568,10 @@ export const StorefrontView: React.FC = () => {
           {['ALL', 'Apple', 'Samsung', 'Google'].map((brand) => (
             <button
               key={brand}
-              onClick={() => setSelectedBrand(brand)}
+              onClick={() => {
+                setSelectedBrand(brand);
+                window.location.hash = brand;
+              }}
               className={`px-4 py-1.5 rounded-full font-medium transition-all whitespace-nowrap ${
                 selectedBrand.toUpperCase() === brand.toUpperCase()
                   ? 'bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f]'

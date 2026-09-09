@@ -15,9 +15,9 @@ export const ProductPDP: React.FC<ProductPDPProps> = ({ product, onClose, onAddT
   const isAvailable = product.status === 'AVAILABLE';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/95 dark:bg-[#000000]/95 backdrop-blur-xl animate-in fade-in duration-300 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-white dark:bg-[#000000] animate-in fade-in duration-300 overflow-y-auto">
       {/* Sticky top nav for PDP */}
-      <div className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-6 md:px-12 bg-white/70 dark:bg-[#000000]/70 backdrop-blur-md z-50 border-b border-[#d2d2d7]/30 dark:border-[#424245]/30">
+      <div className="sticky top-0 left-0 right-0 h-16 flex items-center justify-between px-6 md:px-12 bg-white/80 dark:bg-[#000000]/80 backdrop-blur-md z-50 border-b border-[#d2d2d7]/30 dark:border-[#424245]/30">
         <h2 className="text-[17px] font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] tracking-tight">
           {product.brand} {product.model}
         </h2>
@@ -29,7 +29,7 @@ export const ProductPDP: React.FC<ProductPDPProps> = ({ product, onClose, onAddT
         </button>
       </div>
 
-      <div className="w-full max-w-6xl mx-auto px-6 md:px-12 pt-28 pb-20 min-h-screen flex flex-col md:flex-row gap-16 md:gap-24 items-center md:items-start">
+      <div className="w-full max-w-6xl mx-auto px-6 md:px-12 pt-12 pb-20 min-h-screen flex flex-col md:flex-row gap-16 md:gap-24 items-center md:items-start">
         
         {/* Left: Oversized Hero Imagery */}
         <div className="w-full md:w-1/2 flex items-center justify-center">
