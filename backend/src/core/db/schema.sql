@@ -214,3 +214,20 @@ CREATE TABLE IF NOT EXISTS ultron_users.users (
     full_name VARCHAR(100) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ============================================================================
+-- SEED DATA
+-- ============================================================================
+INSERT INTO ultron_catalog.catalog_devices (id, brand, model_name, storage_capacity_gb, color_name, release_year, base_retail_price_cents, image_gallery_urls, technical_specs)
+VALUES 
+('d1a2b3c4-0000-0000-0000-000000000001', 'Apple', 'iPhone 14 Pro', 256, 'Deep Purple', 2022, 1999900, '["https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=400&auto=format&fit=crop"]', '{"screen": "6.1 Super Retina XDR OLED", "chip": "A16 Bionic", "cameras": "48MP Main"}'),
+('d1a2b3c4-0000-0000-0000-000000000002', 'Apple', 'iPhone 13', 128, 'Midnight', 2021, 1499900, '["https://images.unsplash.com/photo-1632661674596-df8be070a5c5?q=80&w=400&auto=format&fit=crop"]', '{"screen": "6.1 Super Retina XDR OLED", "chip": "A15 Bionic", "cameras": "12MP Main"}')
+ON CONFLICT DO NOTHING;
+
+INSERT INTO ultron_inventory.inventory_items (device_id, imei, serial_number, condition_grade, battery_health_percentage, cosmetic_scratches_rating, has_original_box, has_original_charger, inspection_id, inspector_technician_id, selling_price_cents, status)
+VALUES 
+('d1a2b3c4-0000-0000-0000-000000000001', '358900112233445', 'F12C45678901', 'MINT', 98, 1, true, true, 'INSP-1001', 'TECH-404', 1850000, 'AVAILABLE'),
+('d1a2b3c4-0000-0000-0000-000000000001', '358900112233446', 'F12C45678902', 'GOOD', 87, 4, false, true, 'INSP-1002', 'TECH-404', 1650000, 'AVAILABLE'),
+('d1a2b3c4-0000-0000-0000-000000000002', '358900112233447', 'F12C45678903', 'MINT', 92, 2, true, true, 'INSP-1003', 'TECH-405', 1350000, 'AVAILABLE')
+ON CONFLICT DO NOTHING;
+
