@@ -24,6 +24,53 @@ docker compose -f docker-compose.local.yml up --build -d
 
 ---
 
+<h2 align="center">🚀 Technology Timeline: From Local Dev to Production</h2>
+
+<table align="center" style="border: none; background: transparent;">
+  <tr>
+    <td align="center" width="33%">
+      <h3>Month 1</h3>
+      <b>Foundation & Local Dev</b><br><br>
+      <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" /><br><br>
+      <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" />
+    </td>
+    <td align="center" width="33%">
+      <h1>&nbsp;&nbsp;&nbsp;➔&nbsp;&nbsp;&nbsp;</h1>
+    </td>
+    <td align="center" width="33%">
+      <h3>Month 2</h3>
+      <b>Infrastructure & Staging</b><br><br>
+      <img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/GCP-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/GKE-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/Cloud%20SQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/Memorystore-DC382D?style=for-the-badge&logo=redis&logoColor=white" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <h3>Month 3</h3>
+      <b>GitOps & Production</b><br><br>
+      <img src="https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" /><br><br>
+      <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" />
+    </td>
+    <td align="center" width="33%">
+      <h1>&nbsp;&nbsp;&nbsp;⟵&nbsp;&nbsp;&nbsp;</h1>
+    </td>
+    <td align="center" width="33%">
+      <h1>⬇</h1>
+    </td>
+  </tr>
+</table>
+
+---
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/assets/ultron-store-logo-dark.svg">
