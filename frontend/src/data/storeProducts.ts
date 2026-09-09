@@ -1,11 +1,27 @@
-import { InventoryPhone } from '../types';
-
-export interface StoreProduct extends InventoryPhone {
-  tagline: string;
-  imageUrl: string;
-  galleryImages: string[];
-  colorSwatches: { name: string; hex: string }[];
+export type StoreProduct = {
+  id: string;
+  imei: string;
+  serialNumber: string;
+  brand: string;
+  model: string;
+  storageGb: number;
+  color: string;
+  conditionGrade: 'MINT' | 'GOOD' | 'FAIR';
+  batteryHealthPct: number;
+  cosmeticRating: number;
+  priceZar: number;
   monthlyFinancingZar: number;
+  warehouseLocation: string;
+  status: 'AVAILABLE' | 'LOCKED_CHECKOUT_HOLD' | 'SOLD';
+  tagline: string;
+  category: 'smartphones' | 'tablets' | 'accessories';
+  imageUrl: string;
+  imageColorHex: string;
+  galleryImages?: string[];
+  colorSwatches?: { name: string; hex: string }[];
+  batteryCycleCount: number;
+  originalPartVerified: boolean;
+  warrantyMonths: number;
   specs: {
     screen: string;
     chipset: string;
@@ -16,426 +32,162 @@ export interface StoreProduct extends InventoryPhone {
   };
   features: string[];
   inTheBox: string[];
-  batteryCycleCount: number;
-  originalPartVerified: boolean;
-  warrantyMonths: number;
-  imageColorHex: string;
-  category: 'smartphones' | 'tablets' | 'accessories';
-}
+};
 
 export const CATALOG_PRODUCTS: StoreProduct[] = [
+  // APPLE
   {
-    id: 'ph_01',
-    imei: '354892019482910',
-    serialNumber: 'SN-APL-15PM-0981',
-    brand: 'Apple',
-    model: 'iPhone 15 Pro Max',
-    storageGb: 256,
-    color: 'Natural Titanium',
-    conditionGrade: 'MINT',
-    batteryHealthPct: 98,
-    cosmeticRating: 10,
-    priceZar: 22499,
-    monthlyFinancingZar: 1875,
-    warehouseLocation: 'CPT-WH-01 / BIN-A-12',
-    status: 'AVAILABLE',
-    tagline: 'Grade A+ Pristine condition. Aerospace-grade titanium chassis with zero scratches. 100% genuine Apple components.',
-    category: 'smartphones',
-    imageColorHex: '#9ca3af',
+    id: 'ph_a1', imei: '358900112233441', serialNumber: 'SN-APL-15PM-001',
+    brand: 'Apple', model: 'iPhone 15 Pro Max', storageGb: 256, color: 'Natural Titanium', conditionGrade: 'MINT', batteryHealthPct: 100, cosmeticRating: 10,
+    priceZar: 23999, monthlyFinancingZar: 1999, warehouseLocation: 'JHB-WH-01 / BIN-A-01', status: 'AVAILABLE',
+    tagline: 'Titanium. So strong. So light. So Pro.', category: 'smartphones', imageColorHex: '#b2aba1',
     imageUrl: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1695048065057-2ff2284931a7?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1000&q=85'
-    ],
-    colorSwatches: [
-      { name: 'Natural Titanium', hex: '#9ca3af' },
-      { name: 'Blue Titanium', hex: '#334155' },
-      { name: 'White Titanium', hex: '#e2e8f0' },
-      { name: 'Black Titanium', hex: '#18181b' }
-    ],
-    batteryCycleCount: 42,
-    originalPartVerified: true,
-    warrantyMonths: 12,
-    specs: {
-      screen: '6.7" Super Retina XDR OLED (120Hz ProMotion)',
-      chipset: 'Apple A17 Pro (3nm)',
-      ram: '8GB Unified',
-      camera: '48MP Main + 12MP 5x Periscope Telephoto + 12MP Ultra-Wide',
-      network: '5G Sub-6 & mmWave, Dual eSIM',
-      os: 'iOS 17.5 Upgradable'
-    },
-    features: [
-      'Titanium frame with textured matte glass back',
-      'Action Button configured for custom workflows',
-      'USB-C 3.0 with 10Gbps data transfer rate',
-      'Face ID sensor 100% functional, TrueTone calibrated'
-    ],
-    inTheBox: ['Certified Pre-Owned iPhone', 'Braided USB-C to C 1m Cable', 'Ultron 40-Point Diagnostic Deed']
+    batteryCycleCount: 5, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '6.7" Super Retina XDR OLED', chipset: 'Apple A17 Pro (3nm)', ram: '8GB', camera: '48MP Main + 12MP 5x Telephoto + 12MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'iOS 17' },
+    features: ['Grade A+ mint condition', 'Action Button', 'USB-C'], inTheBox: ['Certified Pre-Owned iPhone', 'USB-C Cable', 'Ultron Diagnostic Passport']
   },
   {
-    id: 'ph_02',
-    imei: '358291029482109',
-    serialNumber: 'SN-SMG-S24U-4820',
-    brand: 'Samsung',
-    model: 'Galaxy S24 Ultra',
-    storageGb: 512,
-    color: 'Titanium Black',
-    conditionGrade: 'GOOD',
-    batteryHealthPct: 94,
-    cosmeticRating: 9,
-    priceZar: 19999,
-    monthlyFinancingZar: 1666,
-    warehouseLocation: 'JHB-WH-02 / BIN-C-05',
-    status: 'AVAILABLE',
-    tagline: 'Near-mint condition with integrated S-Pen stylus and Galaxy AI suite enabled.',
-    category: 'smartphones',
-    imageColorHex: '#1e293b',
-    imageUrl: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=85',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=1000&q=85'
-    ],
-    colorSwatches: [
-      { name: 'Titanium Black', hex: '#1e293b' },
-      { name: 'Titanium Gray', hex: '#71717a' },
-      { name: 'Titanium Violet', hex: '#581c87' }
-    ],
-    batteryCycleCount: 110,
-    originalPartVerified: true,
-    warrantyMonths: 12,
-    specs: {
-      screen: '6.8" Dynamic LTPO AMOLED 2X (2600 nits peak)',
-      chipset: 'Snapdragon 8 Gen 3 for Galaxy',
-      ram: '12GB LPDDR5X',
-      camera: '200MP Main + 50MP 5x Telephoto + 10MP 3x + 12MP Ultra-Wide',
-      network: '5G Dual SIM (Nano-SIM + eSIM)',
-      os: 'One UI 6.1 (Android 14)'
-    },
-    features: [
-      'Corning Gorilla Armor anti-reflective display glass',
-      'Integrated Bluetooth low-energy S-Pen',
-      'Live Translate and Circle to Search AI tools',
-      'Ultrasonic under-display fingerprint reader tested'
-    ],
-    inTheBox: ['Samsung Galaxy S24 Ultra', 'Original S-Pen', 'USB-C Cable', 'SIM Eject Tool']
+    id: 'ph_a2', imei: '358900112233442', serialNumber: 'SN-APL-14P-001',
+    brand: 'Apple', model: 'iPhone 14 Pro', storageGb: 128, color: 'Deep Purple', conditionGrade: 'GOOD', batteryHealthPct: 92, cosmeticRating: 8,
+    priceZar: 17999, monthlyFinancingZar: 1499, warehouseLocation: 'CPT-WH-02 / BIN-B-12', status: 'AVAILABLE',
+    tagline: 'A magical new way to interact with iPhone.', category: 'smartphones', imageColorHex: '#4d4659',
+    imageUrl: 'https://images.unsplash.com/photo-1678652733566-3d2331c1f77d?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 215, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '6.1" Super Retina XDR OLED', chipset: 'Apple A16 Bionic (4nm)', ram: '6GB', camera: '48MP Main + 12MP 3x Telephoto + 12MP Ultra-Wide', network: '5G, Wi-Fi 6', os: 'iOS 17' },
+    features: ['Dynamic Island', 'Always-On display', 'Crash Detection'], inTheBox: ['Certified Pre-Owned iPhone', 'Lightning Cable', 'Ultron Diagnostic Passport']
   },
   {
-    id: 'ph_03',
-    imei: '867123901827461',
-    serialNumber: 'SN-GGL-P8P-3319',
-    brand: 'Google',
-    model: 'Pixel 8 Pro',
-    storageGb: 128,
-    color: 'Bay Blue',
-    conditionGrade: 'FAIR',
-    batteryHealthPct: 89,
-    cosmeticRating: 8,
-    priceZar: 14499,
-    monthlyFinancingZar: 1208,
-    warehouseLocation: 'CPT-WH-01 / BIN-B-29',
-    status: 'AVAILABLE',
-    tagline: 'Light signs of wear along bezel; screen flawless with matte protector. Exceptional camera value.',
-    category: 'smartphones',
-    imageColorHex: '#38bdf8',
-    imageUrl: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=1000&q=85',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=1000&q=85'
-    ],
-    colorSwatches: [
-      { name: 'Bay Blue', hex: '#38bdf8' },
-      { name: 'Obsidian', hex: '#0f172a' },
-      { name: 'Porcelain', hex: '#f8fafc' }
-    ],
-    batteryCycleCount: 215,
-    originalPartVerified: true,
-    warrantyMonths: 6,
-    specs: {
-      screen: '6.7" Super Actua OLED (1-120Hz LTPO)',
-      chipset: 'Google Tensor G3 (Titan M2 Security)',
-      ram: '12GB LPDDR5X',
-      camera: '50MP Octa PD + 48MP Quad PD Telephoto + 48MP Ultra-Wide',
-      network: '5G Sub-6, Wi-Fi 7',
-      os: 'Stock Android 14 (7 Years OS Updates)'
-    },
-    features: [
-      'Best Take and Magic Editor computational photography',
-      'Built-in temperature sensor on camera visor',
-      'Full day 5050mAh battery endurance verified',
-      'IP68 dust/water integrity seals pressure-tested'
-    ],
-    inTheBox: ['Google Pixel 8 Pro', 'Quick Switch Adapter', 'USB-C 3.0 Charging Cable']
-  },
-  {
-    id: 'ph_04',
-    imei: '359102948291039',
-    serialNumber: 'SN-APL-14P-1928',
-    brand: 'Apple',
-    model: 'iPhone 14 Pro',
-    storageGb: 256,
-    color: 'Deep Purple',
-    conditionGrade: 'MINT',
-    batteryHealthPct: 96,
-    cosmeticRating: 10,
-    priceZar: 16999,
-    monthlyFinancingZar: 1416,
-    warehouseLocation: 'JHB-WH-02 / BIN-A-04',
-    status: 'AVAILABLE',
-    tagline: 'Iconic Deep Purple edition. Dynamic Island display, tested and certified 100% clean ESN.',
-    category: 'smartphones',
-    imageColorHex: '#581c87',
-    imageUrl: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1000&q=85',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1000&q=85'
-    ],
-    colorSwatches: [
-      { name: 'Deep Purple', hex: '#581c87' },
-      { name: 'Space Black', hex: '#18181b' },
-      { name: 'Silver', hex: '#f1f5f9' },
-      { name: 'Gold', hex: '#fef08a' }
-    ],
-    batteryCycleCount: 88,
-    originalPartVerified: true,
-    warrantyMonths: 12,
-    specs: {
-      screen: '6.1" Super Retina XDR OLED (Dynamic Island)',
-      chipset: 'Apple A16 Bionic (4nm)',
-      ram: '6GB LPDDR5',
-      camera: '48MP Main + 12MP 3x Telephoto + 12MP Ultra-Wide',
-      network: '5G, Wi-Fi 6',
-      os: 'iOS 17'
-    },
-    features: [
-      'Always-On display with ProMotion 120Hz',
-      'Emergency SOS via satellite & Crash Detection',
-      'Original Apple battery with 96% health verified',
-      'All original internal components verified with Apple AST2 tooling'
-    ],
-    inTheBox: ['Certified Pre-Owned iPhone 14 Pro', 'Lightning to USB-C Cable', 'Ultron Diagnostic Passport']
-  },
-  {
-    id: 'ph_05',
-    imei: '861029481920491',
-    serialNumber: 'SN-1P-12-7712',
-    brand: 'OnePlus',
-    model: 'OnePlus 12',
-    storageGb: 512,
-    color: 'Silky Black',
-    conditionGrade: 'MINT',
-    batteryHealthPct: 99,
-    cosmeticRating: 10,
-    priceZar: 15999,
-    monthlyFinancingZar: 1333,
-    warehouseLocation: 'CPT-WH-01 / BIN-C-19',
-    status: 'AVAILABLE',
-    tagline: 'Open-box unit with 100W SuperVOOC rapid charging and 4th Gen Hasselblad camera system.',
-    category: 'smartphones',
-    imageColorHex: '#18181b',
-    imageUrl: 'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=1000&q=85',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=1000&q=85'
-    ],
-    colorSwatches: [
-      { name: 'Silky Black', hex: '#18181b' },
-      { name: 'Flowy Emerald', hex: '#065f46' }
-    ],
-    batteryCycleCount: 14,
-    originalPartVerified: true,
-    warrantyMonths: 12,
-    specs: {
-      screen: '6.82" ProXDR 2K 120Hz Oriental Screen (4500 nits)',
-      chipset: 'Snapdragon 8 Gen 3',
-      ram: '16GB LPDDR5X',
-      camera: '50MP Sony LYT-808 + 64MP 3x Periscope + 48MP Ultra-Wide',
-      network: '5G Dual SIM, Wi-Fi 7',
-      os: 'OxygenOS 14 (Android 14)'
-    },
-    features: [
-      'Dual Cryo-velocity VC cooling system for sustained gaming',
-      '5400mAh dual-cell battery with 100W wired & 50W wireless charging',
-      'Hasselblad portrait mode color grading engine',
-      'Aqua Touch technology for seamless touch accuracy in rain'
-    ],
-    inTheBox: ['OnePlus 12', '100W SuperVOOC Power Adapter', 'Type-C Red Cable', 'Factory Case']
-  },
-  {
-    id: 'ph_06',
-    imei: '357182940192847',
-    serialNumber: 'SN-APL-M3M-0182',
-    brand: 'Apple',
-    model: 'MacBook Pro 14" M3 Pro',
-    storageGb: 512,
-    color: 'Space Black',
-    conditionGrade: 'MINT',
-    batteryHealthPct: 100,
-    cosmeticRating: 10,
-    priceZar: 34999,
-    monthlyFinancingZar: 2916,
-    warehouseLocation: 'JHB-WH-01 / VAULT-02',
-    status: 'AVAILABLE',
-    tagline: 'Spotless Space Black anodized chassis. 18GB Unified RAM, 100% battery capacity.',
-    category: 'tablets',
-    imageColorHex: '#27272a',
-    imageUrl: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1000&q=85',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1000&q=85',
-      'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=1000&q=85'
-    ],
-    colorSwatches: [
-      { name: 'Space Black', hex: '#27272a' },
-      { name: 'Silver', hex: '#e2e8f0' }
-    ],
-    batteryCycleCount: 19,
-    originalPartVerified: true,
-    warrantyMonths: 12,
-    specs: {
-      screen: '14.2" Liquid Retina XDR (1600 nits peak HDR)',
-      chipset: 'Apple M3 Pro (11-core CPU, 14-core GPU)',
-      ram: '18GB Unified Memory',
-      camera: '1080p FaceTime HD Camera',
-      network: 'Wi-Fi 6E, Bluetooth 5.3',
-      os: 'macOS Sonoma'
-    },
-    features: [
-      'Hardware-accelerated ray tracing & mesh shading',
-      'Up to 18 hours wireless web battery life',
-      'Six-speaker sound system with force-cancelling woofers',
-      'MagSafe 3, three Thunderbolt 4 ports, HDMI, SDXC slot'
-    ],
-    inTheBox: ['MacBook Pro 14"', '70W USB-C Power Adapter', 'USB-C to MagSafe 3 Cable (Space Black)']
-  },
-  {
-    id: 'ph_07',
-    imei: '829103948572102',
-    serialNumber: 'SN-APL-13P-4829',
-    brand: 'Apple',
-    model: 'iPhone 13 Pro',
-    storageGb: 256,
-    color: 'Sierra Blue',
-    conditionGrade: 'GOOD',
-    batteryHealthPct: 88,
-    cosmeticRating: 8,
-    priceZar: 11499,
-    monthlyFinancingZar: 958,
-    warehouseLocation: 'CPT-WH-02 / BIN-A-11',
-    status: 'AVAILABLE',
-    tagline: 'The iconic Sierra Blue. ProMotion display and incredible battery life at an unbeatable value.',
-    category: 'smartphones',
-    imageColorHex: '#bfdbfe',
+    id: 'ph_a3', imei: '358900112233443', serialNumber: 'SN-APL-13-001',
+    brand: 'Apple', model: 'iPhone 13', storageGb: 128, color: 'Midnight', conditionGrade: 'MINT', batteryHealthPct: 98, cosmeticRating: 9,
+    priceZar: 11499, monthlyFinancingZar: 958, warehouseLocation: 'DBN-WH-01 / BIN-C-05', status: 'AVAILABLE',
+    tagline: 'Your new superpower.', category: 'smartphones', imageColorHex: '#1d1d1f',
     imageUrl: 'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=1000&q=85',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=1000&q=85'
-    ],
-    colorSwatches: [
-      { name: 'Sierra Blue', hex: '#bfdbfe' },
-      { name: 'Graphite', hex: '#374151' }
-    ],
-    batteryCycleCount: 310,
-    originalPartVerified: true,
-    warrantyMonths: 6,
-    specs: {
-      screen: '6.1" Super Retina XDR OLED (120Hz)',
-      chipset: 'Apple A15 Bionic (5nm)',
-      ram: '6GB LPDDR4X',
-      camera: '12MP Main + 12MP 3x Telephoto + 12MP Ultra-Wide',
-      network: '5G, Wi-Fi 6',
-      os: 'iOS 17'
-    },
-    features: [
-      'Macro photography mode',
-      'Cinematic mode in 1080p at 30 fps',
-      'Surgical-grade stainless steel edges'
-    ],
-    inTheBox: ['Certified Pre-Owned iPhone 13 Pro', 'Lightning to USB-C Cable']
+    batteryCycleCount: 45, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '6.1" Super Retina XDR OLED', chipset: 'Apple A15 Bionic (5nm)', ram: '4GB', camera: '12MP Main + 12MP Ultra-Wide', network: '5G, Wi-Fi 6', os: 'iOS 17' },
+    features: ['Cinematic mode', 'Super Retina XDR display', 'Ceramic Shield'], inTheBox: ['Certified Pre-Owned iPhone', 'Lightning Cable', 'Ultron Diagnostic Passport']
   },
   {
-    id: 'acc_01',
-    imei: 'N/A',
-    serialNumber: 'SN-APL-AW9-4411',
-    brand: 'Apple',
-    model: 'Watch Series 9',
-    storageGb: 64,
-    color: 'Midnight',
-    conditionGrade: 'MINT',
-    batteryHealthPct: 100,
-    cosmeticRating: 10,
-    priceZar: 7999,
-    monthlyFinancingZar: 666,
-    warehouseLocation: 'JHB-WH-01 / ACC-B-02',
-    status: 'AVAILABLE',
-    tagline: 'Smarter. Brighter. Mightier. Open-box unit, never worn.',
-    category: 'accessories',
-    imageColorHex: '#1e293b',
-    imageUrl: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=1000&q=85',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=1000&q=85'
-    ],
-    colorSwatches: [
-      { name: 'Midnight', hex: '#1e293b' },
-      { name: 'Starlight', hex: '#f8fafc' }
-    ],
-    batteryCycleCount: 0,
-    originalPartVerified: true,
-    warrantyMonths: 12,
-    specs: {
-      screen: '1.9" Retina LTPO OLED (2000 nits)',
-      chipset: 'Apple S9 SiP',
-      ram: '1GB',
-      camera: 'N/A',
-      network: 'GPS + Cellular, Wi-Fi 4',
-      os: 'watchOS 10'
-    },
-    features: [
-      'Double tap gesture control',
-      'Blood oxygen sensor and ECG app',
-      'Precision Finding for iPhone'
-    ],
-    inTheBox: ['Apple Watch Series 9', 'Midnight Sport Band', 'Magnetic Fast Charger to USB-C Cable']
+    id: 'ph_a4', imei: '358900112233444', serialNumber: 'SN-APL-12-001',
+    brand: 'Apple', model: 'iPhone 12', storageGb: 64, color: 'Blue', conditionGrade: 'FAIR', batteryHealthPct: 85, cosmeticRating: 6,
+    priceZar: 7999, monthlyFinancingZar: 666, warehouseLocation: 'JHB-WH-01 / BIN-A-04', status: 'AVAILABLE',
+    tagline: 'Blast past fast.', category: 'smartphones', imageColorHex: '#0f395c',
+    imageUrl: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 400, originalPartVerified: true, warrantyMonths: 6,
+    specs: { screen: '6.1" Super Retina XDR OLED', chipset: 'Apple A14 Bionic (5nm)', ram: '4GB', camera: '12MP Main + 12MP Ultra-Wide', network: '5G, Wi-Fi 6', os: 'iOS 17' },
+    features: ['MagSafe compatible', '5G Speed', 'OLED Display'], inTheBox: ['Certified Pre-Owned iPhone', 'Lightning Cable', 'Ultron Diagnostic Passport']
   },
   {
-    id: 'acc_02',
-    imei: 'N/A',
-    serialNumber: 'SN-APL-APP2-9901',
-    brand: 'Apple',
-    model: 'AirPods Pro (2nd Gen)',
-    storageGb: 0,
-    color: 'White',
-    conditionGrade: 'MINT',
-    batteryHealthPct: 100,
-    cosmeticRating: 10,
-    priceZar: 4499,
-    monthlyFinancingZar: 375,
-    warehouseLocation: 'JHB-WH-01 / ACC-A-01',
-    status: 'AVAILABLE',
-    tagline: 'Rebuilt from the sound up. Sealed open-box unit.',
-    category: 'accessories',
-    imageColorHex: '#ffffff',
-    imageUrl: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=1000&q=85',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=1000&q=85'
-    ],
-    colorSwatches: [
-      { name: 'White', hex: '#ffffff' }
-    ],
-    batteryCycleCount: 0,
-    originalPartVerified: true,
-    warrantyMonths: 12,
-    specs: {
-      screen: 'N/A',
-      chipset: 'Apple H2 Headphone Chip',
-      ram: 'N/A',
-      camera: 'N/A',
-      network: 'Bluetooth 5.3',
-      os: 'Firmware 6B34'
-    },
-    features: [
-      'Up to 2x more Active Noise Cancellation',
-      'Adaptive Audio & Personalized Spatial Audio',
-      'MagSafe Charging Case with speaker and lanyard loop'
-    ],
-    inTheBox: ['AirPods Pro (2nd Gen)', 'MagSafe Charging Case (USB-C)', 'Silicone ear tips (4 sizes)', 'USB-C Charge Cable']
+    id: 'ph_a5', imei: '358900112233445', serialNumber: 'SN-APL-SE-001',
+    brand: 'Apple', model: 'iPhone SE (3rd Gen)', storageGb: 64, color: 'Starlight', conditionGrade: 'GOOD', batteryHealthPct: 91, cosmeticRating: 8,
+    priceZar: 6499, monthlyFinancingZar: 541, warehouseLocation: 'CPT-WH-02 / BIN-B-08', status: 'AVAILABLE',
+    tagline: 'Serious power. Serious value.', category: 'smartphones', imageColorHex: '#faf8f5',
+    imageUrl: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 220, originalPartVerified: true, warrantyMonths: 6,
+    specs: { screen: '4.7" Retina HD IPS LCD', chipset: 'Apple A15 Bionic (5nm)', ram: '4GB', camera: '12MP Main', network: '5G, Wi-Fi 6', os: 'iOS 17' },
+    features: ['Touch ID', 'A15 Bionic Chip', 'Pocket-friendly'], inTheBox: ['Certified Pre-Owned iPhone', 'Lightning Cable', 'Ultron Diagnostic Passport']
+  },
+
+  // SAMSUNG
+  {
+    id: 'ph_s1', imei: '358900112233551', serialNumber: 'SN-SAM-S24U-001',
+    brand: 'Samsung', model: 'Galaxy S24 Ultra', storageGb: 512, color: 'Titanium Gray', conditionGrade: 'MINT', batteryHealthPct: 100, cosmeticRating: 10,
+    priceZar: 25999, monthlyFinancingZar: 2166, warehouseLocation: 'JHB-WH-01 / BIN-C-01', status: 'AVAILABLE',
+    tagline: 'Galaxy AI is here.', category: 'smartphones', imageColorHex: '#5e5d59',
+    imageUrl: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 2, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '6.8" Dynamic LTPO AMOLED 2X', chipset: 'Snapdragon 8 Gen 3', ram: '12GB', camera: '200MP Main + 50MP Periscope + 10MP Tele + 12MP Ultra-Wide', network: '5G, Wi-Fi 7', os: 'Android 14' },
+    features: ['S Pen included', 'Titanium frame', 'Galaxy AI'], inTheBox: ['Certified Pre-Owned Galaxy', 'USB-C Cable', 'Ultron Diagnostic Passport']
+  },
+  {
+    id: 'ph_s2', imei: '358900112233552', serialNumber: 'SN-SAM-S23-001',
+    brand: 'Samsung', model: 'Galaxy S23', storageGb: 256, color: 'Phantom Black', conditionGrade: 'GOOD', batteryHealthPct: 93, cosmeticRating: 8,
+    priceZar: 12999, monthlyFinancingZar: 1083, warehouseLocation: 'CPT-WH-02 / BIN-C-12', status: 'AVAILABLE',
+    tagline: 'Epic nights are coming.', category: 'smartphones', imageColorHex: '#1d1d1f',
+    imageUrl: 'https://images.unsplash.com/photo-1674726245673-9b57e7932822?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 180, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '6.1" Dynamic AMOLED 2X', chipset: 'Snapdragon 8 Gen 2', ram: '8GB', camera: '50MP Main + 10MP Tele + 12MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'Android 14' },
+    features: ['Nightography', 'Eco-conscious design', 'Fast Snapdragon processor'], inTheBox: ['Certified Pre-Owned Galaxy', 'USB-C Cable', 'Ultron Diagnostic Passport']
+  },
+  {
+    id: 'ph_s3', imei: '358900112233553', serialNumber: 'SN-SAM-ZF5-001',
+    brand: 'Samsung', model: 'Galaxy Z Fold 5', storageGb: 512, color: 'Icy Blue', conditionGrade: 'MINT', batteryHealthPct: 97, cosmeticRating: 9,
+    priceZar: 22999, monthlyFinancingZar: 1916, warehouseLocation: 'JHB-WH-01 / BIN-C-05', status: 'AVAILABLE',
+    tagline: 'The ultimate foldable experience.', category: 'smartphones', imageColorHex: '#9bb2be',
+    imageUrl: 'https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 60, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '7.6" Foldable Dynamic AMOLED 2X', chipset: 'Snapdragon 8 Gen 2', ram: '12GB', camera: '50MP Main + 10MP Tele + 12MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'Android 14' },
+    features: ['Flex Hinge', 'Massive foldable screen', 'Multitasking powerhouse'], inTheBox: ['Certified Pre-Owned Galaxy Fold', 'USB-C Cable', 'Ultron Diagnostic Passport']
+  },
+  {
+    id: 'ph_s4', imei: '358900112233554', serialNumber: 'SN-SAM-ZFL5-001',
+    brand: 'Samsung', model: 'Galaxy Z Flip 5', storageGb: 256, color: 'Mint', conditionGrade: 'GOOD', batteryHealthPct: 89, cosmeticRating: 8,
+    priceZar: 14999, monthlyFinancingZar: 1249, warehouseLocation: 'DBN-WH-01 / BIN-C-02', status: 'AVAILABLE',
+    tagline: 'Flex your best angle.', category: 'smartphones', imageColorHex: '#cbe4d1',
+    imageUrl: 'https://images.unsplash.com/photo-1603313011101-320f26a4f6f6?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 200, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '6.7" Foldable Dynamic AMOLED 2X', chipset: 'Snapdragon 8 Gen 2', ram: '8GB', camera: '12MP Main + 12MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'Android 14' },
+    features: ['Flex Window', 'Compact foldable design', 'Hands-free selfies'], inTheBox: ['Certified Pre-Owned Galaxy Flip', 'USB-C Cable', 'Ultron Diagnostic Passport']
+  },
+  {
+    id: 'ph_s5', imei: '358900112233555', serialNumber: 'SN-SAM-A54-001',
+    brand: 'Samsung', model: 'Galaxy A54', storageGb: 128, color: 'Awesome Graphite', conditionGrade: 'FAIR', batteryHealthPct: 84, cosmeticRating: 7,
+    priceZar: 5999, monthlyFinancingZar: 499, warehouseLocation: 'CPT-WH-02 / BIN-C-09', status: 'AVAILABLE',
+    tagline: 'Awesome is for everyone.', category: 'smartphones', imageColorHex: '#3a3a3a',
+    imageUrl: 'https://images.unsplash.com/photo-1609252925148-b0f1b515e111?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 350, originalPartVerified: true, warrantyMonths: 6,
+    specs: { screen: '6.4" Super AMOLED (120Hz)', chipset: 'Exynos 1380 (5nm)', ram: '6GB', camera: '50MP Main + 12MP Ultra-Wide + 5MP Macro', network: '5G, Wi-Fi 6', os: 'Android 14' },
+    features: ['Affordable value', 'IP67 water resistance', 'Bright 120Hz screen'], inTheBox: ['Certified Pre-Owned Galaxy', 'USB-C Cable', 'Ultron Diagnostic Passport']
+  },
+
+  // GOOGLE
+  {
+    id: 'ph_g1', imei: '358900112233661', serialNumber: 'SN-GGL-P8P-001',
+    brand: 'Google', model: 'Pixel 8 Pro', storageGb: 256, color: 'Bay Blue', conditionGrade: 'MINT', batteryHealthPct: 99, cosmeticRating: 10,
+    priceZar: 18999, monthlyFinancingZar: 1583, warehouseLocation: 'JHB-WH-01 / BIN-G-01', status: 'AVAILABLE',
+    tagline: 'The all-pro Google phone.', category: 'smartphones', imageColorHex: '#b4c9db',
+    imageUrl: 'https://images.unsplash.com/photo-1662955519195-2cc08f658055?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 15, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '6.7" LTPO OLED (120Hz)', chipset: 'Google Tensor G3 (4nm)', ram: '12GB', camera: '50MP Main + 48MP Tele + 48MP Ultra-Wide', network: '5G, Wi-Fi 7', os: 'Android 14' },
+    features: ['Advanced Google AI', 'Best-in-class camera', 'Temperature sensor'], inTheBox: ['Certified Pre-Owned Pixel', 'USB-C Cable', 'Ultron Diagnostic Passport']
+  },
+  {
+    id: 'ph_g2', imei: '358900112233662', serialNumber: 'SN-GGL-P7A-001',
+    brand: 'Google', model: 'Pixel 7a', storageGb: 128, color: 'Sea', conditionGrade: 'MINT', batteryHealthPct: 98, cosmeticRating: 9,
+    priceZar: 8999, monthlyFinancingZar: 749, warehouseLocation: 'CPT-WH-02 / BIN-G-04', status: 'AVAILABLE',
+    tagline: 'Built to perform. Priced just right.', category: 'smartphones', imageColorHex: '#dce8e8',
+    imageUrl: 'https://images.unsplash.com/photo-1673891780590-b1933baee042?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 40, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '6.1" OLED (90Hz)', chipset: 'Google Tensor G2 (5nm)', ram: '8GB', camera: '64MP Main + 13MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'Android 14' },
+    features: ['Amazing camera for the price', 'Tensor G2 AI', 'Wireless charging'], inTheBox: ['Certified Pre-Owned Pixel', 'USB-C Cable', 'Ultron Diagnostic Passport']
+  },
+  {
+    id: 'ph_g3', imei: '358900112233663', serialNumber: 'SN-GGL-P7-001',
+    brand: 'Google', model: 'Pixel 7', storageGb: 128, color: 'Lemongrass', conditionGrade: 'GOOD', batteryHealthPct: 90, cosmeticRating: 8,
+    priceZar: 10499, monthlyFinancingZar: 874, warehouseLocation: 'JHB-WH-01 / BIN-G-06', status: 'AVAILABLE',
+    tagline: 'Super fast. Super secure.', category: 'smartphones', imageColorHex: '#e1e3cd',
+    imageUrl: 'https://images.unsplash.com/photo-1665686377065-08ba896d16fd?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 185, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '6.3" AMOLED (90Hz)', chipset: 'Google Tensor G2 (5nm)', ram: '8GB', camera: '50MP Main + 12MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'Android 14' },
+    features: ['Magic Eraser', 'Photo Unblur', 'Sleek design'], inTheBox: ['Certified Pre-Owned Pixel', 'USB-C Cable', 'Ultron Diagnostic Passport']
+  },
+  {
+    id: 'ph_g4', imei: '358900112233664', serialNumber: 'SN-GGL-P6P-001',
+    brand: 'Google', model: 'Pixel 6 Pro', storageGb: 128, color: 'Cloudy White', conditionGrade: 'FAIR', batteryHealthPct: 83, cosmeticRating: 7,
+    priceZar: 7999, monthlyFinancingZar: 666, warehouseLocation: 'DBN-WH-01 / BIN-G-03', status: 'AVAILABLE',
+    tagline: 'The smartest Pixel yet.', category: 'smartphones', imageColorHex: '#f0f0f2',
+    imageUrl: 'https://images.unsplash.com/photo-1644342555577-b84cc52cbff6?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 390, originalPartVerified: true, warrantyMonths: 6,
+    specs: { screen: '6.7" LTPO AMOLED (120Hz)', chipset: 'Google Tensor (5nm)', ram: '12GB', camera: '50MP Main + 48MP Tele + 12MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'Android 14' },
+    features: ['Curved screen', 'Excellent zoom camera', 'Original Tensor chip'], inTheBox: ['Certified Pre-Owned Pixel', 'USB-C Cable', 'Ultron Diagnostic Passport']
+  },
+  {
+    id: 'ph_g5', imei: '358900112233665', serialNumber: 'SN-GGL-PF-001',
+    brand: 'Google', model: 'Pixel Fold', storageGb: 256, color: 'Obsidian', conditionGrade: 'MINT', batteryHealthPct: 96, cosmeticRating: 9,
+    priceZar: 24999, monthlyFinancingZar: 2083, warehouseLocation: 'JHB-WH-01 / BIN-G-10', status: 'AVAILABLE',
+    tagline: 'The first foldable from Google.', category: 'smartphones', imageColorHex: '#1f2022',
+    imageUrl: 'https://images.unsplash.com/photo-1615526675159-e248c3021d3f?auto=format&fit=crop&w=1000&q=85',
+    batteryCycleCount: 80, originalPartVerified: true, warrantyMonths: 12,
+    specs: { screen: '7.6" Foldable OLED (120Hz)', chipset: 'Google Tensor G2 (5nm)', ram: '12GB', camera: '48MP Main + 10.8MP Tele + 10.8MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'Android 14' },
+    features: ['Thin foldable design', 'Pixel camera system', 'Split-screen multitasking'], inTheBox: ['Certified Pre-Owned Pixel Fold', 'USB-C Cable', 'Ultron Diagnostic Passport']
   }
 ];

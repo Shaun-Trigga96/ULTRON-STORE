@@ -550,7 +550,7 @@ export const StorefrontView: React.FC = () => {
 
         {/* Brand tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 text-[13px]">
-          {['ALL', 'Apple', 'Samsung', 'Google', 'OnePlus'].map((brand) => (
+          {['ALL', 'Apple', 'Samsung', 'Google'].map((brand) => (
             <button
               key={brand}
               onClick={() => setSelectedBrand(brand)}
