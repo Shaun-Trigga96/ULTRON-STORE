@@ -71,9 +71,9 @@ export const StorefrontView: React.FC = () => {
 
   // Server Connection & Standalone Mode state
   const [isServerModalOpen, setIsServerModalOpen] = useState(false);
-  const [backendUrl, setBackendUrl] = useState('http://localhost:8080');
+  const [backendUrl, setBackendUrl] = useState('http://localhost:4000');
   const [serverStatus, setServerStatus] = useState<'STANDALONE' | 'CONNECTING' | 'CONNECTED' | 'OFFLINE'>('CONNECTING');
-  const [serverHealthMessage, setServerHealthMessage] = useState<string>('Connecting to API Gateway...');
+  const [serverHealthMessage, setServerHealthMessage] = useState<string>('Connecting to Modular Monolith Backend...');
   const [sessionId] = useState<string>('session_' + Math.random().toString(36).substr(2, 9));
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export const StorefrontView: React.FC = () => {
           });
           setProducts(liveProducts.length > 0 ? liveProducts : CATALOG_PRODUCTS);
           setServerStatus('CONNECTED');
-          setServerHealthMessage('Connected to live Inventory & Catalog Microservices via API Gateway.');
+          setServerHealthMessage('Connected to live Modular Monolith API.');
         }
       } catch (err) {
         setServerStatus('OFFLINE');
@@ -1084,13 +1084,13 @@ export const StorefrontView: React.FC = () => {
 
             <div className="space-y-3 font-mono text-xs">
               <div>
-                <label className="block text-slate-500 dark:text-slate-400 mb-1">Target Inventory Microservice URL</label>
+                <label className="block text-slate-500 dark:text-slate-400 mb-1">Target Backend API URL</label>
                 <input
                   type="text"
                   value={backendUrl}
                   onChange={(e) => setBackendUrl(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white"
-                  placeholder="http://localhost:4001"
+                  placeholder="http://localhost:4000"
                 />
               </div>
 
