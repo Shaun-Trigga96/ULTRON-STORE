@@ -1,9 +1,5 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/ultron-store-logo-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="docs/assets/ultron-store-logo.svg">
-    <img src="docs/assets/ultron-store-logo.svg" alt="ULTRON STORE Logo" width="400" />
-  </picture>
+  <img src="docs/assets/Logo.png" alt="ULTRON STORE Logo" width="480" />
 </p>
 
 # ULTRON STORE — Complete End-to-End DevOps Deployment Guide

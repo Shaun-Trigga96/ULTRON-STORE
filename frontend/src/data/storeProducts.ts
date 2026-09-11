@@ -41,7 +41,7 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     brand: 'Apple', model: 'iPhone 15 Pro Max', storageGb: 256, color: 'Natural Titanium', conditionGrade: 'MINT', batteryHealthPct: 100, cosmeticRating: 10,
     priceZar: 23999, monthlyFinancingZar: 1999, warehouseLocation: 'JHB-WH-01 / BIN-A-01', status: 'AVAILABLE',
     tagline: 'Titanium. So strong. So light. So Pro.', category: 'smartphones', imageColorHex: '#b2aba1',
-    imageUrl: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1697205244588-46633b49ecb2?auto=format&fit=crop&w=1000&q=85',
     batteryCycleCount: 5, originalPartVerified: true, warrantyMonths: 12,
     specs: { screen: '6.7" Super Retina XDR OLED', chipset: 'Apple A17 Pro (3nm)', ram: '8GB', camera: '48MP Main + 12MP 5x Telephoto + 12MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'iOS 17' },
     features: ['Grade A+ mint condition', 'Action Button', 'USB-C'], inTheBox: ['Certified Pre-Owned iPhone', 'USB-C Cable', 'Ultron Diagnostic Passport']
@@ -51,7 +51,7 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     brand: 'Apple', model: 'iPhone 14 Pro', storageGb: 128, color: 'Deep Purple', conditionGrade: 'GOOD', batteryHealthPct: 92, cosmeticRating: 8,
     priceZar: 17999, monthlyFinancingZar: 1499, warehouseLocation: 'CPT-WH-02 / BIN-B-12', status: 'AVAILABLE',
     tagline: 'A magical new way to interact with iPhone.', category: 'smartphones', imageColorHex: '#4d4659',
-    imageUrl: 'https://images.unsplash.com/photo-1678652733566-3d2331c1f77d?auto=format&fit=crop&w=1000&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1662973797619-33860bb4a6bc?auto=format&fit=crop&w=1000&q=85',
     batteryCycleCount: 215, originalPartVerified: true, warrantyMonths: 12,
     specs: { screen: '6.1" Super Retina XDR OLED', chipset: 'Apple A16 Bionic (4nm)', ram: '6GB', camera: '48MP Main + 12MP 3x Telephoto + 12MP Ultra-Wide', network: '5G, Wi-Fi 6', os: 'iOS 17' },
     features: ['Dynamic Island', 'Always-On display', 'Crash Detection'], inTheBox: ['Certified Pre-Owned iPhone', 'Lightning Cable', 'Ultron Diagnostic Passport']
@@ -93,7 +93,7 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     brand: 'Samsung', model: 'Galaxy S24 Ultra', storageGb: 512, color: 'Titanium Gray', conditionGrade: 'MINT', batteryHealthPct: 100, cosmeticRating: 10,
     priceZar: 25999, monthlyFinancingZar: 2166, warehouseLocation: 'JHB-WH-01 / BIN-C-01', status: 'AVAILABLE',
     tagline: 'Galaxy AI is here.', category: 'smartphones', imageColorHex: '#5e5d59',
-    imageUrl: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1707914902167-910e5272a9e3?auto=format&fit=crop&w=1000&q=85',
     batteryCycleCount: 2, originalPartVerified: true, warrantyMonths: 12,
     specs: { screen: '6.8" Dynamic LTPO AMOLED 2X', chipset: 'Snapdragon 8 Gen 3', ram: '12GB', camera: '200MP Main + 50MP Periscope + 10MP Tele + 12MP Ultra-Wide', network: '5G, Wi-Fi 7', os: 'Android 14' },
     features: ['S Pen included', 'Titanium frame', 'Galaxy AI'], inTheBox: ['Certified Pre-Owned Galaxy', 'USB-C Cable', 'Ultron Diagnostic Passport']
@@ -103,7 +103,7 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     brand: 'Samsung', model: 'Galaxy S23', storageGb: 256, color: 'Phantom Black', conditionGrade: 'GOOD', batteryHealthPct: 93, cosmeticRating: 8,
     priceZar: 12999, monthlyFinancingZar: 1083, warehouseLocation: 'CPT-WH-02 / BIN-C-12', status: 'AVAILABLE',
     tagline: 'Epic nights are coming.', category: 'smartphones', imageColorHex: '#1d1d1f',
-    imageUrl: 'https://images.unsplash.com/photo-1674726245673-9b57e7932822?auto=format&fit=crop&w=1000&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1678256333671-5b7fb5f02bc0?auto=format&fit=crop&w=1000&q=85',
     batteryCycleCount: 180, originalPartVerified: true, warrantyMonths: 12,
     specs: { screen: '6.1" Dynamic AMOLED 2X', chipset: 'Snapdragon 8 Gen 2', ram: '8GB', camera: '50MP Main + 10MP Tele + 12MP Ultra-Wide', network: '5G, Wi-Fi 6E', os: 'Android 14' },
     features: ['Nightography', 'Eco-conscious design', 'Fast Snapdragon processor'], inTheBox: ['Certified Pre-Owned Galaxy', 'USB-C Cable', 'Ultron Diagnostic Passport']
@@ -133,7 +133,7 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     brand: 'Samsung', model: 'Galaxy A54', storageGb: 128, color: 'Awesome Graphite', conditionGrade: 'FAIR', batteryHealthPct: 84, cosmeticRating: 7,
     priceZar: 5999, monthlyFinancingZar: 499, warehouseLocation: 'CPT-WH-02 / BIN-C-09', status: 'AVAILABLE',
     tagline: 'Awesome is for everyone.', category: 'smartphones', imageColorHex: '#3a3a3a',
-    imageUrl: 'https://images.unsplash.com/photo-1609252925148-b0f1b515e111?auto=format&fit=crop&w=1000&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1610945264803-c22b62d2a7b3?auto=format&fit=crop&w=1000&q=85',
     batteryCycleCount: 350, originalPartVerified: true, warrantyMonths: 6,
     specs: { screen: '6.4" Super AMOLED (120Hz)', chipset: 'Exynos 1380 (5nm)', ram: '6GB', camera: '50MP Main + 12MP Ultra-Wide + 5MP Macro', network: '5G, Wi-Fi 6', os: 'Android 14' },
     features: ['Affordable value', 'IP67 water resistance', 'Bright 120Hz screen'], inTheBox: ['Certified Pre-Owned Galaxy', 'USB-C Cable', 'Ultron Diagnostic Passport']
@@ -197,7 +197,7 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     brand: 'Apple', model: 'Watch Series 9', storageGb: 64, color: 'Midnight', conditionGrade: 'MINT', batteryHealthPct: 100, cosmeticRating: 10,
     priceZar: 7999, monthlyFinancingZar: 666, warehouseLocation: 'JHB-WH-01', status: 'AVAILABLE',
     tagline: 'Smarter. Brighter. Mightier.', category: 'accessories', imageColorHex: '#1e293b',
-    imageUrl: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=1000&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?auto=format&fit=crop&w=1000&q=85',
     batteryCycleCount: 0, originalPartVerified: true, warrantyMonths: 12,
     specs: { screen: '1.9" Retina LTPO OLED', chipset: 'Apple S9 SiP', ram: '1GB', camera: 'N/A', network: 'GPS', os: 'watchOS 10' },
     features: ['Double tap gesture', 'Blood oxygen sensor'], inTheBox: ['Apple Watch', 'Sport Band', 'Charger']
@@ -207,7 +207,7 @@ export const CATALOG_PRODUCTS: StoreProduct[] = [
     brand: 'Apple', model: 'AirPods Pro (2nd Gen)', storageGb: 0, color: 'White', conditionGrade: 'MINT', batteryHealthPct: 100, cosmeticRating: 10,
     priceZar: 4499, monthlyFinancingZar: 375, warehouseLocation: 'JHB-WH-01', status: 'AVAILABLE',
     tagline: 'Rebuilt from the sound up.', category: 'accessories', imageColorHex: '#ffffff',
-    imageUrl: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=1000&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1608156689673-a85966d93b39?auto=format&fit=crop&w=1000&q=85',
     batteryCycleCount: 0, originalPartVerified: true, warrantyMonths: 12,
     specs: { screen: 'N/A', chipset: 'Apple H2', ram: 'N/A', camera: 'N/A', network: 'Bluetooth 5.3', os: 'Firmware 6B34' },
     features: ['Active Noise Cancellation', 'Adaptive Audio'], inTheBox: ['AirPods Pro', 'MagSafe Case', 'Ear tips']
