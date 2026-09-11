@@ -376,13 +376,13 @@ export const StorefrontView: React.FC = () => {
           <UltronLogo variant="icon" size="md" className="h-9 w-auto" />
           <div>
             <div className="flex items-center gap-2.5 flex-wrap">
-              <h2 className="text-[17px] font-semibold text-[#1d1d1f] dark:text-white tracking-tight">
+              <h2 className="font-display text-[19px] text-[#1d1d1f] dark:text-white">
                 ULTRON
               </h2>
-              <span className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">Certified pre-owned store</span>
+              <span className="text-[12px] text-[#86868b] tracking-wide">Certified pre-owned</span>
             </div>
             <p className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] mt-0.5">
-              Every device passes a 40-point inspection, with your stock held for 10 minutes at checkout.
+              Every device individually inspected · Held for you 10 minutes at checkout.
             </p>
           </div>
         </div>
@@ -445,7 +445,7 @@ export const StorefrontView: React.FC = () => {
               Apple iPhone 15 Pro Max
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-semibold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.05]">
+            <h1 className="font-display text-4xl sm:text-6xl text-[#1d1d1f] dark:text-white leading-[1.08]">
               Titanium. So strong.<br className="hidden sm:block" /> So light. So Pro.
             </h1>
 
@@ -453,16 +453,16 @@ export const StorefrontView: React.FC = () => {
               Certified Grade A+ mint condition, genuine Super Retina XDR display, and 98% original battery capacity — backed by a 12-month replacement warranty.
             </p>
 
-            <div className="flex flex-wrap items-center gap-2.5 pt-1">
-              <span className="flex items-center gap-1.5 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.06] px-3 py-1.5 rounded-full">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1 text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">
+              <span className="flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 40-point inspection
               </span>
-              <span className="flex items-center gap-1.5 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.06] px-3 py-1.5 rounded-full">
+              <span className="flex items-center gap-1.5">
                 <Truck className="w-3.5 h-3.5" />
                 Free overnight delivery
               </span>
-              <span className="flex items-center gap-1.5 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.06] px-3 py-1.5 rounded-full">
+              <span className="flex items-center gap-1.5">
                 <RotateCcw className="w-3.5 h-3.5" />
                 7-day returns
               </span>
@@ -516,6 +516,72 @@ export const StorefrontView: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Trust / process band — the inspection claim, shown as a process rather than a badge */}
+      <div className="py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-6 text-center">
+          <div className="flex flex-col items-center gap-3">
+            <ShieldCheck className="w-5 h-5 text-[#0071e3]" />
+            <h4 className="text-[15px] font-medium text-[#1d1d1f] dark:text-[#f5f5f7]">40-point inspection</h4>
+            <p className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] max-w-[220px]">
+              Screen, battery, camera, chassis and IMEI history checked before a unit is ever listed.
+            </p>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <BadgeCheck className="w-5 h-5 text-[#0071e3]" />
+            <h4 className="text-[15px] font-medium text-[#1d1d1f] dark:text-[#f5f5f7]">One unit, one listing</h4>
+            <p className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] max-w-[220px]">
+              Every device is tracked by serial and IMEI — the photos and grade are for that exact unit.
+            </p>
+          </div>
+          <div className="flex flex-col items-center gap-3">
+            <RotateCcw className="w-5 h-5 text-[#0071e3]" />
+            <h4 className="text-[15px] font-medium text-[#1d1d1f] dark:text-[#f5f5f7]">12-month warranty</h4>
+            <p className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] max-w-[220px]">
+              Backed by a replacement warranty and a 7-day no-questions return window.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Curated entry points — browsing by intent, not a wall of products */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {[
+          { label: 'Apple', hash: 'Apple', sub: 'iPhone, certified' },
+          { label: 'Samsung', hash: 'Samsung', sub: 'Galaxy, certified' },
+          { label: 'Google', hash: 'Google', sub: 'Pixel, certified' },
+        ].map((tile) => (
+          <button
+            key={tile.hash}
+            onClick={() => {
+              setSelectedBrand(tile.hash);
+              window.location.hash = tile.hash;
+            }}
+            className="group relative overflow-hidden rounded-3xl bg-[#f5f5f7] dark:bg-white/[0.04] px-8 py-10 text-left transition-luxe hover:bg-[#eeeef0] dark:hover:bg-white/[0.07] transition-colors duration-300"
+          >
+            <p className="text-[11px] uppercase tracking-[0.14em] font-semibold text-[#86868b] mb-2">{tile.sub}</p>
+            <h3 className="font-display text-2xl text-[#1d1d1f] dark:text-[#f5f5f7]">{tile.label}</h3>
+            <span className="inline-flex items-center gap-1 text-[13px] text-[#0071e3] mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Shop {tile.label} <ChevronRight className="w-3.5 h-3.5" />
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Editorial — the sustainability story, a real conversion lever for refurbished tech */}
+      <div className="rounded-[28px] bg-[#fbfbfd] dark:bg-[#1c1c1e] px-10 sm:px-16 py-14 sm:py-20 transition-colors duration-300">
+        <div className="max-w-2xl mx-auto text-center space-y-5">
+          <p className="text-[11px] uppercase tracking-[0.18em] font-semibold text-[#86868b]">Why certified pre-owned</p>
+          <h3 className="font-display text-3xl sm:text-4xl text-[#1d1d1f] dark:text-[#f5f5f7] leading-snug">
+            A great device, without the cost of a new one — or the waste.
+          </h3>
+          <p className="text-[15px] text-[#6e6e73] dark:text-[#a1a1a6] leading-relaxed">
+            Every ULTRON device is a phone that already existed, restored to a standard worth trusting.
+            Choosing certified pre-owned means fewer raw materials mined, less e-waste landfilled, and a
+            fully inspected device backed by the same warranty you'd expect new.
+          </p>
         </div>
       </div>
 
@@ -597,10 +663,10 @@ export const StorefrontView: React.FC = () => {
       {/* Cart Drawer / Bag */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-white dark:bg-[#1d1d1f] h-full flex flex-col justify-between shadow-2xl transition-colors duration-300">
+          <div className="w-full max-w-md bg-white dark:bg-[#1d1d1f] h-full flex flex-col justify-between shadow-2xl transition-colors duration-300 transition-luxe">
             {/* Cart Header */}
             <div className="p-6 border-b border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-[#1d1d1f] dark:text-white tracking-tight">Your bag ({cart.length})</h2>
+              <h2 className="font-display text-lg text-[#1d1d1f] dark:text-white">Your bag ({cart.length})</h2>
               <button
                 onClick={() => setIsCartOpen(false)}
                 aria-label="Close"
