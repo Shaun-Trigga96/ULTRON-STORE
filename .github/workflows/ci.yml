@@ -28,13 +28,13 @@ jobs:
     needs: lint-and-test
     steps:
       - uses: actions/checkout@v4
-      - name: Build Local Diagnostic Image
+      - name: Build Backend Image
         run: |
-          docker build -t ultron/inventory-service:ci services/inventory-service || true
+          docker build -t ultron/backend:ci backend
       - name: Run Trivy Vulnerability Scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'ultron/inventory-service:ci'
+          image-ref: 'ultron/backend:ci'
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
