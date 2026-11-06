@@ -58,7 +58,7 @@ The repository holds the whole stack:
 | **Type** | Archivo (headings, 700 to 900) and Questrial (body), from Google Fonts. |
 | **Tokens** | Defined in `frontend/src/index.css` as Tailwind v4 `@theme` values, with shared `.btn`, `.chip`, `.badge` and `.field` styles. |
 
-Product photos go in `frontend/public/products/`, named to match `imageUrl` in the catalogue. Until a photo exists, the store shows a neutral phone outline.
+Product photos live in `frontend/public/products/`, named to match `imageUrl` in the catalogue. The demo catalogue uses stock photos of each model (sources and licences in [`CREDITS.md`](frontend/public/products/CREDITS.md)); swap in photos of the real unit when it's listed. If a photo is missing, the store shows a neutral phone outline.
 
 ---
 
