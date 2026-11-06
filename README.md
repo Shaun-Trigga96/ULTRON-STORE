@@ -1,253 +1,217 @@
 <p align="center">
-  <img src="docs/assets/ultron architecture.png" alt="ULTRON Architecture & Platform Overview" width="100%" />
+  <img src="frontend/public/logo.svg" alt="ULTRON Store" width="360" />
 </p>
 
-## 1. Executive Summary & Project Scope
+<p align="center">
+  <strong>Certified pre-owned phones, graded by hand, battery-tested and IMEI-checked.</strong><br />
+  One unit per listing. When it's gone, it's gone.
+</p>
 
-**ULTRON Store** is a mission-critical, enterprise-scale e-commerce platform dedicated to certified pre-owned and refurbished mobile devices. Unlike standard e-commerce platforms with homogeneous SKU quantities, pre-owned phone commerce requires **strict serial-level tracking (IMEI, battery health, cosmetic grades: Mint/Good/Fair, functional test histories)** where each listed unit is typically **one-of-a-kind (Quantity: 1)**.
-
-### Core Business & Technical Requirements
-- **Unified Modular Monolith API**: Designed with strict domain boundaries (`Catalog`, `Orders`, `Auth`) in a Node.js Express architecture, interacting natively with PostgreSQL for atomic transaction integrity.
-- **Dynamic Auto-Scaling**: Cloud-native elasticity spanning GKE Horizontal Pod Autoscaling (HPA) and GCP Managed Instance Groups (MIG) to absorb traffic surges during high-volume promotions.
-- **Resilient Payment Gateway Processing**: Fully idempotent payment processing (Stripe webhook ingestion), hardened via Cloud Secret Manager and robust error handling.
-- **GitOps-Driven Delivery**: Declarative infrastructure via **Terraform** and continuous delivery via **ArgoCD + Helm**, guaranteeing zero-downtime rolling updates with immutable audit trails.
-- **Zero-Downtime Migration Architecture**: Complete operational runbooks and data-validation pipelines to migrate legacy on-premise Docker Compose workloads to modern Google Cloud Platform (GCP) infrastructure.
+<p align="center">
+  <img src="docs/assets/screenshots/storefront-home.png" alt="ULTRON Store homepage" width="100%" />
+</p>
 
 ---
 
-## 2. Architectural Blueprint
+## What ULTRON Store is
+
+ULTRON Store is an e-commerce platform for certified pre-owned and refurbished mobile devices. Most shops sell many copies of one SKU. Here, nearly every listing is a single physical unit, so the platform tracks each device by serial: its IMEI, battery health and cycle count, cosmetic grade (Mint, Good or Fair) and test history.
+
+The repository holds the whole stack:
+
+- a **React storefront** with the customer journey from browsing to checkout
+- a **Node.js modular monolith API** for auth, inventory, orders and payments, backed by PostgreSQL
+- **Terraform** for Google Cloud infrastructure (VPC, GKE, Cloud SQL, monitoring, security)
+- **Helm and ArgoCD** for GitOps delivery to GKE
+- **migration runbooks** for moving the on-premise Docker Compose setup to GCP
+
+## The storefront
+
+<table>
+  <tr>
+    <td width="68%"><img src="docs/assets/screenshots/product-page.png" alt="Product page with inspection report" /></td>
+    <td width="32%"><img src="docs/assets/screenshots/mobile-home.png" alt="Homepage on a phone" /></td>
+  </tr>
+  <tr>
+    <td>Product page: price, inspection report, specs and 40-point checklist</td>
+    <td>Works at phone width</td>
+  </tr>
+</table>
+
+- **Browse and filter** by brand (Apple, Samsung, Google, accessories), cosmetic grade and search, and sort by price or battery health.
+- **Product pages** show battery health and cycles, grade, original-parts status, warranty, specs and the inspection checklist.
+- **Stock holds:** adding a device to the cart reserves that unit for the shopper while they check out, with a countdown in the cart.
+- **Checkout** covers delivery details and payment (card, instant EFT or crypto), then shows an order confirmation.
+- **Accounts:** sign in, register and view order history.
+- **Demo mode:** with no backend running, the store uses the built-in catalogue in `frontend/src/data/storeProducts.ts`, so every screen works on its own. The footer link "Connection settings" points it at a live API.
+
+<p align="center">
+  <img src="docs/assets/screenshots/cart.png" alt="Cart drawer with reservation timer" width="100%" />
+</p>
+
+### Brand and design system
+
+| | |
+|---|---|
+| **Logo** | "Renew U": the U is a refresh arrow, for a phone getting a second life. Files are in `frontend/public/` (`logo.svg`, `logo-dark.svg`, `logo-icon.svg`, `favicon.svg`), and the React version is `UltronLogo.tsx`. |
+| **Colours** | Ink `#0A0A0A`, Sun `#FFE500`, Volt `#1A5CFF`, Paper `#F4F4F2`. Light theme only. |
+| **Type** | Archivo (headings, 700 to 900) and Questrial (body), from Google Fonts. |
+| **Tokens** | Defined in `frontend/src/index.css` as Tailwind v4 `@theme` values, with shared `.btn`, `.chip`, `.badge` and `.field` styles. |
+
+Product photos go in `frontend/public/products/`, named to match `imageUrl` in the catalogue. Until a photo exists, the store shows a neutral phone outline.
+
+---
+
+## Architecture
+
+<p align="center">
+  <img src="docs/assets/ultron%20architecture.png" alt="ULTRON architecture overview" width="100%" />
+</p>
 
 ```text
-                                  [ INTERNET CLIENTS ]
-                                            │
-                                            ▼
-                           [ Cloud Armor WAF / DDoS Protection ]
-                                            │
-                                            ▼
-                       [ Global External HTTPS Load Balancer ]
-                                            │
-                   ┌────────────────────────┴────────────────────────┐
-                   │                                                 │
-                   ▼ (Static Assets CDN)                             ▼ (API Traffic)
-         [ Cloud Storage Bucket ]                       [ GKE Ingress (Nginx / GCE) ]
-                                                                     │
- ────────────────────────────────────────────────────────────────────┼───────────────────────────────────
- [ VPC: 10.0.0.0/16 - Private Cluster Network ]                      │
-                                                                     ▼
-                        ┌─────────────────────────────────────────────────────────┐
-                        │              GKE AUTOSCALING CLUSTER                    │
-                        │                                                         │
-                        │   ┌─────────────────────────┐                           │
-                        │   │     Frontend Store      │                           │
-                        │   │    (React 18 / Vite)    │                           │
-                        │   └─────────┬───────────────┘                           │
-                        │             │                                           │
-                        │             ▼                                           │
-                        │   ┌─────────────────────────┐                           │
-                        │   │  Backend API (Node.js)  │                           │
-                        │   │   [Modular Monolith]    │                           │
-                        │   │ - Auth & JWT Security   │                           │
-                        │   │ - Catalog & Inventory   │                           │
-                        │   │ - Orders & Checkout     │                           │
-                        │   └─────────────────────────┘                           │
-                        └─────────────────────────────────────────────────────────┘
-                                       │                               
-                      Private Services │ Access                        
-                                       ▼                               
-                     ┌───────────────────────────────────┐             
-                     │ Cloud SQL (PostgreSQL 15 HA)      │             
-                     │ - Private IP Only (No Public IP)  │             
-                     │ - Automated Backups & WAL Logs    │             
-                     └───────────────────────────────────┘             
+                         [ Internet clients ]
+                                  │
+                   [ Cloud Armor WAF / DDoS protection ]
+                                  │
+                 [ Global external HTTPS load balancer ]
+                                  │
+             ┌────────────────────┴────────────────────┐
+             ▼ static assets                            ▼ API traffic
+   [ Cloud Storage + CDN ]                    [ GKE ingress ]
+                                                        │
+ ── VPC 10.0.0.0/16, private cluster network ──────────┼──────────────
+                                                        ▼
+                     ┌──────────────────────────────────────────────┐
+                     │            GKE autoscaling cluster           │
+                     │  Frontend store (React + Vite, served by      │
+                     │  Nginx)                                       │
+                     │                  │                            │
+                     │                  ▼                            │
+                     │  Backend API (Node.js modular monolith)       │
+                     │  auth · inventory · orders · payment          │
+                     └──────────────────────────────────────────────┘
+                                        │ private services access
+                                        ▼
+                     ┌──────────────────────────────────────────────┐
+                     │ Cloud SQL, PostgreSQL 15 HA, private IP only  │
+                     └──────────────────────────────────────────────┘
+```
+
+More detail is in [`docs/`](docs): architecture overview, datastores and patterns, local development, and GitOps deployment. The step-by-step cloud runbook is [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md).
+
+## Repository layout
+
+```text
+ULTRON-STORE/
+├── frontend/                 React 19 + Vite + Tailwind v4 storefront
+│   ├── public/               Logo files, favicon, product photos
+│   └── src/
+│       ├── components/       Layout (header, footer), home sections, cart, product grid and page
+│       ├── modules/          Auth, checkout and order history modals
+│       ├── data/             Demo product catalogue
+│       ├── lib/              Formatting and grade helpers
+│       └── index.css         Design tokens and shared styles
+├── backend/                  Express API (Node.js) with PostgreSQL
+│   └── src/
+│       ├── core/db/          Connection pool and schema.sql
+│       └── modules/          auth, inventory, orders, payment
+├── infrastructure/terraform/ GCP modules: networking, gke, database, monitoring, security
+├── gitops/
+│   ├── helm/ultron-store/    Helm chart (deployment, HPA, PDB, ingress, network policy)
+│   ├── argocd/               ArgoCD project and staging/production applications
+│   └── manifests/            Plain Kubernetes manifests with Kustomize
+├── migration/                Migration assessment and database validation
+├── scripts/migration/        Backup, upload to GCS and Cloud SQL import scripts
+├── docs/                     Architecture and operations docs, brand assets, screenshots
+├── docker-compose.local.yml  Local stack: Postgres, backend, frontend
+├── Makefile                  Developer and DevOps task runner
+└── .github/workflows/        CI (PR checks, Trivy scan) and CD (build and GitOps promote)
 ```
 
 ---
 
-## 3. Modular Repository Structure
+## Getting started
 
-This repository follows the modern unified GitOps pattern, separating the frontend and backend into NPM workspaces, alongside declarative infrastructure and Kubernetes manifests.
+### Run the storefront only (fastest)
 
-```text
-ultron-store/
-├── Makefile                          # Unified Developer & DevOps task runner
-├── init_repo.sh                      # Shell automation script to bootstrap repo scaffolding
-├── docker-compose.local.yml          # Local development stack (Frontend, Backend, DB)
-├── README.md                         # Architecture, infrastructure & operational documentation
-│
-├── frontend/                         # Vite React Customer Storefront
-│   ├── Dockerfile                    # Multi-stage Vite + Nginx build
-│   ├── src/                          
-│   │   ├── components/               # Shared UI (Icons, Modals, Buttons)
-│   │   ├── modules/                  # Feature Modules (Auth, Checkout, Orders)
-│   │   └── data/                     # Product catalog and mocked state
-│   └── package.json                  # NPM workspace config
-│
-├── backend/                          # Node.js Express Modular Monolith API
-│   ├── Dockerfile                    # Production-ready Node container
-│   ├── src/                          
-│   │   ├── core/                     # Database schemas, Middlewares, Auth logic
-│   │   └── modules/                  # Catalog, Orders, Payment routes & controllers
-│   └── package.json
-│
-├── infrastructure/                   # Infrastructure as Code (Terraform)
-│   └── terraform/
-│       ├── main.tf                   # Root orchestration invoking modular layers
-│       ├── environments/             # Environment-specific configuration values
-│       │   ├── dev.tfvars.example    
-│       │   └── prod.tfvars.example   
-│       └── modules/                  # Reusable Infrastructure Modules (VPC, GKE, SQL)
-│
-├── k8s/                              # Raw Kubernetes Manifests (Kustomize Base & Overlays)
-│   ├── base/                         # Base deployments, services, HPAs
-│   │   ├── backend/
-│   │   ├── frontend/
-│   │   └── database/
-│   └── overlays/                     # Environment overlays (staging, prod)
-│
-├── gitops/                           # Declarative CD with Helm & ArgoCD
-│   ├── helm/
-│   │   └── ultron-store/             # Unified application umbrella chart
-│   └── argocd/
-│       └── applications/             # ArgoCD Application CRDs
-│
-├── migration/                        # On-Premise to GCP Migration Artifacts
-│   ├── assessment/                   # 6R evaluation & cutover risks
-│   └── database/                     # Init scripts and validation
-│
-├── observability/                    # Monitoring, Logging & Alerting Configurations
-│   ├── prometheus/                   # Scrape configurations
-│   └── grafana/                      # Custom dashboards (QPS, Latency)
-│
-└── .github/
-    └── workflows/
-        ├── ci.yml                    # PR verification: Lint, Test, and Trivy CVE scanning
-        └── cd.yml                    # Merge to main: Build, Artifact Registry push, GitOps commit
+Needs Node.js 20 or later.
+
+```bash
+npm install
+npm run dev            # http://localhost:3000, demo mode
 ```
 
----
+### Run the full stack locally
 
-## 4. Technical Specifications Across Foundation Modules
+Needs Docker with Compose v2.
 
-### A. Infrastructure as Code (GCP & Terraform)
-1. **Network Isolation**: Custom VPC with zero auto-subnetting. Public subnet (`10.0.1.0/24`) hosts the load balancer; private subnet (`10.0.2.0/24`) hosts GKE nodes and database peering.
-2. **Cloud NAT & Private Access**: Node pools have no external public IPs. Outbound egress for package updates and third-party webhooks is routed via Cloud NAT.
-3. **Database Security**: Cloud SQL PostgreSQL 15 deployed with `ipv4_enabled = false` and attached to the VPC via private services networking. Passwords are bound through Google Secret Manager.
-4. **Resilient Compute**: GKE nodes scale between 2 to 10 nodes based on CPU and memory thresholds, with Pod Disruption Budgets (PDBs) ensuring minimum availability during maintenance windows.
-
-### B. GitOps CI/CD Pipeline
-1. **Continuous Integration (`ci.yml`)**:
-   - Triggers on all Pull Requests targeting `main` or `develop`.
-   - Executes unit tests and linter suites.
-   - Builds container images and executes **Trivy security scans** with `--severity CRITICAL,HIGH --exit-code 1`.
-2. **Continuous Delivery (`cd.yml`)**:
-   - Triggers on merge to `main`.
-   - Authenticates to GCP using Workload Identity Federation / Service Account Key.
-   - Pushes versioned immutable container tags to Google Artifact Registry (`us-central1-docker.pkg.dev/$PROJECT_ID/ultron-store/*`).
-   - Updates `values-staging.yaml` in the GitOps configuration with the newly minted Git SHA commit.
-3. **ArgoCD GitOps Operator**:
-   - Continuous reconciliation loop (`syncPolicy: automated, prune: true, selfHeal: true`).
-   - Instantly recovers against configuration drift or rogue `kubectl` manual edits.
-   - Instant rollback capability via `git revert` or `argocd app rollback`.
-
-### C. Cloud Migration Simulation
-1. **Source State**: Docker Compose simulating an on-premise dedicated server deployment (`docker-compose.local.yml`).
-2. **Database Migration Strategy**:
-   - Take consistent snapshot using `pg_dump --single-transaction`.
-   - Stage dump files inside encrypted Google Cloud Storage (`gs://$PROJECT_ID-backups/`).
-   - Stream import into Cloud SQL PostgreSQL instance.
-3. **Observability Stack**: `kube-prometheus-stack` monitoring Prometheus metrics via Express endpoints, paired with Grafana dashboards for transaction throughput and P99 latency.
-
----
-
-## 5. Local Development Quickstart
-
-### Prerequisites
-- **Docker** and **Docker Compose** v2.20+
-- **Terraform** v1.6.0+
-- **Google Cloud SDK (`gcloud`)**
-- **kubectl** and **Helm**
-
-### 1. Spin Up Local Services Stack
-Emulate the entire e-commerce backend (Backend API, Frontend UI, and PostgreSQL) locally in one command:
 ```bash
 docker compose -f docker-compose.local.yml up --build -d
 ```
-Verify the running containers:
-```bash
-docker compose -f docker-compose.local.yml ps
-```
 
-Health Check Endpoints:
-- **Frontend UI**: `http://localhost:3001`
-- **Backend API**: `http://localhost:4000/health`
-- **Database (Postgres)**: `localhost:5432`
+| Service | URL |
+|---|---|
+| Storefront | http://localhost:3001 |
+| Backend API | http://localhost:4000/health |
+| PostgreSQL | `localhost:5432` (user `appuser`, password `devsecret`, database `ultrondb`) |
 
-### 2. Tear Down Local Stack
+The database is initialised from `backend/src/core/db/schema.sql`. Stop everything with:
+
 ```bash
 docker compose -f docker-compose.local.yml down -v
 ```
 
+### Useful commands
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the storefront dev server |
+| `npm run build` | Build the storefront for production |
+| `npm run dev:backend` | Start the API with auto-reload |
+| `npm run lint --workspace=frontend` | Type-check the storefront |
+| `make help` | List the Makefile tasks (dev stack, Terraform, ArgoCD sync, image builds) |
+
 ---
 
-## 6. GCP Infrastructure Deployment Guide
+## Deploying to Google Cloud
 
-### 1. Authenticate with Google Cloud
+The short version is below. [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) has every step.
+
 ```bash
-gcloud auth login
-gcloud auth application-default login
+# 1. Authenticate
+gcloud auth login && gcloud auth application-default login
 gcloud config set project YOUR_GCP_PROJECT_ID
-```
 
-### 2. Configure Remote State Storage
-Create a dedicated Google Cloud Storage bucket for Terraform state locking:
-```bash
+# 2. Terraform state bucket
 PROJECT_ID=$(gcloud config get-value project)
 gsutil mb -p $PROJECT_ID -l us-central1 gs://${PROJECT_ID}-terraform-state
 gsutil versioning set on gs://${PROJECT_ID}-terraform-state
-```
 
-### 3. Plan and Provision Staging Infrastructure
-```bash
+# 3. Provision infrastructure
 cd infrastructure/terraform
+cp environments/dev.tfvars.example environments/dev.tfvars   # then fill it in
 terraform init
-terraform plan -var-file=environments/dev.tfvars
 terraform apply -var-file=environments/dev.tfvars
-```
 
----
-
-## 7. GitOps & ArgoCD Pipeline Setup
-
-### 1. Connect kubectl to the Provisioned GKE Cluster
-```bash
+# 4. Connect to the cluster and install ArgoCD
 gcloud container clusters get-credentials ultron-cluster --region us-central1
-kubectl get nodes
-```
-
-### 2. Install ArgoCD
-```bash
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-# Wait for ArgoCD server deployment
-kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd
-```
-
-### 3. Register ULTRON Store Applications
-```bash
+# 5. Register the app
 kubectl apply -f gitops/argocd/applications/staging-app.yaml
 ```
 
-Check synchronization status:
-```bash
-argocd app get ultron-store-staging
-```
+### CI/CD
 
----
+- **CI** (`.github/workflows/ci.yml`) runs on pull requests to `main` and `develop`. It validates the Helm chart, builds the backend image and scans it with Trivy for critical and high vulnerabilities.
+- **CD** (`.github/workflows/cd.yml`) runs on merges to `main`. It authenticates to GCP and writes the new image tag into `gitops/helm/ultron-store/values-staging.yaml`.
+- **ArgoCD** syncs automatically with prune and self-heal turned on, so drift is corrected and a rollback is a `git revert`.
 
-## 8. Security Posture & Compliance
+## Security
 
-1. **Least Privilege Principle**: Workload Identity ensures pods authenticate to Cloud SQL and Google Secret Manager without storing static private keys on the filesystem.
-2. **Container Immutability**: All microservice Dockerfiles enforce non-root user accounts (`USER ultronuser`) and minimal Alpine base distributions.
-3. **Automated Vulnerability Gates**: Trivy continuously blocks pull requests containing unresolved `CRITICAL` Common Vulnerabilities and Exposures (CVEs).
-4. **WAF Hardening**: Cloud Armor blocks SQL injection, cross-site scripting (XSS), and rate limits brute-force checkout requests.
+- Private GKE nodes with outbound traffic through Cloud NAT. Cloud SQL has no public IP.
+- Secrets in Google Secret Manager, with Workload Identity for pod access.
+- Cloud Armor WAF in front of the load balancer.
+- Trivy image scanning on every pull request.
+- Kubernetes network policies and pod disruption budgets in the Helm chart.
