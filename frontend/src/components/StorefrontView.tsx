@@ -8,7 +8,7 @@ import { ProductGrid } from './ProductGrid';
 import { ProductPDP } from './ProductPDP';
 import { SiteHeader } from './layout/SiteHeader';
 import { SiteFooter } from './layout/SiteFooter';
-import { Hero, BrandTiles, GradeGuide, TrustRow, NewsletterCta } from './home/HomeSections';
+import { Hero, BrandTiles, GradeGuide, TrustRow, WhyPreOwned, NewsletterCta } from './home/HomeSections';
 import { CartDrawer } from './cart/CartDrawer';
 import { ConnectionModal } from './ConnectionModal';
 
@@ -435,6 +435,7 @@ export const StorefrontView: React.FC = () => {
 
         <GradeGuide onPick={pickGrade} />
         <TrustRow />
+        <WhyPreOwned />
         <NewsletterCta />
       </main>
 

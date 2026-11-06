@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, BatteryCharging, BadgeCheck, RotateCcw, ArrowRight } from 'lucide-react';
+import { ShieldCheck, BatteryCharging, BadgeCheck, RotateCcw, ArrowRight, Fingerprint } from 'lucide-react';
 import { StoreProduct } from '../../data/storeProducts';
 import { formatZar, GRADES } from '../../lib/format';
 import { ProductImage } from '../ProductImage';
@@ -113,7 +113,8 @@ export const GradeGuide: React.FC<{ onPick: (grade: StoreProduct['conditionGrade
 /* ---------- Trust row ---------- */
 
 const REASONS = [
-  { icon: BadgeCheck, title: 'IMEI checked', text: 'Every serial is checked against blacklists before it is listed.' },
+  { icon: BadgeCheck, title: 'IMEI checked', text: 'Every serial is checked against loss, theft and finance-lock registries before it is listed.' },
+  { icon: Fingerprint, title: 'One unit, one listing', text: 'Each device is tracked by serial and IMEI, so the photos and grade are for that exact unit.' },
   { icon: BatteryCharging, title: 'Battery health shown', text: 'Real battery health and cycle count on every listing.' },
   { icon: ShieldCheck, title: 'Up to 12-month warranty', text: 'Cover on every certified device.' },
   { icon: RotateCcw, title: '7-day returns', text: 'Not right? Send it back within 7 days.' },
@@ -122,7 +123,7 @@ const REASONS = [
 export const TrustRow: React.FC = () => (
   <section className="container-page py-16 sm:py-20">
     <h2 className="sr-only">Why buy from ULTRON</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
       {REASONS.map((r) => (
         <div key={r.title} className="border-t-[3px] border-ink pt-5">
           <r.icon aria-hidden="true" className="w-6 h-6 text-volt" strokeWidth={2} />
@@ -130,6 +131,22 @@ export const TrustRow: React.FC = () => (
           <p className="mt-2 text-[15px] leading-relaxed text-muted">{r.text}</p>
         </div>
       ))}
+    </div>
+  </section>
+);
+
+/* ---------- Why pre-owned ---------- */
+
+export const WhyPreOwned: React.FC = () => (
+  <section className="container-page pb-16 sm:pb-20">
+    <div className="rounded-[var(--radius-panel)] bg-paper px-6 py-12 sm:px-16 sm:py-16 text-center">
+      <p className="eyebrow">Why certified pre-owned</p>
+      <h2 className="mt-4 font-display font-black text-[30px] sm:text-[42px] leading-[1.05] max-w-3xl mx-auto">
+        A great phone, without the cost of a new one <span className="highlight">or the waste.</span>
+      </h2>
+      <p className="mt-5 text-[16px] sm:text-[17px] leading-relaxed text-ink-2 max-w-2xl mx-auto">
+        Every ULTRON device is a phone that already existed, restored to a standard worth trusting. Choosing certified pre-owned means fewer raw materials mined, less e-waste in landfill, and a fully inspected device backed by a warranty.
+      </p>
     </div>
   </section>
 );

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StoreProduct } from '../data/storeProducts';
-import { ArrowLeft, ShieldCheck, Lock, Truck, RotateCcw, BadgeCheck, Check } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Lock, Truck, RotateCcw, BadgeCheck, Check, ChevronDown } from 'lucide-react';
 import { formatZar, GRADES } from '../lib/format';
 import { ProductImage } from './ProductImage';
 
@@ -11,7 +11,30 @@ interface ProductPDPProps {
   isAddingToCart: boolean;
 }
 
+const INSPECTION_CHECKS = [
+  'Screen, digitizer and True Tone response verified',
+  'Battery cycle count and maximum capacity benchmarked',
+  'Cameras, biometric sensors and charging port function-tested',
+  'Chassis and glass inspected under raking light for micro-fractures',
+  'IMEI cross-checked against loss, theft and finance-lock registries',
+];
+
 export const ProductPDP: React.FC<ProductPDPProps> = ({ product, onClose, onAddToCart, isAddingToCart }) => {
+  const [reportOpen, setReportOpen] = useState(false);
+  const [showStickyCta, setShowStickyCta] = useState(false);
+  const mainCtaRef = useRef<HTMLDivElement>(null);
+
+  // Show the compact buy button in the top bar once the main one scrolls out of view.
+  useEffect(() => {
+    if (!product) return;
+    setReportOpen(false);
+    const el = mainCtaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setShowStickyCta(!entry.isIntersecting), { threshold: 0 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [product]);
+
   useEffect(() => {
     if (!product) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -42,7 +65,16 @@ export const ProductPDP: React.FC<ProductPDPProps> = ({ product, onClose, onAddT
           <button type="button" onClick={onClose} className="inline-flex items-center gap-2 min-h-[44px] text-[15px] hover:underline underline-offset-4 cursor-pointer">
             <ArrowLeft aria-hidden="true" className="w-5 h-5" /> Back to shop
           </button>
-          <span className="font-display font-bold text-[15px] truncate hidden sm:block">{product.brand} {product.model}</span>
+          {showStickyCta ? (
+            <div className="flex items-center gap-3">
+              <span className="hidden sm:inline font-display font-extrabold text-[16px]">{formatZar(product.priceZar)}</span>
+              <button type="button" onClick={() => onAddToCart(product)} disabled={!isAvailable || isAddingToCart} className="btn btn-primary btn-sm">
+                {isAvailable ? 'Add to cart' : 'Unavailable'}
+              </button>
+            </div>
+          ) : (
+            <span className="font-display font-bold text-[15px] truncate hidden sm:block">{product.brand} {product.model}</span>
+          )}
         </div>
       </div>
 
@@ -52,6 +84,7 @@ export const ProductPDP: React.FC<ProductPDPProps> = ({ product, onClose, onAddT
             <ProductImage product={product} className="aspect-square rounded-[var(--radius-panel)]" placeholderSize="w-[26%] max-w-[160px]" />
             <span className={`badge absolute left-5 top-5 ${grade.badge}`}>{grade.label}</span>
           </div>
+          <p className="mt-3 text-[13px] text-muted text-center">Photos show this exact unit as inspected, not a stock image.</p>
         </div>
 
         <div className="flex flex-col gap-8">
@@ -70,7 +103,7 @@ export const ProductPDP: React.FC<ProductPDPProps> = ({ product, onClose, onAddT
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div ref={mainCtaRef} className="flex flex-col sm:flex-row gap-3">
             <button
               type="button"
               onClick={() => onAddToCart(product)}
@@ -105,6 +138,24 @@ export const ProductPDP: React.FC<ProductPDPProps> = ({ product, onClose, onAddT
               ))}
             </dl>
             <p className="mt-5 pt-5 border-t border-line text-[15px] text-ink-2">{grade.blurb}</p>
+            <div className="mt-5 border-t border-line">
+              <button
+                type="button"
+                onClick={() => setReportOpen((v) => !v)}
+                aria-expanded={reportOpen}
+                className="w-full flex items-center justify-between min-h-[48px] pt-4 text-[15px] cursor-pointer"
+              >
+                <span className="font-display font-bold">Full 40-point inspection checklist</span>
+                <ChevronDown aria-hidden="true" className={`w-5 h-5 transition-transform ${reportOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {reportOpen && (
+                <ul className="pt-3 flex flex-col gap-2.5 text-[14px] text-ink-2">
+                  {INSPECTION_CHECKS.map((c) => (
+                    <li key={c} className="flex gap-2"><Check aria-hidden="true" className="w-4 h-4 mt-0.5 text-volt shrink-0" /> {c}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </section>
 
           <section>
