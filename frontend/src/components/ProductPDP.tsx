@@ -84,7 +84,7 @@ export const ProductPDP: React.FC<ProductPDPProps> = ({ product, onClose, onAddT
             <ProductImage product={product} className="aspect-square rounded-[var(--radius-panel)]" placeholderSize="w-[26%] max-w-[160px]" />
             <span className={`badge absolute left-5 top-5 ${grade.badge}`}>{grade.label}</span>
           </div>
-          <p className="mt-3 text-[13px] text-muted text-center">Photos show this exact unit as inspected, not a stock image.</p>
+          <p className="mt-3 text-[13px] text-muted text-center">Photo shows this model. Grade, battery and checks above are for this exact unit.</p>
         </div>
 
         <div className="flex flex-col gap-8">

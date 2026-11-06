@@ -11,14 +11,14 @@ interface ProductImageProps {
 }
 
 /**
- * Shows the product photo, or a tidy tinted placeholder when the photo is missing
- * (the catalogue photos in public/products are not committed yet).
+ * Shows the product photo, cropped to fill its frame, or a tinted phone outline
+ * when the photo is missing or fails to load.
  */
 export const ProductImage: React.FC<ProductImageProps> = ({
   product,
   placeholderSize = 'w-[34%] max-w-[120px]',
   className = '',
-  imgClassName = 'w-[78%] h-[78%] object-contain',
+  imgClassName = 'w-full h-full object-cover',
   src,
 }) => {
   const [failed, setFailed] = useState(false);

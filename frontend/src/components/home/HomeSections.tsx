@@ -35,7 +35,8 @@ export const Hero: React.FC<{ featured?: StoreProduct; onView: (p: StoreProduct)
         >
           <ProductImage
             product={featured}
-            className="aspect-[5/4] sm:aspect-[4/3] rounded-[var(--radius-panel)]"
+            className="aspect-square rounded-[var(--radius-panel)]"
+            imgClassName="w-full h-full object-cover object-[50%_35%]"
             placeholderSize="w-[26%] max-w-[150px]"
           />
           <div className="absolute left-4 right-4 bottom-4 sm:left-auto sm:bottom-auto sm:right-6 sm:top-6 bg-white border-2 border-ink rounded-[18px] px-5 py-4 flex flex-col gap-1 shadow-[6px_6px_0_#0a0a0a] transition-transform group-hover:-translate-y-0.5">
@@ -114,7 +115,7 @@ export const GradeGuide: React.FC<{ onPick: (grade: StoreProduct['conditionGrade
 
 const REASONS = [
   { icon: BadgeCheck, title: 'IMEI checked', text: 'Every serial is checked against loss, theft and finance-lock registries before it is listed.' },
-  { icon: Fingerprint, title: 'One unit, one listing', text: 'Each device is tracked by serial and IMEI, so the photos and grade are for that exact unit.' },
+  { icon: Fingerprint, title: 'One unit, one listing', text: 'Each device is tracked by serial and IMEI, so the grade and battery report are for that exact unit.' },
   { icon: BatteryCharging, title: 'Battery health shown', text: 'Real battery health and cycle count on every listing.' },
   { icon: ShieldCheck, title: 'Up to 12-month warranty', text: 'Cover on every certified device.' },
   { icon: RotateCcw, title: '7-day returns', text: 'Not right? Send it back within 7 days.' },
