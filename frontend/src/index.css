@@ -1,60 +1,163 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap');
 
-@custom-variant dark (&:where(.dark, .dark *));
-
+/*
+ * ULTRON design tokens.
+ * Black, yellow and blue, with bold Archivo headings and Questrial body text.
+ * There is no dark mode: the store is always light.
+ */
 @theme {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Questrial", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --color-ink: #0a0a0a;
+  --color-ink-2: #333333;
+  --color-muted: #555555;
+  --color-line: #e6e6e6;
+  --color-paper: #f4f4f2;
+  --color-sun: #ffe500;
+  --color-sun-deep: #f2d600;
+  --color-volt: #1a5cff;
+  --color-volt-deep: #0f47d6;
+  --color-mint: #16a34a;
+  --color-good: #ca8a04;
+  --color-fair: #ea580c;
+  --color-danger: #c62828;
+
+  --radius-card: 20px;
+  --radius-panel: 28px;
 }
 
 @layer base {
-  body {
-    background-color: #fbfbfd;
-    color: #1d1d1f;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    transition: background-color 0.3s ease, color 0.3s ease;
+  html {
+    color-scheme: light;
   }
 
-  .dark body {
-    background-color: #000000;
-    color: #f5f5f7;
+  body {
+    background-color: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-volt);
+    outline-offset: 2px;
   }
 }
 
 @layer components {
-  /* One serif "moment" per page — hero headlines and PDP titles only. */
-  .font-display {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 500;
-    letter-spacing: -0.01em;
+  .container-page {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  @media (min-width: 640px) {
+    .container-page { padding-inline: 24px; }
   }
 
-  /* Shared premium transition curve — no bounce, ease-out only */
-  .transition-luxe {
-    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 28px;
+    border-radius: 999px;
+    font-size: 16px;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease, border-color .15s ease, transform .1s ease;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn:disabled { cursor: not-allowed; opacity: .45; transform: none; }
+
+  .btn-primary { background: var(--color-volt); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--color-volt-deep); }
+
+  .btn-dark { background: var(--color-ink); color: #fff; }
+  .btn-dark:hover:not(:disabled) { background: #262626; }
+
+  .btn-sun { background: var(--color-sun); color: var(--color-ink); }
+  .btn-sun:hover:not(:disabled) { background: var(--color-sun-deep); }
+
+  .btn-outline { border: 2px solid var(--color-ink); color: var(--color-ink); background: transparent; }
+  .btn-outline:hover:not(:disabled) { background: var(--color-ink); color: #fff; }
+
+  .btn-sm { min-height: 40px; padding: 0 18px; font-size: 14px; }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1.5px solid var(--color-ink);
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease;
+  }
+  .chip:hover { background: var(--color-paper); }
+  .chip[aria-pressed="true"] { background: var(--color-ink); color: #fff; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: var(--color-ink);
+  }
+
+  .field {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 18px;
+    border: 1.5px solid #cfcfcf;
+    border-radius: 14px;
+    background: #fff;
+    font-size: 16px;
+    color: var(--color-ink);
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .field::placeholder { color: #8a8a8a; }
+  .field:focus { border-color: var(--color-ink); box-shadow: 0 0 0 3px rgb(26 92 255 / .18); }
+
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .highlight {
+    background: var(--color-sun);
+    padding: 0 .18em;
+    border-radius: .14em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 }
 
-/* Custom sleek scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
-}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cfcfcf; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
