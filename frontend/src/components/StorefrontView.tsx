@@ -1,46 +1,24 @@
+import React, { useState, useEffect } from 'react';
 import { AuthModal } from '../modules/auth/AuthModal';
 import { OrderHistoryModal } from '../modules/orders/OrderHistoryModal';
 import { CheckoutModal } from '../modules/checkout/CheckoutModal';
-// @ts-ignore React is available at runtime; its type declarations are not installed.
-import React, { useState, useEffect } from 'react';
 import { StoreProduct, CATALOG_PRODUCTS } from '../data/storeProducts';
 import { CartItem } from '../types';
-import { UltronLogo } from './UltronLogo';
 import { ProductGrid } from './ProductGrid';
 import { ProductPDP } from './ProductPDP';
-import {
-  ShoppingBag,
-  Search,
-  SlidersHorizontal,
-  BatteryCharging,
-  ShieldCheck,
-  CheckCircle2,
-  Clock,
-  Lock,
-  Unlock,
-  Truck,
-  RotateCcw,
-  Sparkles,
-  ExternalLink,
-  ChevronRight,
-  Info,
-  X,
-  CreditCard,
-  Building,
-  Smartphone,
-  Check,
-  Server,
-  Radio,
-  AlertCircle,
-  RefreshCw,
-  Eye,
-  BadgeCheck,
-  MapPin,
-  ArrowRight,
-  User,
-  LogOut,
-  ListOrdered
-} from 'lucide-react';
+import { SiteHeader } from './layout/SiteHeader';
+import { SiteFooter } from './layout/SiteFooter';
+import { Hero, BrandTiles, GradeGuide, TrustRow, NewsletterCta } from './home/HomeSections';
+import { CartDrawer } from './cart/CartDrawer';
+import { ConnectionModal } from './ConnectionModal';
+
+const BRAND_FILTERS = ['ALL', 'Apple', 'Samsung', 'Google', 'Accessories'];
+const GRADE_FILTERS: { id: string; label: string }[] = [
+  { id: 'ALL', label: 'Any grade' },
+  { id: 'MINT', label: 'Mint' },
+  { id: 'GOOD', label: 'Good' },
+  { id: 'FAIR', label: 'Fair' },
+];
 
 export const StorefrontView: React.FC = () => {
   // State
@@ -66,9 +44,13 @@ export const StorefrontView: React.FC = () => {
         setTimeout(() => {
           document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth' });
         }, 100);
-      } else if (hash === 'Support') {
+      } else if (hash === 'Shop') {
         setTimeout(() => {
-          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else if (hash === 'Support' || hash === 'Grading') {
+        setTimeout(() => {
+          document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
         }, 100);
       }
     };
@@ -284,22 +266,6 @@ export const StorefrontView: React.FC = () => {
   const shippingCost = subtotal > 1500 || subtotal === 0 ? 0 : 150;
   const total = subtotal + shippingCost;
 
-  // Format currency
-  const formatZar = (amount: number) => {
-    return new Intl.NumberFormat('en-ZA', {
-      style: 'currency',
-      currency: 'ZAR',
-      maximumFractionDigits: 0
-    }).format(amount);
-  };
-
-  // Format countdown
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
   // Test ping to backend server
   const testBackendConnection = async () => {
     setServerStatus('CONNECTING');
@@ -368,399 +334,145 @@ export const StorefrontView: React.FC = () => {
     }
   };
 
+  const featured = products.find((p) => p.id === 'ph_a1') || products[0];
+
+  const signOut = () => {
+    setAuthToken(null);
+    localStorage.removeItem('token');
+    setUserProfile(null);
+  };
+
+  const pickGrade = (grade: string) => {
+    setSelectedGrade(grade);
+    document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <div className="space-y-12 pb-16">
-      {/* Top Header */}
-      <div className="bg-transparent border-b border-black/[0.06] dark:border-white/10 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-colors duration-300">
-        <div className="flex items-center gap-4">
-          <UltronLogo variant="icon" size="md" className="h-9 w-auto" />
-          <div>
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <h2 className="text-[17px] font-semibold text-[#1d1d1f] dark:text-white tracking-tight">
-                ULTRON
-              </h2>
-              <span className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">Certified pre-owned store</span>
-            </div>
-            <p className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] mt-0.5">
-              Every device passes a 40-point inspection, with your stock held for 10 minutes at checkout.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2.5 shrink-0">
-          {authToken ? (
-            <div className="flex items-center gap-1 mr-1">
-              <button
-                onClick={() => setShowOrderHistory(true)}
-                className="px-3 py-2 text-[13px] font-medium text-[#1d1d1f] dark:text-[#f5f5f7] hover:bg-black/5 dark:hover:bg-white/10 rounded-full flex items-center gap-1.5 transition-colors"
-              >
-                <ListOrdered className="w-4 h-4" /> Orders
-              </button>
-              <button
-                onClick={() => { setAuthToken(null); localStorage.removeItem('token'); setUserProfile(null); }}
-                className="p-2 text-[#6e6e73] dark:text-[#a1a1a6] hover:text-[#1d1d1f] dark:hover:text-white rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
-                title="Sign out"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => setShowAuthModal(true)}
-              className="px-3.5 py-2 rounded-full text-[13px] font-medium text-[#1d1d1f] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors flex items-center gap-1.5"
-            >
-              <User className="w-4 h-4" /> Sign in
-            </button>
-          )}
-
-          <button
-            onClick={() => setIsServerModalOpen(true)}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-[12px] text-[#6e6e73] dark:text-[#a1a1a6] transition-colors"
-            title="Backend connection settings"
-          >
-            <Radio className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTED' ? 'text-[#1d7a3c]' : 'text-[#86868b]'}`} />
-            <span>{serverStatus === 'CONNECTED' ? 'Live' : 'Demo mode'}</span>
-          </button>
-
-          <button
-            onClick={() => setIsCartOpen(true)}
-            className="relative flex items-center gap-2 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium text-[13px] transition-all active:scale-95"
-          >
-            <ShoppingBag className="w-4 h-4" />
-            <span>Bag</span>
-            {cart.length > 0 && (
-              <span className="w-5 h-5 rounded-full bg-white text-[#0071e3] text-[11px] font-semibold flex items-center justify-center ml-0.5">
-                {cart.length}
-              </span>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Hero */}
-      <div className="relative overflow-hidden rounded-[28px] bg-[#fbfbfd] dark:bg-[#1c1c1e] p-10 sm:p-16 lg:p-20 transition-colors duration-300">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-7 space-y-6 z-10">
-            <div className="text-[15px] font-medium text-[#6e6e73] dark:text-[#a1a1a6]">
-              Apple iPhone 15 Pro Max
-            </div>
-
-            <h1 className="text-4xl sm:text-6xl font-semibold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.05]">
-              Titanium. So strong.<br className="hidden sm:block" /> So light. So Pro.
-            </h1>
-
-            <p className="text-base sm:text-lg text-[#6e6e73] dark:text-[#a1a1a6] max-w-lg leading-relaxed">
-              Certified Grade A+ mint condition, genuine Super Retina XDR display, and 98% original battery capacity — backed by a 12-month replacement warranty.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-2.5 pt-1">
-              <span className="flex items-center gap-1.5 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.06] px-3 py-1.5 rounded-full">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                40-point inspection
-              </span>
-              <span className="flex items-center gap-1.5 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.06] px-3 py-1.5 rounded-full">
-                <Truck className="w-3.5 h-3.5" />
-                Free overnight delivery
-              </span>
-              <span className="flex items-center gap-1.5 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.06] px-3 py-1.5 rounded-full">
-                <RotateCcw className="w-3.5 h-3.5" />
-                7-day returns
-              </span>
-            </div>
-
-            <div className="pt-4 flex flex-wrap items-center gap-5">
-              <div>
-                <span className="text-2xl font-semibold text-[#1d1d1f] dark:text-white tracking-tight">R22,499</span>
-                <span className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] ml-2">or R1,875/mo for 12 months</span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => {
-                    const heroProduct = products.find((p) => p.id === 'ph_01') || products[0];
-                    handleAddToCart(heroProduct);
-                  }}
-                  className="px-6 py-3 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[15px] font-medium transition-all active:scale-95"
-                >
-                  Hold this device
-                </button>
-                <button
-                  onClick={() => {
-                    const heroProduct = products.find((p) => p.id === 'ph_01') || products[0];
-                    setSelectedProduct(heroProduct);
-                    setActiveModalImage(heroProduct.imageUrl);
-                  }}
-                  className="px-5 py-3 rounded-full text-[#0071e3] text-[15px] font-medium hover:underline transition-all flex items-center gap-1"
-                >
-                  <span>View specs</span>
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Hero Studio Image */}
-          <div className="lg:col-span-5 flex justify-center relative">
-            <div className="relative w-full max-w-sm">
-              <img
-                src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=85"
-                alt="Apple iPhone 15 Pro Max Natural Titanium"
-                referrerPolicy="no-referrer"
-                className="relative z-10 w-full max-h-80 sm:max-h-96 object-contain filter drop-shadow-[0_30px_60px_rgba(0,0,0,0.12)] dark:drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] transition-transform duration-700 hover:scale-105"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1000&q=85';
-                }}
-              />
-              <div className="text-center mt-3 text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">
-                Natural Titanium · 256GB · Grade A+
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Search & filters */}
-      <div id="product-grid" className="scroll-mt-24 bg-transparent border-b border-black/[0.06] dark:border-white/10 pb-8 space-y-5 transition-colors duration-300">
-        <div className="flex flex-col md:flex-row items-center gap-3">
-          <div className="relative w-full md:flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
-            <input
-              type="text"
-              placeholder="Search by model, brand, or IMEI"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 bg-[#f5f5f7] dark:bg-white/[0.06] rounded-full text-[14px] text-[#1d1d1f] dark:text-white placeholder-[#86868b] outline-none focus:ring-2 focus:ring-[#0071e3]/20 transition-colors"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#0071e3] text-[13px] font-medium"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-
-          <div className="flex items-center gap-2 w-full md:w-auto">
-            <select
-              value={selectedGrade}
-              onChange={(e) => setSelectedGrade(e.target.value)}
-              className="bg-[#f5f5f7] dark:bg-white/[0.06] rounded-full px-4 py-3 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] outline-none w-full md:w-auto"
-            >
-              <option value="ALL">Any condition</option>
-              <option value="MINT">Mint</option>
-              <option value="GOOD">Good</option>
-              <option value="FAIR">Fair</option>
-            </select>
-          </div>
-
-          <div className="flex items-center gap-2 w-full md:w-auto">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-[#f5f5f7] dark:bg-white/[0.06] rounded-full px-4 py-3 text-[13px] text-[#1d1d1f] dark:text-[#f5f5f7] outline-none w-full md:w-auto"
-            >
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price: low to high</option>
-              <option value="price-desc">Price: high to low</option>
-              <option value="battery">Battery health</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Brand tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 text-[13px]">
-          {['ALL', 'Apple', 'Samsung', 'Google', 'Accessories'].map((brand) => (
-            <button
-              key={brand}
-              onClick={() => {
-                setSelectedBrand(brand);
-                window.location.hash = brand;
-              }}
-              className={`px-4 py-1.5 rounded-full font-medium transition-all whitespace-nowrap ${
-                selectedBrand.toUpperCase() === brand.toUpperCase()
-                  ? 'bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f]'
-                  : 'bg-[#f5f5f7] dark:bg-white/[0.06] text-[#1d1d1f] dark:text-[#f5f5f7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12]'
-              }`}
-            >
-              {brand === 'ALL' ? 'All devices' : brand}
-            </button>
-          ))}
-          <span className="ml-auto text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] whitespace-nowrap">
-            {filteredProducts.length} available
-          </span>
-        </div>
-      </div>
-
-      <ProductGrid products={filteredProducts} onSelectProduct={setSelectedProduct} />
-
-      {/* Cart Drawer / Bag */}
-      {isCartOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-white dark:bg-[#1d1d1f] h-full flex flex-col justify-between shadow-2xl transition-colors duration-300">
-            {/* Cart Header */}
-            <div className="p-6 border-b border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-[#1d1d1f] dark:text-white tracking-tight">Your bag ({cart.length})</h2>
-              <button
-                onClick={() => setIsCartOpen(false)}
-                aria-label="Close"
-                className="p-1.5 rounded-full text-[#86868b] hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
-              >
-                <X className="w-4.5 h-4.5" />
-              </button>
-            </div>
-
-            {/* Redlock Countdown Timer Banner */}
-            {cart.length > 0 && (
-              <div className="bg-[#f5f5f7] dark:bg-white/[0.04] px-6 py-3 flex items-center justify-between text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  <span>Stock reserved for</span>
-                </div>
-                <span className="font-medium text-[#1d1d1f] dark:text-white">
-                  {formatTime(lockTimeRemaining)}
-                </span>
-              </div>
-            )}
-
-            {/* Cart Items List */}
-            <div className="p-6 flex-1 overflow-y-auto space-y-3">
-              {cart.length === 0 ? (
-                <div className="text-center py-20">
-                  <div className="w-14 h-14 rounded-full bg-[#f5f5f7] dark:bg-white/[0.06] flex items-center justify-center mx-auto mb-4 text-[#86868b]">
-                    <ShoppingBag className="w-6 h-6" />
-                  </div>
-                  <p className="text-[15px] text-[#1d1d1f] dark:text-white font-medium">Your bag is empty</p>
-                  <p className="text-[13px] text-[#6e6e73] dark:text-[#a1a1a6] mt-1 max-w-xs mx-auto">
-                    Choose a certified pre-owned device to hold it for checkout.
-                  </p>
-                </div>
-              ) : (
-                cart.map((item) => (
-                  <div
-                    key={item.phone.id}
-                    className="p-4 bg-[#f5f5f7] dark:bg-white/[0.04] rounded-2xl flex items-center justify-between gap-4"
-                  >
-                    <div className="flex items-center gap-3.5">
-                      <img
-                        src={item.phone.imageUrl}
-                        alt={item.phone.model}
-                        referrerPolicy="no-referrer"
-                        className="w-14 h-14 object-contain rounded-xl bg-white dark:bg-[#1d1d1f] p-1 shrink-0"
-                        onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80';
-                        }}
-                      />
-                      <div>
-                        <div className="text-[14px] font-medium text-[#1d1d1f] dark:text-white">{item.phone.model}</div>
-                        <div className="text-[12px] text-[#6e6e73] dark:text-[#a1a1a6] mt-0.5">
-                          {item.phone.storageGb}GB · {item.phone.color}
-                        </div>
-                        <div className="text-[11px] text-[#86868b] mt-1">
-                          IMEI {item.phone.imei}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="text-right shrink-0">
-                      <div className="text-[14px] font-medium text-[#1d1d1f] dark:text-white">
-                        {formatZar(item.phone.priceZar)}
-                      </div>
-                      <button
-                        onClick={() => handleRemoveFromCart(item.phone.id)}
-                        className="text-[12px] text-[#0071e3] hover:underline mt-1.5"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-
-            {/* Cart Footer */}
-            {cart.length > 0 && (
-              <div className="p-6 border-t border-black/[0.06] dark:border-white/[0.08] space-y-4">
-                <div className="space-y-2 text-[13px] text-[#6e6e73] dark:text-[#a1a1a6]">
-                  <div className="flex justify-between">
-                    <span>Subtotal</span>
-                    <span className="text-[#1d1d1f] dark:text-white font-medium">{formatZar(subtotal)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Delivery</span>
-                    <span className="text-[#1d7a3c] font-medium">
-                      {shippingCost === 0 ? 'Free' : formatZar(shippingCost)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-[16px] font-semibold text-[#1d1d1f] dark:text-white pt-2.5 border-t border-black/[0.06] dark:border-white/[0.08]">
-                    <span>Total</span>
-                    <span>{formatZar(total)}</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => {
-                    setIsCartOpen(false);
-                    setIsCheckoutOpen(true);
-                    setCheckoutStep(1);
-                  }}
-                  className="w-full py-3.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium text-[15px] transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
-                >
-                  <span>Check out</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Support Footer */}
-      <footer id="Support" className="mt-24 border-t border-black/10 dark:border-white/10 pt-16 pb-12">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div>
-              <h3 className="text-xl font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] mb-2">ULTRON Support</h3>
-              <p className="text-[#6e6e73] dark:text-[#a1a1a6] max-w-sm">
-                Need help with your pre-owned device? Our technicians are ready to assist with warranty claims, repairs, and diagnostics.
-              </p>
-            </div>
-            <div className="flex flex-col md:items-end gap-2 text-sm text-[#1d1d1f] dark:text-[#f5f5f7]">
-              <a href="#" className="hover:underline">Contact Support</a>
-              <a href="#" className="hover:underline">Track Repair Status</a>
-              <a href="#" className="hover:underline">Returns & Exchanges</a>
-              <a href="#" className="hover:underline">Check Warranty Coverage</a>
-            </div>
-          </div>
-          <div className="mt-12 text-xs text-[#86868b] border-t border-black/10 dark:border-white/10 pt-6 flex flex-col md:flex-row justify-between">
-            <p>Copyright © 2026 ULTRON. All rights reserved.</p>
-            <div className="flex gap-4 mt-2 md:mt-0">
-              <a href="#" className="hover:underline">Privacy Policy</a>
-              <a href="#" className="hover:underline">Terms of Use</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      <ProductPDP product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={(prod) => { handleAddToCart(prod); setSelectedProduct(null); }} isAddingToCart={false} />
-
-      {/* Interactive Checkout Modal */}
-      
-      {/* Auth Modal */}
-      <AuthModal 
-        showAuthModal={showAuthModal} 
-        setShowAuthModal={setShowAuthModal} 
-        authMode={authMode} 
-        setAuthMode={setAuthMode} 
-        authForm={authForm} 
-        setAuthForm={setAuthForm} 
-        handleAuth={handleAuth} 
+    <div className="min-h-screen flex flex-col bg-white">
+      <SiteHeader
+        cartCount={cart.length}
+        onOpenCart={() => setIsCartOpen(true)}
+        searchQuery={searchQuery}
+        onSearch={setSearchQuery}
+        isSignedIn={!!authToken}
+        onSignIn={() => setShowAuthModal(true)}
+        onSignOut={signOut}
+        onOpenOrders={() => setShowOrderHistory(true)}
       />
 
-      <OrderHistoryModal 
-        showOrderHistory={showOrderHistory} 
-        setShowOrderHistory={setShowOrderHistory} 
-        orderHistory={orderHistory} 
+      <main className="flex-1">
+        <Hero featured={featured} onView={setSelectedProduct} />
+        <BrandTiles />
+
+        <section id="product-grid" className="scroll-mt-20 border-t border-line py-14 sm:py-16">
+          <div className="container-page">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8">
+              <div>
+                <h2 className="font-display font-extrabold text-[34px] sm:text-[42px] leading-none">
+                  {selectedBrand === 'ALL' ? 'Shop all devices' : selectedBrand}
+                </h2>
+                <p className="mt-2 text-[16px] text-muted">
+                  {filteredProducts.length} {filteredProducts.length === 1 ? 'device' : 'devices'} · One unit each. When it&apos;s gone, it&apos;s gone.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <label htmlFor="sort" className="text-[14px] text-muted">Sort</label>
+                <select
+                  id="sort"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                  className="min-h-[44px] rounded-full border-[1.5px] border-ink bg-white px-4 pr-8 text-[14px] cursor-pointer"
+                >
+                  <option value="featured">Featured</option>
+                  <option value="price-asc">Price: low to high</option>
+                  <option value="price-desc">Price: high to low</option>
+                  <option value="battery">Battery health</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 mb-10">
+              <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0" role="group" aria-label="Filter by brand">
+                {BRAND_FILTERS.map((brand) => (
+                  <button
+                    key={brand}
+                    type="button"
+                    aria-pressed={selectedBrand.toUpperCase() === brand.toUpperCase()}
+                    onClick={() => { setSelectedBrand(brand); window.history.replaceState(null, '', `#${brand}`); }}
+                    className="chip"
+                  >
+                    {brand === 'ALL' ? 'All devices' : brand}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0" role="group" aria-label="Filter by grade">
+                {GRADE_FILTERS.map((g) => (
+                  <button
+                    key={g.id}
+                    type="button"
+                    aria-pressed={selectedGrade === g.id}
+                    onClick={() => setSelectedGrade(g.id)}
+                    className="chip !border-line aria-pressed:!border-ink"
+                  >
+                    {g.label}
+                  </button>
+                ))}
+                {searchQuery && (
+                  <button type="button" onClick={() => setSearchQuery('')} className="chip !border-volt text-volt">
+                    &ldquo;{searchQuery}&rdquo; ✕
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <ProductGrid
+              products={filteredProducts}
+              onSelectProduct={(p) => { setSelectedProduct(p); setActiveModalImage(p.imageUrl); }}
+              onAddToCart={handleAddToCart}
+            />
+          </div>
+        </section>
+
+        <GradeGuide onPick={pickGrade} />
+        <TrustRow />
+        <NewsletterCta />
+      </main>
+
+      <SiteFooter isLive={serverStatus === 'CONNECTED'} onOpenConnection={() => setIsServerModalOpen(true)} />
+
+      <CartDrawer
+        open={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cart={cart}
+        lockTimeRemaining={lockTimeRemaining}
+        subtotal={subtotal}
+        shippingCost={shippingCost}
+        total={total}
+        onRemove={handleRemoveFromCart}
+        onCheckout={() => { setIsCartOpen(false); setIsCheckoutOpen(true); setCheckoutStep(1); }}
+      />
+
+      <ProductPDP
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+        onAddToCart={(prod) => { handleAddToCart(prod); setSelectedProduct(null); }}
+        isAddingToCart={false}
+      />
+
+      <AuthModal
+        showAuthModal={showAuthModal}
+        setShowAuthModal={setShowAuthModal}
+        authMode={authMode}
+        setAuthMode={setAuthMode}
+        authForm={authForm}
+        setAuthForm={setAuthForm}
+        handleAuth={handleAuth}
+      />
+
+      <OrderHistoryModal
+        showOrderHistory={showOrderHistory}
+        setShowOrderHistory={setShowOrderHistory}
+        orderHistory={orderHistory}
       />
 
       <CheckoutModal
@@ -777,86 +489,19 @@ export const StorefrontView: React.FC = () => {
         cartTotal={total}
       />
 
-      {/* Backend Connection Manager Modal */}
-      {isServerModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
-              <div className="flex items-center gap-2">
-                <Server className="w-5 h-5 text-cyan-400" />
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">Backend Connection Settings</h3>
-              </div>
-              <button
-                onClick={() => setIsServerModalOpen(false)}
-                className="p-1 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-              The ULTRON Storefront is built to operate with <strong>100% full fidelity in Standalone Mode</strong> before you boot the backend server. All browsing, filters, stock holds, and simulated checkout work client-side.
-            </p>
-
-            <div className="space-y-3 font-mono text-xs">
-              <div>
-                <label className="block text-slate-500 dark:text-slate-400 mb-1">Target Backend API URL</label>
-                <input
-                  type="text"
-                  value={backendUrl}
-                  onChange={(e) => setBackendUrl(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-[#010409] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-900 dark:text-white"
-                  placeholder="http://localhost:4000"
-                />
-              </div>
-
-              <div className="p-3 bg-slate-50 dark:bg-[#010409] rounded-xl border border-slate-200 dark:border-slate-800">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-slate-500">Connection Status:</span>
-                  <span className={`font-bold ${
-                    serverStatus === 'CONNECTED' ? 'text-emerald-400' :
-                    serverStatus === 'CONNECTING' ? 'text-amber-400' :
-                    'text-cyan-400'
-                  }`}>
-                    {serverStatus}
-                  </span>
-                </div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                  {serverHealthMessage}
-                </div>
-              </div>
-
-              <div className="p-3 bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800/80">
-                <div className="text-[11px] font-bold text-cyan-400 mb-1">To run backend services locally:</div>
-                <code className="text-[11px] text-slate-700 dark:text-slate-300 block bg-black/50 p-2 rounded">
-                  cd services/inventory-service<br />
-                  node src/index.js
-                </code>
-              </div>
-            </div>
-
-            <div className="pt-2 flex items-center justify-between">
-              <button
-                onClick={() => {
-                  setServerStatus('STANDALONE');
-                  setServerHealthMessage('Operating in Standalone Client Mode. Zero external dependency required.');
-                }}
-                className="px-3 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs"
-              >
-                Use Standalone Mode
-              </button>
-
-              <button
-                onClick={testBackendConnection}
-                className="px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs flex items-center gap-1.5"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${serverStatus === 'CONNECTING' ? 'animate-spin' : ''}`} />
-                <span>Ping Health Endpoint</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConnectionModal
+        open={isServerModalOpen}
+        onClose={() => setIsServerModalOpen(false)}
+        backendUrl={backendUrl}
+        setBackendUrl={setBackendUrl}
+        status={serverStatus}
+        message={serverHealthMessage}
+        onUseStandalone={() => {
+          setServerStatus('STANDALONE');
+          setServerHealthMessage('Using demo data in the browser. No backend needed.');
+        }}
+        onTest={testBackendConnection}
+      />
     </div>
   );
 };
